@@ -49,6 +49,8 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/external/sdlutils/include
 	${CMAKE_SOURCE_DIR}/external/utils/include
     ${CMAKE_SOURCE_DIR}/external/json/include
+
+	${CMAKE_SOURCE_DIR}/src/game
 )
 
 
@@ -67,6 +69,22 @@ add_executable(TPV2_Ejercicios
     external/json/src/json_demo.cpp
     external/json/src/JSON.cpp
     external/json/src/JSONValue.cpp
+
+	src/game/AIPaddle.cpp
+	src/game/BounceOnBorder.cpp
+	src/game/Containter.cpp
+	src/game/EmptyRectangleRenderer.cpp
+	src/game/Game.cpp
+	src/game/GameCtrl.cpp
+	src/game/GameManager.cpp
+	src/game/ImageRenderer.cpp
+	src/game/InfoMsgs.cpp
+	src/game/MovePaddleWithKeyBoard.cpp
+	src/game/MovePaddleWithMouse.cpp
+	src/game/RectangleRenderer.cpp
+	src/game/ScoreRenderer.cpp
+	src/game/SimpleMove.cpp
+	src/game/StopOnBorder.cpp
 )
 # Definir directorios de salida
 set_target_properties(TPV2_Ejercicios PROPERTIES 

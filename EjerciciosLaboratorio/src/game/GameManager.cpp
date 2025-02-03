@@ -4,9 +4,9 @@
 
 #include <cassert>
 
-#include "../sdlutils/InputHandler.h"
-#include "../sdlutils/SDLUtils.h"
-#include "../utils/Collisions.h"
+#include "InputHandler.h"
+#include "SDLUtils.h"
+#include "Collisions.h"
 #include "Container.h"
 
 #include "GameObject.h"

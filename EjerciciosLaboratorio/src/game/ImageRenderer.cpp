@@ -2,7 +2,7 @@
 
 #include "ImageRenderer.h"
 
-#include "../sdlutils/Texture.h"
+#include "Texture.h"
 #include "Container.h"
 
 ImageRenderer::ImageRenderer(Texture *img) :

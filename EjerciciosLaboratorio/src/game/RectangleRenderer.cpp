@@ -2,8 +2,8 @@
 
 #include "RectangleRenderer.h"
 
-#include "../sdlutils/macros.h"
-#include "../sdlutils/SDLUtils.h"
+#include "macros.h"
+#include "SDLUtils.h"
 #include "Container.h"
 
 RectangleRenderer::RectangleRenderer() :

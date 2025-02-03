@@ -2,8 +2,8 @@
 
 #include "AIPaddle.h"
 
-#include "../sdlutils/SDLUtils.h"
-#include "../utils/Vector2D.h"
+#include "SDLUtils.h"
+#include "Vector2D.h"
 #include "Container.h"
 
 AIPaddle::AIPaddle(GameObject *ball) :

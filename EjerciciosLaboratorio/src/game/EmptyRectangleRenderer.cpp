@@ -2,7 +2,7 @@
 
 #include "EmptyRectangleRenderer.h"
 
-#include "../sdlutils/SDLUtils.h"
+#include "SDLUtils.h"
 #include "Container.h"
 
 EmptyRectangleRenderer::EmptyRectangleRenderer() :

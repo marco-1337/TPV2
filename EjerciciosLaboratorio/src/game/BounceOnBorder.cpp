@@ -2,7 +2,7 @@
 
 #include "BounceOnBorder.h"
 
-#include "../sdlutils/SDLUtils.h"
+#include "SDLUtils.h"
 #include "Container.h"
 
 BounceOnBorder::BounceOnBorder() {

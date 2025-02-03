@@ -2,7 +2,7 @@
 
 #include "StopOnBorder.h"
 
-#include "../sdlutils/SDLUtils.h"
+#include "SDLUtils.h"
 #include "Container.h"
 
 StopOnBorder::StopOnBorder() {

@@ -2,7 +2,7 @@
 
 #include "InfoMsgs.h"
 
-#include "../sdlutils/SDLUtils.h"
+#include "SDLUtils.h"
 
 #include "GameManager.h"
 

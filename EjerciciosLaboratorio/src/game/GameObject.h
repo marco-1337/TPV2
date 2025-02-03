@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 
-#include "../utils/Vector2D.h"
+#include "Vector2D.h"
 
 class GameObject {
 public:

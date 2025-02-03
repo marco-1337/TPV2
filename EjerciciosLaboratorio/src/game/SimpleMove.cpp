@@ -2,7 +2,7 @@
 
 #include "SimpleMove.h"
 
-#include "../sdlutils/SDLUtils.h"
+#include "SDLUtils.h"
 #include "Container.h"
 
 SimpleMove::SimpleMove() {

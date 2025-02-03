@@ -2,8 +2,8 @@
 
 #include "ScoreRenderer.h"
 
-#include "../sdlutils/SDLUtils.h"
-#include "../sdlutils/Texture.h"
+#include "SDLUtils.h"
+#include "Texture.h"
 #include "GameManager.h"
 
 ScoreRenderer::ScoreRenderer() {

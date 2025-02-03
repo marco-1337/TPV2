@@ -2,9 +2,9 @@
 
 #include "Container.h"
 
-#include "../sdlutils/macros.h"
-#include "../sdlutils/InputHandler.h"
-#include "../sdlutils/SDLUtils.h"
+#include "macros.h"
+#include "InputHandler.h"
+#include "SDLUtils.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "RenderComponent.h"

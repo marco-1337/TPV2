@@ -2,7 +2,7 @@
 
 #include "GameCtrl.h"
 
-#include "../sdlutils/InputHandler.h"
+#include "InputHandler.h"
 #include "GameManager.h"
 
 GameCtrl::GameCtrl() {

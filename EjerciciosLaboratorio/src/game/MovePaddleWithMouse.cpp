@@ -2,7 +2,7 @@
 
 #include "MovePaddleWithMouse.h"
 
-#include "../sdlutils/InputHandler.h"
+#include "InputHandler.h"
 #include "Container.h"
 
 MovePaddleWithMouse::MovePaddleWithMouse() {
