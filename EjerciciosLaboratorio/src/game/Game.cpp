@@ -21,7 +21,7 @@
 #include "SimpleMove.h"
 #include "StopOnBorder.h"
 
-Game::Game() :
+Game::Game()
 		// _gm(nullptr), //
 		// _leftPaddle(nullptr), //
 		// _rightPaddle(nullptr), //
@@ -69,6 +69,7 @@ void Game::init() {
 	_fighter->setWidth(50.0f);
 	_fighter->setHeight(50.0f);
 	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
+	_fighter->setRotation(90.0f);
 
 /*
 	// the ball
