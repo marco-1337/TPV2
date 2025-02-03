@@ -422,6 +422,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\hlocal\TPV2\github\TPV2\EjerciciosLaboratorio\src\game\ScoreRenderer.cpp" />
     <ClCompile Include="C:\hlocal\TPV2\github\TPV2\EjerciciosLaboratorio\src\game\SimpleMove.cpp" />
     <ClCompile Include="C:\hlocal\TPV2\github\TPV2\EjerciciosLaboratorio\src\game\StopOnBorder.cpp" />
+    <ClCompile Include="C:\hlocal\TPV2\github\TPV2\EjerciciosLaboratorio\src\game\FighterCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\hlocal\TPV2\github\TPV2\EjerciciosLaboratorio\build\ZERO_CHECK.vcxproj">

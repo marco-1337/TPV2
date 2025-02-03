@@ -20,6 +20,7 @@
 #include "ScoreRenderer.h"
 #include "SimpleMove.h"
 #include "StopOnBorder.h"
+#include "FighterCtrl.h"
 
 Game::Game()
 		// _gm(nullptr), //
@@ -68,8 +69,9 @@ void Game::init() {
 							sdlutils().height()/2);
 	_fighter->setWidth(50.0f);
 	_fighter->setHeight(50.0f);
-	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
 	_fighter->setRotation(90.0f);
+	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
+	_fighter->addComponent(new FighterCtrl());
 
 /*
 	// the ball

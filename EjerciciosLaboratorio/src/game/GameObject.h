@@ -49,6 +49,8 @@ public:
 
 	inline void setRotation(float rot) {
 		_rot = rot;
+		if(_rot >= 360.0f)
+			_rot = _rot / 360.0;
 	}
 
 protected:
