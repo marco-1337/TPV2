@@ -93,6 +93,13 @@ set_target_properties(TPV2_Ejercicios PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/Release
 )
 
+set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
+
+add_custom_command(TARGET TPV2_Ejercicios POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${RESOURCES_DIR} $<TARGET_FILE_DIR:TPV2_Ejercicios>/resources
+)
+
 if (CMAKE_HOST_WIN32)
     set(DLL_DIR ${CMAKE_SOURCE_DIR}/dlls)
 
