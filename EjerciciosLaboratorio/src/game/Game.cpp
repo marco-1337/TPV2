@@ -22,10 +22,11 @@
 #include "StopOnBorder.h"
 
 Game::Game() :
-		_gm(nullptr), //
-		_leftPaddle(nullptr), //
-		_rightPaddle(nullptr), //
-		_ball(nullptr) {
+		// _gm(nullptr), //
+		// _leftPaddle(nullptr), //
+		// _rightPaddle(nullptr), //
+		// _ball(nullptr) 
+{
 }
 
 Game::~Game() {
@@ -47,7 +48,7 @@ void Game::init() {
 
 	// initialize the SDL singleton
 	if (!SDLUtils::Init("Ping Pong", 800, 600,
-			"resources/config/pingpong.resources.json")) {
+			"resources/config/test.resources.json")) {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
@@ -62,6 +63,14 @@ void Game::init() {
 
 	}
 
+	_fighter = new Container();
+	_fighter->getPos().set(	sdlutils().width()/2, 
+							sdlutils().height()/2);
+	_fighter->setWidth(50.0f);
+	_fighter->setHeight(50.0f);
+	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
+
+/*
 	// the ball
 	_ball = new Container();
 	_ball->addComponent(new SimpleMove());
@@ -114,12 +123,14 @@ void Game::init() {
 	_gm->addComponent(new GameCtrl());
 	_gm->addComponent(new ScoreRenderer());
 	_gm->addComponent(new InfoMsgs());
+*/
 
-	// add them all to the list of game objects
-	_objs.push_back(_ball);
-	_objs.push_back(_leftPaddle);
-	_objs.push_back(_rightPaddle);
-	_objs.push_back(_gm);
+// add them all to the list of game objects
+_objs.push_back(_fighter);
+// 	_objs.push_back(_ball);
+// 	_objs.push_back(_leftPaddle);
+// 	_objs.push_back(_rightPaddle);
+// 	_objs.push_back(_gm);
 
 }
 
@@ -154,7 +165,7 @@ void Game::start() {
 			o->update();
 		}
 
-		checkCollisions();
+		// checkCollisions();
 
 		sdlutils().clearRenderer();
 
@@ -172,6 +183,8 @@ void Game::start() {
 
 }
 
+
+/*
 void Game::checkCollisions() {
 	if (_gm->getState() != GameManager::RUNNING)
 		return;
@@ -196,4 +209,4 @@ void Game::checkCollisions() {
 	else if (_ball->getPos().getX() + _ball->getWidth() > sdlutils().width())
 		_gm->onBallExit(GameManager::RIGHT);
 }
-
+*/
