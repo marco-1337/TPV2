@@ -21,6 +21,7 @@
 #include "SimpleMove.h"
 #include "StopOnBorder.h"
 #include "FighterCtrl.h"
+#include "DeAcceleration.h"
 
 Game::Game()
 		// _gm(nullptr), //
@@ -73,6 +74,7 @@ void Game::init() {
 	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
 	_fighter->addComponent(new FighterCtrl());
 	_fighter->addComponent(new SimpleMove());
+	_fighter->addComponent(new DeAcceleration());
 
 /*
 	// the ball
