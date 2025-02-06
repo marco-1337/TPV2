@@ -87,6 +87,7 @@ add_executable(TPV2_Ejercicios
 	src/game/StopOnBorder.cpp
 	src/game/FighterCtrl.cpp
 	src/game/DeAcceleration.cpp
+	src/game/ShowAtOppositeSide.cpp
 )
 # Definir directorios de salida
 set_target_properties(TPV2_Ejercicios PROPERTIES 
