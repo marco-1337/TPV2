@@ -12,5 +12,7 @@ FighterCtrl::handleInput(Container* o) {
     if(inhdlr.isKeyDown(SDLK_LEFT)) {
         o->setRotation(o->getRotation() - 5.0f);
     }
-    else if(inhdlr)
+    else if(inhdlr.isKeyDown(SDLK_RIGHT)) {
+        o->setRotation(o->getRotation() + 5.0f);
+    }
 }
