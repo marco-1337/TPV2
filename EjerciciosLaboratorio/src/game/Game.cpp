@@ -72,6 +72,7 @@ void Game::init() {
 	_fighter->setRotation(90.0f);
 	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
 	_fighter->addComponent(new FighterCtrl());
+	_fighter->addComponent(new SimpleMove());
 
 /*
 	// the ball
