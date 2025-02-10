@@ -11,6 +11,7 @@
 #include "PaddleMouseCtrl.h"
 #include "RectangleViewer.h"
 #include "StopOnBorders.h"
+#include "ShowAtOppositeSide.h"
 #include "Transform.h"
 #include "Manager.h"
 #include "InputHandler.h"
@@ -22,7 +23,7 @@ using ecs::Manager;
 
 Game::Game() :
 		_mngr(nullptr), //
-		_ballTr(nullptr), //
+		_fighterTr(nullptr), //
 		_gameState(nullptr) {
 }
 
@@ -59,6 +60,22 @@ void Game::init() {
 	sdlutils().hideCursor();
 
 	// Create the manager
+	_mngr = new Manager();
+
+	// Fighter
+	auto fighter = _mngr->addEntity();
+	_mngr->setHandler(ecs::hdlr::FIGHTER, fighter);
+
+	_fighterTr = _mngr->addComponent<Transform>(fighter);
+	auto fighterSize = 15.0f;
+	auto fighterX = (sdlutils().width() - fighterSize) / 2.0f;
+	auto fighterY = (sdlutils().height() - fighterSize) / 2.0f;
+
+	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
+	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
+	_mngr->addComponent<ShowAtOppositeSide>(fighter);
+
+/*
 	_mngr = new Manager();
 
 	// create the ball entity
@@ -116,7 +133,7 @@ void Game::init() {
 	auto gameCtrl = _mngr->addEntity();
 	_gameState = _mngr->addComponent<GameState>(gameCtrl);
 	_mngr->addComponent<GameInfoMsgs>(gameCtrl);
-
+*/
 }
 
 void Game::start() {

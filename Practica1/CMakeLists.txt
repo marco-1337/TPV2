@@ -82,6 +82,9 @@ add_executable(TPV2_Practica1
 	src/components/PaddleMouseCtrl.cpp
 	src/components/RectangleViewer.cpp
 	src/components/StopOnBorders.cpp
+	src/components/ShowAtOppositeSide.cpp
+	src/components/DeAcceleration.cpp
+	src/components/FighterCtrl.cpp
 	
 	src/game/Game.cpp
 

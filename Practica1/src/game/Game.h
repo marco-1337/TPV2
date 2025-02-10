@@ -21,7 +21,7 @@ private:
 	void checkCollisions();
 	ecs::Manager *_mngr;
 
-	Transform *_ballTr;
+	Transform *_fighterTr;
 	GameState *_gameState;
 };
 
