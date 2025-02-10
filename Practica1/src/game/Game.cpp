@@ -2,40 +2,32 @@
 
 #include "Game.h"
 
+#include "BounceOnBorders.h"
+#include "GameInfoMsgs.h"
+#include "GameState.h"
+#include "Image.h"
+#include "PaddleAICtrl.h"
+#include "PaddleKBCtrl.h"
+#include "PaddleMouseCtrl.h"
+#include "RectangleViewer.h"
+#include "StopOnBorders.h"
+#include "Transform.h"
+#include "Manager.h"
 #include "InputHandler.h"
 #include "SDLUtils.h"
+#include "Vector2D.h"
 #include "Collisions.h"
 
-#include "Container.h"
-#include "GameManager.h"
-#include "AIPaddle.h"
-#include "BounceOnBorder.h"
-#include "EmptyRectangleRenderer.h"
-#include "GameCtrl.h"
-#include "ImageRenderer.h"
-#include "InfoMsgs.h"
-#include "MovePaddleWithKeyBoard.h"
-#include "MovePaddleWithMouse.h"
-#include "RectangleRenderer.h"
-#include "ScoreRenderer.h"
-#include "SimpleMove.h"
-#include "StopOnBorder.h"
-#include "FighterCtrl.h"
-#include "DeAcceleration.h"
+using ecs::Manager;
 
-Game::Game()
-		// _gm(nullptr), //
-		// _leftPaddle(nullptr), //
-		// _rightPaddle(nullptr), //
-		// _ball(nullptr) 
-{
+Game::Game() :
+		_mngr(nullptr), //
+		_ballTr(nullptr), //
+		_gameState(nullptr) {
 }
 
 Game::~Game() {
-	// delete all game objects
-	for (GameObject *o : _objs) {
-		delete o;
-	}
+	delete _mngr;
 
 	// release InputHandler if the instance was created correctly.
 	if (InputHandler::HasInstance())
@@ -50,7 +42,7 @@ void Game::init() {
 
 	// initialize the SDL singleton
 	if (!SDLUtils::Init("Ping Pong", 800, 600,
-			"resources/config/test.resources.json")) {
+			"resources/config/pingpong.resources.json")) {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
@@ -64,79 +56,66 @@ void Game::init() {
 		return;
 
 	}
+	sdlutils().hideCursor();
 
-	_fighter = new Container();
-	_fighter->getPos().set(	sdlutils().width()/2, 
-							sdlutils().height()/2);
-	_fighter->setWidth(50.0f);
-	_fighter->setHeight(50.0f);
-	_fighter->setRotation(90.0f);
-	_fighter->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
-	_fighter->addComponent(new FighterCtrl());
-	_fighter->addComponent(new SimpleMove());
-	_fighter->addComponent(new DeAcceleration());
+	// Create the manager
+	_mngr = new Manager();
 
-/*
-	// the ball
-	_ball = new Container();
-	_ball->addComponent(new SimpleMove());
-	_ball->addComponent(new BounceOnBorder());
-//	ball_->addComponent(new RectangleRenderer(build_sdlcolor(0xff0000ff)));
-	_ball->addComponent(
-			new ImageRenderer(&sdlutils().images().at("tennis_ball")));
+	// create the ball entity
+	//
+	auto ball = _mngr->addEntity();
+	_mngr->setHandler(ecs::hdlr::BALL, ball);
 
-	_ball->setWidth(10.0f);
-	_ball->setHeight(10.0f);
-	_ball->getPos().set(sdlutils().width() / 2 - 5,
-			sdlutils().height() / 2 - 5);
+	_ballTr = _mngr->addComponent<Transform>(ball);
+	auto ballSize = 15.0f;
+	auto ballX = (sdlutils().width() - ballSize) / 2.0f;
+	auto ballY = (sdlutils().height() - ballSize) / 2.0f;
+	_ballTr->init(Vector2D(ballX, ballY), Vector2D(), ballSize, ballSize, 0.0f);
 
+	_mngr->addComponent<Image>(ball, &sdlutils().images().at("tennis_ball"));
+	_mngr->addComponent<BounceOnBorders>(ball);
 
+	// create the left paddle
+	auto leftPaddle = _mngr->addEntity(ecs::grp::PADDLES);
 
-	// the left paddle
-	_leftPaddle = new Container();
-	_leftPaddle->setWidth(10.0f);
-	_leftPaddle->setHeight(50.0f);
-	_leftPaddle->getPos().set(10, sdlutils().height() / 2 - 25);
+	auto leftPaddleTr = _mngr->addComponent<Transform>(leftPaddle);
+	auto leftPaddleWidth = 10.0f;
+	auto leftPaddleHeight = 50.0f;
+	auto leftPaddleX = 5.f;
+	auto leftPaddleY = (sdlutils().height() - leftPaddleHeight) / 2.0f;
+	leftPaddleTr->init(Vector2D(leftPaddleX, leftPaddleY), Vector2D(),
+			leftPaddleWidth, leftPaddleHeight, 0.0f);
 
-//	auto leftPaddle_ic = new MovePaddleWithKeyBoard();
-//	leftPaddle_ic->setKeys(SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A);
-//	leftPaddle_->addComponent(leftPaddle_ic);
-	_leftPaddle->addComponent(new AIPaddle(_ball));
+	_mngr->addComponent<StopOnBorders>(leftPaddle);
+	_mngr->addComponent<RectangleViewer>(leftPaddle,
+			build_sdlcolor(0xff0000ff));
+//	mngr_->addComponent<PaddleKBCtrl>(leftPaddle);
+//	mngr_->addComponent<PaddleMouseCtrl>(leftPaddle);
+	_mngr->addComponent<PaddleAICtrl>(leftPaddle);
 
-	_leftPaddle->addComponent(
-			new RectangleRenderer(build_sdlcolor(0xff0000ff)));
-	_leftPaddle->addComponent(new SimpleMove());
-	_leftPaddle->addComponent(new StopOnBorder());
+	// create the right paddle
+	auto rightPaddle = _mngr->addEntity(ecs::grp::PADDLES);
 
-	// the right paddle
-	_rightPaddle = new Container();
-	_rightPaddle->setWidth(10.0f);
-	_rightPaddle->setHeight(50.0f);
-	_rightPaddle->getPos().set(sdlutils().width() - 15,
-			sdlutils().height() / 2 - 25);
+	auto rightPaddleTr = _mngr->addComponent<Transform>(rightPaddle);
+	auto rightPaddleWidth = 10.0f;
+	auto rightPaddleHeight = 50.0f;
+	auto rightPaddleX = sdlutils().width() - rightPaddleWidth - 5.0f;
+	auto rightPaddleY = (sdlutils().height() - rightPaddleHeight) / 2.0f;
+	rightPaddleTr->init(Vector2D(rightPaddleX, rightPaddleY), Vector2D(),
+			rightPaddleWidth, rightPaddleHeight, 0.0f);
 
-//	rightPaddle_->addComponent(new MovePaddleWithMouse());
-	_rightPaddle->addComponent(new AIPaddle(_ball));
+	_mngr->addComponent<StopOnBorders>(rightPaddle);
+	_mngr->addComponent<RectangleViewer>(rightPaddle,
+			build_sdlcolor(0x00ff00ff));
 
-	_rightPaddle->addComponent(
-			new EmptyRectangleRenderer(build_sdlcolor(0x00ff00ff)));
+//	mngr_->addComponent<PaddleKBCtrl>(rightPaddle);
+	_mngr->addComponent<PaddleMouseCtrl>(rightPaddle);
+//	mngr_->addComponent<PaddleAICtrl>(rightPaddle);
 
-	_rightPaddle->addComponent(new SimpleMove());
-	_rightPaddle->addComponent(new StopOnBorder());
-
-	// game manager
-	_gm = new GameManager(_ball);
-	_gm->addComponent(new GameCtrl());
-	_gm->addComponent(new ScoreRenderer());
-	_gm->addComponent(new InfoMsgs());
-*/
-
-// add them all to the list of game objects
-_objs.push_back(_fighter);
-// 	_objs.push_back(_ball);
-// 	_objs.push_back(_leftPaddle);
-// 	_objs.push_back(_rightPaddle);
-// 	_objs.push_back(_gm);
+	// create game control entity
+	auto gameCtrl = _mngr->addEntity();
+	_gameState = _mngr->addComponent<GameState>(gameCtrl);
+	_mngr->addComponent<GameInfoMsgs>(gameCtrl);
 
 }
 
@@ -147,12 +126,16 @@ void Game::start() {
 
 	auto &ihdlr = ih();
 
-	while (!exit) {
+	// reset the time before starting - so we calculate correct
+	// delta-time in the first iteration
+	//
+	sdlutils().resetTime();
 
+	while (!exit) {
 		// store the current time -- all game objects should use this time when
 		// then need to the current time. They also have accessed to the time elapsed
 		// between the last two calls to regCurrTime().
-		Uint32 startTime = sdlutils().currRealTime();
+		Uint32 startTime = sdlutils().regCurrTime();
 
 		// refresh the input handler
 		ihdlr.refresh();
@@ -162,57 +145,56 @@ void Game::start() {
 			continue;
 		}
 
-		for (auto &o : _objs) {
-			o->handleInput();
-		}
+		_mngr->update();
+		_mngr->refresh();
 
-		// update
-		for (auto &o : _objs) {
-			o->update();
-		}
-
-		// checkCollisions();
+		checkCollisions();
 
 		sdlutils().clearRenderer();
-
-		// render
-		for (auto &o : _objs) {
-			o->render();
-		}
-
+		_mngr->render();
 		sdlutils().presentRenderer();
+
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
 
-		if (frameTime < 20)
-			SDL_Delay(20 - frameTime);
+		if (frameTime < 10)
+			SDL_Delay(10 - frameTime);
 	}
 
 }
 
-
-/*
 void Game::checkCollisions() {
-	if (_gm->getState() != GameManager::RUNNING)
+	if (_gameState->getState() != GameState::RUNNING)
 		return;
 
-	// check if ball hits paddles
-	if (Collisions::collides(_leftPaddle->getPos(), _leftPaddle->getWidth(),
-			_leftPaddle->getHeight(), _ball->getPos(), _ball->getWidth(),
-			_ball->getHeight())
-			|| Collisions::collides(_rightPaddle->getPos(),
-					_rightPaddle->getWidth(), _rightPaddle->getHeight(),
-					_ball->getPos(), _ball->getWidth(), _ball->getHeight())) {
+	bool ballCollidesWithPaddle = false;
+
+	auto &ballPos = _ballTr->getPos();
+	auto ballWidth = _ballTr->getWidth();
+	auto ballHeight = _ballTr->getHeight();
+
+	for (auto e : _mngr->getEntities(ecs::grp::PADDLES)) {
+		auto paddleTr_ = _mngr->getComponent<Transform>(e);
+		ballCollidesWithPaddle = Collisions::collides(paddleTr_->getPos(),
+				paddleTr_->getWidth(), paddleTr_->getHeight(), ballPos,
+				ballWidth, ballHeight);
+
+		if (ballCollidesWithPaddle)
+			break;
+	}
+
+	if (ballCollidesWithPaddle) {
 
 		// change the direction of the ball, and increment the speed
-		auto &vel = _ball->getVel(); // the use of & is important, so the changes goes directly to the ball
+		auto &vel = _ballTr->getVel(); // the use of & is important, so the changes goes directly to the ball
 		vel.setX(-vel.getX());
 		vel = vel * 1.2f;
 
 		// play some sound
 		sdlutils().soundEffects().at("paddle_hit").play();
-	} else if (_ball->getPos().getX() < 0)
-		_gm->onBallExit(GameManager::LEFT);
-	else if (_ball->getPos().getX() + _ball->getWidth() > sdlutils().width())
-		_gm->onBallExit(GameManager::RIGHT);
+	} else if (_ballTr->getPos().getX() < 0)
+		_gameState->onBallExit(GameState::LEFT);
+	else if (_ballTr->getPos().getX() + _ballTr->getWidth()
+			> sdlutils().width())
+		_gameState->onBallExit(GameState::RIGHT);
+
 }
-*/

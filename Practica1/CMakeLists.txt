@@ -46,51 +46,49 @@ endif()
 # Incluir directorios
 include_directories(
 	${CMAKE_SOURCE_DIR}/include
-	${CMAKE_SOURCE_DIR}/external/sdlutils/include
-	${CMAKE_SOURCE_DIR}/external/utils/include
-    ${CMAKE_SOURCE_DIR}/external/json/include
+	${CMAKE_SOURCE_DIR}/src/components
+	${CMAKE_SOURCE_DIR}/src/sdlutils/include
+	${CMAKE_SOURCE_DIR}/src/utils/include
+    ${CMAKE_SOURCE_DIR}/src/json/include
 
 	${CMAKE_SOURCE_DIR}/src/game
+	${CMAKE_SOURCE_DIR}/src/ecs
 )
 
 
 # Crear ejecutable
-add_executable(TPV2_Ejercicios
+add_executable(TPV2_Practica1
+
     src/main.cpp
 
-    external/sdlutils/src/SDLUtils.cpp
-    external/sdlutils/src/SDLUtilsError.cpp
-    external/sdlutils/src/SoundEffect.cpp
-    external/sdlutils/src/Texture.cpp
+    src/sdlutils/src/SDLUtils.cpp
+    src/sdlutils/src/SDLUtilsError.cpp
+    src/sdlutils/src/SoundEffect.cpp
+    src/sdlutils/src/Texture.cpp
 
-    external/utils/src/Collisions.cpp
-    external/utils/src/Vector2D.cpp
+    src/utils/src/Collisions.cpp
+    src/utils/src/Vector2D.cpp
 
-    external/json/src/json_demo.cpp
-    external/json/src/JSON.cpp
-    external/json/src/JSONValue.cpp
+    src/json/src/json_demo.cpp
+    src/json/src/JSON.cpp
+    src/json/src/JSONValue.cpp
 
-	src/game/AIPaddle.cpp
-	src/game/BounceOnBorder.cpp
-	src/game/Containter.cpp
-	src/game/EmptyRectangleRenderer.cpp
+	src/components/BounceOnBorders.cpp
+	src/components/GameInfoMsgs.cpp
+	src/components/GameState.cpp
+	src/components/Image.cpp
+	src/components/PaddleAICtrl.cpp
+	src/components/PaddleKBCtrl.cpp
+	src/components/PaddleMouseCtrl.cpp
+	src/components/RectangleViewer.cpp
+	src/components/StopOnBorders.cpp
+	
 	src/game/Game.cpp
-	src/game/GameCtrl.cpp
-	src/game/GameManager.cpp
-	src/game/ImageRenderer.cpp
-	src/game/InfoMsgs.cpp
-	src/game/MovePaddleWithKeyBoard.cpp
-	src/game/MovePaddleWithMouse.cpp
-	src/game/RectangleRenderer.cpp
-	src/game/ScoreRenderer.cpp
-	src/game/SimpleMove.cpp
-	src/game/StopOnBorder.cpp
-	src/game/FighterCtrl.cpp
-	src/game/DeAcceleration.cpp
-	src/game/ShowAtOppositeSide.cpp
+
+	src/ecs/Manager.cpp
 )
 # Definir directorios de salida
-set_target_properties(TPV2_Ejercicios PROPERTIES 
+set_target_properties(TPV2_Practica1 PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/Debug
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/Release
@@ -98,26 +96,26 @@ set_target_properties(TPV2_Ejercicios PROPERTIES
 
 set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
 
-add_custom_command(TARGET TPV2_Ejercicios POST_BUILD
+add_custom_command(TARGET TPV2_Practica1 POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${RESOURCES_DIR} $<TARGET_FILE_DIR:TPV2_Ejercicios>/resources
+	${RESOURCES_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>/resources
 )
 
 if (CMAKE_HOST_WIN32)
     set(DLL_DIR ${CMAKE_SOURCE_DIR}/dlls)
 
-    add_custom_command(TARGET TPV2_Ejercicios POST_BUILD
+    add_custom_command(TARGET TPV2_Practica1 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${DLL_DIR} $<TARGET_FILE_DIR:TPV2_Ejercicios>
+        ${DLL_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>
     )
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 		set(PDB_DIR ${CMAKE_SOURCE_DIR}/pdbs)
 
-		add_custom_command(TARGET TPV2_Ejercicios POST_BUILD
+		add_custom_command(TARGET TPV2_Practica1 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${PDB_DIR} $<TARGET_FILE_DIR:TPV2_Ejercicios>
+		${PDB_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>
 	)
 	endif()
 
