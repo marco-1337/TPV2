@@ -15,6 +15,7 @@ public:
 protected:
 
 	Transform* _myTransform = nullptr;
+	SoundEffect* _thrustEffect = nullptr;
 
 	float thrust = 0.2f;
 	float speedLimit = 3.0f;
