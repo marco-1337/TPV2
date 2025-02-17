@@ -1,9 +1,10 @@
 
 #pragma once
+#include "Component.h"
 
-#include "InputComponent.h"
 
-class FighterCtrl : public InputComponent {
+
+class FighterCtrl : public ecs::Component {
 public:
 	FighterCtrl();
 	virtual ~FighterCtrl();

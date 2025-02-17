@@ -18,6 +18,7 @@
 #include "SDLUtils.h"
 #include "Vector2D.h"
 #include "Collisions.h"
+#include "Health.h"
 
 using ecs::Manager;
 
@@ -42,8 +43,8 @@ Game::~Game() {
 void Game::init() {
 
 	// initialize the SDL singleton
-	if (!SDLUtils::Init("Ping Pong", 800, 600,
-			"resources/config/pingpong.resources.json")) {
+	if (!SDLUtils::Init("Asteroids", 800, 600,
+			"resources/config/asteroid.resources.json")) {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
@@ -74,7 +75,7 @@ void Game::init() {
 	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
 	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
 	_mngr->addComponent<ShowAtOppositeSide>(fighter);
-
+	_mngr->addComponent<Health>(fighter, &sdlutils().images().at("heart"));
 /*
 	_mngr = new Manager();
 
