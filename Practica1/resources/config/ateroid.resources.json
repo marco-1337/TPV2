@@ -14,6 +14,10 @@
       { "id" : "start", "text" : "Press space to start", "font" : "ARIAL24", "color" : "0x441155ff"},
       { "id" : "continue", "text" : "Press space to continue", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },
       { "id" : "gameover", "text" : "Game Over", "font" : "ARIAL24", "color" : "0x0000ffff" }
+    ],
+    
+    "sounds" : [
+      { "id" : "thrust", "file" : "resources/sound/imperial_march.wav" }
     ]
   
   }
