@@ -1,14 +1,19 @@
 #include "Health.h"
 #include "macros.h"
+#include "SDLUtils.h"
 
-Health::Health(Texture* texture): _tex(texture)
-{
-    _pos = new Vector2D(10., 10.);
-}
+Health::Health() {}
 
 Health::~Health()
 {
     delete _pos;
+}
+
+void
+Health::initComponent()
+{
+    _pos = new Vector2D(10., 10.);
+    _tex = &sdlutils().images().at("heart");
 }
 
 void Health::render()

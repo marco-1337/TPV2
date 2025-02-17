@@ -1,19 +1,28 @@
 #include "FighterCtrl.h"
 #include "InputHandler.h"
-#include "Container.h"
+#include "Entity.h"
+#include "Transform.h"
+#include "Manager.h"
 
 FighterCtrl::FighterCtrl() {}
 
 FighterCtrl::~FighterCtrl() {}
 
+void 
+FighterCtrl::initComponent()
+{
+    _myTransform = ent->getMngr()mgr->getComponent<Transform>(_ent);
+}
+
 void
-FighterCtrl::handleInput(Container* o) {
+FighterCtrl::handleInput() {
+
     auto &inhdlr = ih();
     if(inhdlr.isKeyDown(SDLK_LEFT)) {
-        o->setRotation(o->getRotation() - 5.0f);
+        t->setRot(e->getRotation() - 5.0f);
     }
     else if(inhdlr.isKeyDown(SDLK_RIGHT)) {
-        o->setRotation(o->getRotation() + 5.0f);
+        e->setRotation(o->getRotation() + 5.0f);
     }
     else if(inhdlr.isKeyDown(SDLK_UP)) {
         auto &vel = o->getVel();

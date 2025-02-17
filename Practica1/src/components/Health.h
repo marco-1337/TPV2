@@ -9,9 +9,10 @@
 
 class Health : public ecs::Component {
 public:
-	Health(Texture* texture);
+	Health();
 	virtual ~Health();
 
+    void initComponent() override;
     void render() override;
 
     int getHealth() const { return _health; }

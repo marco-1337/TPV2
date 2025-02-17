@@ -75,7 +75,7 @@ void Game::init() {
 	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
 	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
 	_mngr->addComponent<ShowAtOppositeSide>(fighter);
-	_mngr->addComponent<Health>(fighter, &sdlutils().images().at("heart"));
+	_mngr->addComponent<Health>(fighter);
 /*
 	_mngr = new Manager();
 

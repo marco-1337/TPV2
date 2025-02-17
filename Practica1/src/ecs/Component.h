@@ -59,6 +59,14 @@ public:
 	virtual void render() {
 	}
 
+	// A component has a handleInput method, and by default it
+	// does nothing -- some components will not override this
+	// method.
+	//
+	virtual void handleInput() {
+
+	}
+
 protected: // we allow direct use these fields from subclasses
 
 	Entity *_ent; // a pointer to the entity, should not be deleted on destruction

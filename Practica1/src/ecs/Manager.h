@@ -194,6 +194,15 @@ public:
 			e->_currCmps[i]->render();
 	}
 
+	// InputHandling an entity simply calls the handleInput of all
+	// components
+	//
+	inline void handleInput(entity_t e) {
+		auto n = e->_currCmps.size();
+		for (auto i = 0u; i < n; i++)
+			e->_currCmps[i]->handleInput();
+	}
+
 	// update all entities
 	//
 	void update() {
@@ -211,6 +220,16 @@ public:
 			auto n = ents.size();
 			for (auto i = 0u; i < n; i++)
 				render(ents[i]);
+		}
+	}
+
+	// handles input of all entities
+	//
+	void handleInput() {
+		for (auto &ents : _entsByGroup) {
+			auto n = ents.size();
+			for (auto i = 0u; i < n; i++)
+				handleInput(ents[i]);
 		}
 	}
 
