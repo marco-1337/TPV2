@@ -16,13 +16,13 @@ PaddleAICtrl::~PaddleAICtrl() {
 }
 
 void PaddleAICtrl::initComponent() {
-	auto mngr = _ent->getMngr();
-	_tr = mngr->getComponent<Transform>(_ent);
-	assert(_tr != nullptr);
+	// auto mngr = _ent->getMngr();
+	// _tr = mngr->getComponent<Transform>(_ent);
+	// assert(_tr != nullptr);
 
-	auto ball = mngr->getHandler(ecs::hdlr::BALL);
-	_ballTr = mngr->getComponent<Transform>(ball);
-	assert(_ballTr != nullptr);
+	// auto ball = mngr->getHandler(ecs::hdlr::BALL);
+	// _ballTr = mngr->getComponent<Transform>(ball);
+	// assert(_ballTr != nullptr);
 
 }
 

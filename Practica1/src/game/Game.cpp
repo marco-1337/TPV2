@@ -6,11 +6,11 @@
 #include "GameInfoMsgs.h"
 #include "GameState.h"
 #include "Image.h"
-#include "PaddleAICtrl.h"
-#include "PaddleKBCtrl.h"
-#include "PaddleMouseCtrl.h"
+// #include "PaddleAICtrl.h"
+// #include "PaddleKBCtrl.h"
+// #include "PaddleMouseCtrl.h"
 #include "RectangleViewer.h"
-#include "StopOnBorders.h"
+// #include "StopOnBorders.h"
 #include "ShowAtOppositeSide.h"
 #include "Transform.h"
 #include "Manager.h"
@@ -18,7 +18,11 @@
 #include "SDLUtils.h"
 #include "Vector2D.h"
 #include "Collisions.h"
+
+#include "DeAcceleration.h"
 #include "Health.h"
+#include "FighterCtrl.h"
+#include "Gun.h"
 
 using ecs::Manager;
 
@@ -73,9 +77,13 @@ void Game::init() {
 	auto fighterY = (sdlutils().height() - fighterSize) / 2.0f;
 
 	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
+
+	_mngr->addComponent<DeAcceleration>(fighter);
 	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
-	_mngr->addComponent<ShowAtOppositeSide>(fighter);
 	_mngr->addComponent<Health>(fighter);
+	_mngr->addComponent<FighterCtrl>(fighter);
+	_mngr->addComponent<Gun>(fighter);
+
 /*
 	_mngr = new Manager();
 
@@ -184,6 +192,7 @@ void Game::checkCollisions() {
 	if (_gameState->getState() != GameState::RUNNING)
 		return;
 
+/*
 	bool ballCollidesWithPaddle = false;
 
 	auto &ballPos = _ballTr->getPos();
@@ -214,5 +223,5 @@ void Game::checkCollisions() {
 	else if (_ballTr->getPos().getX() + _ballTr->getWidth()
 			> sdlutils().width())
 		_gameState->onBallExit(GameState::RIGHT);
-
+*/
 }

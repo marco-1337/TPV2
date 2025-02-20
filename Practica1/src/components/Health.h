@@ -9,6 +9,8 @@
 
 class Health : public ecs::Component {
 public:
+    __CMPID_DECL__(ecs::cmp::HEALTH)
+
 	Health();
 	virtual ~Health();
 

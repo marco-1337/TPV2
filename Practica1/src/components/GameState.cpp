@@ -17,9 +17,9 @@ GameState::~GameState() {
 
 void GameState::initComponent() {
 	auto mngr = _ent->getMngr();
-	auto ball = mngr->getHandler(ecs::hdlr::BALL);
-	_ballTr = mngr->getComponent<Transform>(ball);
-	assert(_ballTr != nullptr);
+	// auto ball = mngr->getHandler(ecs::hdlr::BALL);
+	// _ballTr = mngr->getComponent<Transform>(ball);
+	// assert(_ballTr != nullptr);
 }
 
 void GameState::update() {

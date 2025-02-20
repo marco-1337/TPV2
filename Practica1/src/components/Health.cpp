@@ -18,10 +18,10 @@ Health::initComponent()
 
 void Health::render()
 {
+    assert(_tex != nullptr);
     auto a = _tex->width();
 
 	SDL_Rect dest = build_sdlrect(*_pos, _tex->width(),_tex->height());
 
-	assert(_tex != nullptr);
 	_tex->render(dest, 0.);
 }

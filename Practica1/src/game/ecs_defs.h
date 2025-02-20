@@ -15,12 +15,17 @@
 	STOPONBORDER, \
 	BOUNCEONBORDER, \
 	GAMESTATE, \
-	GAMEINFOMSGS
+	GAMEINFOMSGS, \
+	DEACCELERATION, \
+	HEALTH, \
+	FIGHTERCTRL, \
+	GUN, \
+	SHOWATOPPOSITESIDE
 
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	PADDLES
+	ASTEROIDS
 
 // Handlers list - must have at least one element
 //

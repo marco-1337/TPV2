@@ -84,8 +84,9 @@ add_executable(TPV2_Practica1
 	src/components/StopOnBorders.cpp
 	src/components/ShowAtOppositeSide.cpp
 	src/components/DeAcceleration.cpp
-	src/components/FighterCtrl.cpp
 	src/components/Health.cpp
+	src/components/FighterCtrl.cpp
+	src/components/Gun.cpp
 	
 	src/game/Game.cpp
 

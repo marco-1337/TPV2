@@ -5,6 +5,9 @@ class Transform;
 
 class DeAcceleration: public ecs::Component {
 public:
+
+	__CMPID_DECL__(ecs::cmp::DEACCELERATION)
+
 	DeAcceleration();
 	virtual ~DeAcceleration();
 	void update() override;
