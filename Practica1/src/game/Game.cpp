@@ -138,11 +138,11 @@ void Game::init() {
 	_mngr->addComponent<PaddleMouseCtrl>(rightPaddle);
 //	mngr_->addComponent<PaddleAICtrl>(rightPaddle);
 
+*/
 	// create game control entity
 	auto gameCtrl = _mngr->addEntity();
 	_gameState = _mngr->addComponent<GameState>(gameCtrl);
 	_mngr->addComponent<GameInfoMsgs>(gameCtrl);
-*/
 }
 
 void Game::start() {
@@ -162,15 +162,16 @@ void Game::start() {
 		// then need to the current time. They also have accessed to the time elapsed
 		// between the last two calls to regCurrTime().
 		Uint32 startTime = sdlutils().regCurrTime();
-
+		
 		// refresh the input handler
 		ihdlr.refresh();
-
+		
 		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			exit = true;
 			continue;
 		}
-
+		
+		// AQUI SE JODE TODO
 		_mngr->update();
 		_mngr->refresh();
 
@@ -184,6 +185,7 @@ void Game::start() {
 
 		if (frameTime < 10)
 			SDL_Delay(10 - frameTime);
+			
 	}
 
 }

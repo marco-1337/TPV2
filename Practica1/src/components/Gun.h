@@ -39,7 +39,6 @@ public:
     iterator end() {
         return _bullets.end();
     }
-    // ...
 
 private:
     void shoot(Vector2D p, Vector2D v, int width, int height, float r);

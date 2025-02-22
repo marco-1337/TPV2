@@ -20,7 +20,7 @@
 	HEALTH, \
 	FIGHTERCTRL, \
 	GUN, \
-	SHOWATOPPOSITESIDE
+	SHOW_AT_OPPOSITE_SIDE
 
 // Groups list - must have at least one element
 //

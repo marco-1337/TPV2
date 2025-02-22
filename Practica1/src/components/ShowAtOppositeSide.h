@@ -6,7 +6,7 @@ class Transform;
 
 class ShowAtOppositeSide: public ecs::Component {
 public:
-	__CMPID_DECL__(ecs::cmp::SHOWATOPPOSITESIDE)
+	__CMPID_DECL__(ecs::cmp::SHOW_AT_OPPOSITE_SIDE)
 
 	ShowAtOppositeSide();
 	virtual ~ShowAtOppositeSide();
