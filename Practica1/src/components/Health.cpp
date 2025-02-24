@@ -2,6 +2,8 @@
 #include "macros.h"
 #include "SDLUtils.h"
 
+Health::Health(){}
+
 Health::~Health()
 {
     delete _pos;
