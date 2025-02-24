@@ -46,15 +46,15 @@ public:
 	void initComponent() override;
 	void update() override;
 
-	void onBallExit(Side side);
-	void resetBall();
-	void moveBall();
+	// void onBallExit(Side side);
+	// void resetBall();
+	// void moveBall();
 
 private:
 	std::array<unsigned int, 2> _score;
 	State _state;
 	const unsigned int _maxScore;
-	Transform *_ballTr;
+	Transform *_fighterTr;
 
 };
 

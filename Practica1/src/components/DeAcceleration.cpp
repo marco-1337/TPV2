@@ -3,7 +3,7 @@
 #include "SDLUtils.h"
 #include "Transform.h"
 
-DeAcceleration::DeAcceleration() {}
+DeAcceleration::DeAcceleration(Transform* tr): _tr(tr) {}
 
 DeAcceleration::~DeAcceleration() {}
 

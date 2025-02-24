@@ -78,7 +78,7 @@ void Game::init() {
 
 	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
 
-	_mngr->addComponent<DeAcceleration>(fighter);
+	_mngr->addComponent<DeAcceleration>(fighter, _fighterTr);
 	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
 	_mngr->addComponent<Health>(fighter);
 	_mngr->addComponent<FighterCtrl>(fighter);
@@ -171,7 +171,7 @@ void Game::start() {
 			continue;
 		}
 		
-		// AQUI SE JODE TODO
+		_mngr->handleInput();
 		_mngr->update();
 		_mngr->refresh();
 

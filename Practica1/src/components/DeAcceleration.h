@@ -8,7 +8,7 @@ public:
 
 	__CMPID_DECL__(ecs::cmp::DEACCELERATION)
 
-	DeAcceleration();
+	DeAcceleration(Transform* tr);
 	virtual ~DeAcceleration();
 	void update() override;
 
