@@ -7,6 +7,8 @@
 #include "SDLUtils.h"
 #include "VirtualTimer.h"
 
+#include <iostream>
+
 void 
 Gun::initComponent() {
     _tex = &sdlutils().images().at("bullet");
@@ -16,10 +18,10 @@ Gun::initComponent() {
 void
 Gun::handleInput() {
     auto &inhdlr = ih();
-
+    
     if(inhdlr.isKeyDown(SDLK_s) && canShoot) {
-        int bw = 5;
-        int bh = 20;
+        int bw = 2.5;
+        int bh = 10;
         auto p = _tr->getPos();
         auto w = _tr->getWidth();
         auto h = _tr->getHeight();
@@ -31,40 +33,61 @@ Gun::handleInput() {
         Vector2D bv = Vector2D(0, -1).rotate(r) * (v.magnitude() + 5.0f);
         float br = Vector2D(0, -1).angle(bv);
         shoot(bp, bv, bw, bh, br);
+        canShoot = false;
 
         _lastShootingTime = sdlutils().virtualTimer().currTime();
     }
     if(!canShoot)
-        canShoot = sdlutils().virtualTimer().currTime() + 250 >= _lastShootingTime;
+        {
+            std::cout << (sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250) << " " << sdlutils().virtualTimer().currTime() << " " << (_lastShootingTime + 250) << "\n";
+            canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250;}
 }
 
 void 
 Gun::render() {
     for(auto b: _bullets) {
         assert(_tex != nullptr);
-        auto a = _tex->width();
-    
-        SDL_Rect dest = build_sdlrect(b.pos, _tex->width(),_tex->height());
-    
-        _tex->render(dest, 0.);
+        if(b.used) {
+            auto a = _tex->width();
+        
+            SDL_Rect dest = build_sdlrect(b.pos, _tex->width(),_tex->height());
+        
+            _tex->render(dest, b.rot);
+        }
     }
 }
 
 void
 Gun::update() {
-    for(auto b: _bullets) {
-        b.pos = b.pos + b.vel;
+    for(auto& b: _bullets) {
+        if(b.used) {
+            b.pos = b.pos + b.vel;
+            auto p = b.pos;
+            if(p.getX() - b.width < 0 || p.getX() > sdlutils().width()
+            || p.getY() - b.height < 0 || p.getY() > sdlutils().height())
+                b.used = false;
+        }
     }
 }
 
 void 
 Gun::reset() {
-    for(auto b : _bullets)
+    for(auto& b : _bullets)
         b.used = false;
 }
 
 void
 Gun::shoot(Vector2D p, Vector2D v, int width, int height, float r) {
-    // TODO
+    for(auto& b: _bullets) {
+        if(!b.used) {
+            b.pos = p;
+            b.vel = v;
+            b.width = width;
+            b.height = height;
+            b.rot = r;
+            b.used = true;
+            return;
+        }
+    }
 }
 

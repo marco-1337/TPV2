@@ -72,7 +72,7 @@ void Game::init() {
 	_mngr->setHandler(ecs::hdlr::FIGHTER, fighter);
 
 	_fighterTr = _mngr->addComponent<Transform>(fighter);
-	auto fighterSize = 15.0f;
+	auto fighterSize = 45.0f;
 	auto fighterX = (sdlutils().width() - fighterSize) / 2.0f;
 	auto fighterY = (sdlutils().height() - fighterSize) / 2.0f;
 
@@ -156,13 +156,16 @@ void Game::start() {
 	// delta-time in the first iteration
 	//
 	sdlutils().resetTime();
+	sdlutils().virtualTimer().resetTime();
 
 	while (!exit) {
 		// store the current time -- all game objects should use this time when
 		// then need to the current time. They also have accessed to the time elapsed
 		// between the last two calls to regCurrTime().
 		Uint32 startTime = sdlutils().regCurrTime();
-		
+		sdlutils().virtualTimer().regCurrTime();
+
+
 		// refresh the input handler
 		ihdlr.refresh();
 		
