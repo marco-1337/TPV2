@@ -1,8 +1,12 @@
 #include "AsteroidsUtils.h"
 #include "SDLUtils.h"
+
 #include "Entity.h"
 #include "Component.h"
+
 #include "Transform.h"
+#include "Generations.h"
+#include "ShowAtOppositeSide.h"
 
 void
 AsteroidsUtils::create_asteroids(int n)
@@ -33,7 +37,7 @@ AsteroidsUtils::create_asteroids(int n)
             p.setY(sdlutils().rand().nextInt(0, h));
         }
         else
-        {
+        {            
             p.setX(sdlutils().rand().nextInt(0, w));
             p.setY((pared == 1) ? 0 : h);
         }
@@ -51,18 +55,16 @@ AsteroidsUtils::create_asteroids(int n)
 
         scale = 10.0f+5.0f*g;
 
-        // to do añadir asteroide con esa informacion
-        _mgr->addComponent<Transform>(e, p, speed, scale, scale, 0.0);
-
+        _mgr->addComponent<Transform>(e, p, v, scale, scale, 0.0f);
         _mgr->addComponent<ShowAtOppositeSide>(e);
 
         if (sdlutils().rand().nextInt(0, 2))
         {
-
+            // to do añadir follow
         }
         else
         {
-
+            // to do añadir toward destination
         }
     }
 }
