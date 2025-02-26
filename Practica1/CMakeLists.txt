@@ -90,6 +90,7 @@ add_executable(TPV2_Practica1
 	src/components/Generations.cpp
 	
 	src/game/Game.cpp
+	src/game/AsteroidsUtils.cpp
 
 	src/ecs/Manager.cpp
 )
