@@ -23,6 +23,7 @@ _updateFrecuency()
 ImageWithFrames::ImageWithFrames(Texture *tex, int cols, int rows, Uint32 updateFrecuency) 
 :_tr(), 
 _tex(tex), 
+_cols(cols),
 _rows(rows) , 
 _currentFrame(0),
 _updateFrecuency(updateFrecuency)

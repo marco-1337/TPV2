@@ -9,6 +9,10 @@
 #include "ShowAtOppositeSide.h"
 #include "ImageWithFrames.h"
 
+constexpr int ROWS = 5;
+constexpr int COLS = 6;
+constexpr Uint32 FRAME_UPDATE_FRECUENCY = 50;
+
 void
 AsteroidsUtils::create_asteroids(int n)
 {
@@ -59,16 +63,14 @@ AsteroidsUtils::create_asteroids(int n)
         _mgr->addComponent<Transform>(e, p, v, scale, scale, 0.0f);
         _mgr->addComponent<ShowAtOppositeSide>(e);
 
-
-
         if (sdlutils().rand().nextInt(0, 2))
         {
-            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid_gold"));
+            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid_gold"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
             // to do añadir follow
         }
         else
         {
-            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid"));
+            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
             // to do añadir toward destination
         }
     }
