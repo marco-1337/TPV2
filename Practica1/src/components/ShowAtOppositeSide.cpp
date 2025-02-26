@@ -4,7 +4,6 @@
 #include "Entity.h"
 #include "Manager.h"
 
-// TODO
 
 ShowAtOppositeSide::ShowAtOppositeSide() {}
 
