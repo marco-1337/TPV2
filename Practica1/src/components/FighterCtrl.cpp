@@ -34,7 +34,7 @@ FighterCtrl::handleInput() {
 
         vel = newVel;
 
-        // Esto probablemente esté mal, pero hay que probarlo
-        _thrustEffect->play();
+        // TODO: cambiar sonido de thrust
+        //_thrustEffect->play();
     }
 }

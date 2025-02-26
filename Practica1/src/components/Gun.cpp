@@ -20,8 +20,8 @@ Gun::handleInput() {
     auto &inhdlr = ih();
     
     if(inhdlr.isKeyDown(SDLK_s) && canShoot) {
-        int bw = 2.5;
-        int bh = 10;
+        int bw = 5;
+        int bh = 20;
         auto p = _tr->getPos();
         auto w = _tr->getWidth();
         auto h = _tr->getHeight();
@@ -50,7 +50,7 @@ Gun::render() {
         if(b.used) {
             auto a = _tex->width();
         
-            SDL_Rect dest = build_sdlrect(b.pos, _tex->width(),_tex->height());
+            SDL_Rect dest = build_sdlrect(b.pos, b.width, b.height);
         
             _tex->render(dest, b.rot);
         }

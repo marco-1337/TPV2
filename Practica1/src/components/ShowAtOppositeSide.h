@@ -10,8 +10,10 @@ public:
 
 	ShowAtOppositeSide();
 	virtual ~ShowAtOppositeSide();
+	
+	void initComponent() override;
 	void update() override;
 
 protected:
-	Transform *_tr;
+	Transform *_tr = nullptr;
 };

@@ -1,12 +1,19 @@
 #include "ShowAtOppositeSide.h"
 #include "SDLUtils.h"
 #include "Transform.h"
+#include "Entity.h"
+#include "Manager.h"
 
 // TODO
 
 ShowAtOppositeSide::ShowAtOppositeSide() {}
 
 ShowAtOppositeSide::~ShowAtOppositeSide() {}
+
+void
+ShowAtOppositeSide::initComponent() {
+    _tr = _ent->getMngr()->getComponent<Transform>(_ent);
+}
 
 void ShowAtOppositeSide::update() {
     auto &pos = _tr->getPos();
