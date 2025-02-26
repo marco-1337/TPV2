@@ -21,7 +21,8 @@
 	FIGHTERCTRL, \
 	GUN, \
 	SHOW_AT_OPPOSITE_SIDE, \
-	GENERATIONS
+	GENERATIONS, \
+	FOLLOW
 
 // Groups list - must have at least one element
 //

@@ -88,6 +88,7 @@ add_executable(TPV2_Practica1
 	src/components/FighterCtrl.cpp
 	src/components/Gun.cpp
 	src/components/Generations.cpp
+	src/components/Follow.cpp
 	
 	src/game/Game.cpp
 	src/game/AsteroidsUtils.cpp
