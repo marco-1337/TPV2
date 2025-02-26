@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Generations.h"
 #include "ShowAtOppositeSide.h"
+#include "ImageWithFrames.h"
 
 void
 AsteroidsUtils::create_asteroids(int n)
@@ -58,12 +59,16 @@ AsteroidsUtils::create_asteroids(int n)
         _mgr->addComponent<Transform>(e, p, v, scale, scale, 0.0f);
         _mgr->addComponent<ShowAtOppositeSide>(e);
 
+
+
         if (sdlutils().rand().nextInt(0, 2))
         {
+            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid_gold"));
             // to do añadir follow
         }
         else
         {
+            _mgr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid"));
             // to do añadir toward destination
         }
     }

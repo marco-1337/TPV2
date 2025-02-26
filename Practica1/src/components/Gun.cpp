@@ -38,9 +38,7 @@ Gun::handleInput() {
         _lastShootingTime = sdlutils().virtualTimer().currTime();
     }
     if(!canShoot)
-        {
-            std::cout << (sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250) << " " << sdlutils().virtualTimer().currTime() << " " << (_lastShootingTime + 250) << "\n";
-            canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250;}
+        canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250;
 }
 
 void 
