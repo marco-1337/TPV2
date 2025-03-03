@@ -17,12 +17,12 @@ GameInfoMsgs::~GameInfoMsgs() {
 
 void GameInfoMsgs::initComponent() {
 	auto mngr = _ent->getMngr();
-	_gameState = mngr->getComponent<GameState>(_ent);
-	assert(_gameState != nullptr);
+	// _gameState = mngr->getComponent<GameState>(_ent);
+	// assert(_gameState != nullptr);
 }
 
 void GameInfoMsgs::render() {
-
+/*
 	auto state = _gameState->getState();
 
 	// message when game is not running
@@ -54,5 +54,5 @@ void GameInfoMsgs::render() {
 					+ std::to_string(_gameState->getScore(1)),
 			sdlutils().fonts().at("ARIAL16"), build_sdlcolor(0xffffffff));
 	scoreMsg.render((sdlutils().width() - scoreMsg.width()) / 2, 10);
-
+*/
 }

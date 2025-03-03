@@ -6,11 +6,7 @@
 #include "GameInfoMsgs.h"
 #include "GameState.h"
 #include "Image.h"
-// #include "PaddleAICtrl.h"
-// #include "PaddleKBCtrl.h"
-// #include "PaddleMouseCtrl.h"
 #include "RectangleViewer.h"
-// #include "StopOnBorders.h"
 #include "ShowAtOppositeSide.h"
 #include "Transform.h"
 #include "Manager.h"
@@ -142,7 +138,7 @@ void Game::init() {
 */
 	// create game control entity
 	auto gameCtrl = _mngr->addEntity();
-	_gameState = _mngr->addComponent<GameState>(gameCtrl);
+	//_gameState = _mngr->addComponent<GameState>(gameCtrl);
 	_mngr->addComponent<GameInfoMsgs>(gameCtrl);
 }
 
@@ -195,8 +191,8 @@ void Game::start() {
 }
 
 void Game::checkCollisions() {
-	if (_gameState->getState() != GameState::RUNNING)
-		return;
+	// if (_gameState->getState() != GameState::RUNNING)
+	// 	return;
 
 /*
 	bool ballCollidesWithPaddle = false;

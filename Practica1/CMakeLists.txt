@@ -75,7 +75,6 @@ add_executable(TPV2_Practica1
 
 	src/components/BounceOnBorders.cpp
 	src/components/GameInfoMsgs.cpp
-	src/components/GameState.cpp
 	src/components/Image.cpp
 	src/components/PaddleAICtrl.cpp
 	src/components/PaddleKBCtrl.cpp
