@@ -12,7 +12,7 @@ public:
     
     void remove_all_asteroids() override;
     
-    void split_astroid(Entity *a) override;
+    void split_asteroid(ecs::entity_t a) override;
 protected:
     ecs::Manager* _mgr;
 };

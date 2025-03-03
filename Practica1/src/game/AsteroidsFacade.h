@@ -1,6 +1,7 @@
 
 class Entity;
 class Manager;
+#include "ecs.h"
 
 class AsteroidsFacade {
 public:
@@ -12,5 +13,5 @@ public:
     
     virtual void remove_all_asteroids() = 0;
     
-    virtual void split_astroid(Entity *a) = 0;
+    virtual void split_asteroid(ecs::entity_t a) = 0;
 };
