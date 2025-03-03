@@ -20,7 +20,10 @@
 	HEALTH, \
 	FIGHTERCTRL, \
 	GUN, \
-	SHOW_AT_OPPOSITE_SIDE
+	SHOW_AT_OPPOSITE_SIDE, \
+	GENERATIONS, \
+	IMAGE_WITH_FRAMES, \
+	FOLLOW
 
 // Groups list - must have at least one element
 //

@@ -83,6 +83,7 @@ void Game::init() {
 	_mngr->addComponent<Health>(fighter);
 	_mngr->addComponent<FighterCtrl>(fighter);
 	_mngr->addComponent<Gun>(fighter);
+	_mngr->addComponent<ShowAtOppositeSide>(fighter);
 
 /*
 	_mngr = new Manager();
