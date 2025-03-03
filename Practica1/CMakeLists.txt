@@ -94,6 +94,7 @@ add_executable(TPV2_Practica1
 	
 	src/game/Game.cpp
 	src/game/AsteroidsUtils.cpp
+	src/game/FighterUtils.cpp
 
 	src/ecs/Manager.cpp
 )
