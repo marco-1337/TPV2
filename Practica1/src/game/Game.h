@@ -23,5 +23,10 @@ private:
 
 	Transform *_fighterTr;
 	GameState *_gameState;
+
+public:
+	inline ecs::Manager* getMngr() {
+		return _mngr;
+	}
 };
 
