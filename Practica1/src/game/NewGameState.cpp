@@ -27,8 +27,8 @@ NewGameState::update() {
     }
     else {
         // Resetear vidas y posición caza
-        _fighter->reset_fighter();
-        _fighter->reset_lives();
+        _fighterUtils->reset_fighter();
+        _fighterUtils->reset_lives();
 
         // TODO: Cambiar estado a NewRound
         // Game::Instance()->setState(...)

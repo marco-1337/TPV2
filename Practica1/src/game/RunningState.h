@@ -5,10 +5,10 @@
 class FighterUtils;
 class AsteroidsUtils;
 
-class NewRoundState : public GameState {
+class RunningState : public GameState {
 public:
-    NewRoundState(ecs::Manager* mgr) : GameState(mgr) {}
-    ~NewRoundState() {}
+    RunningState(ecs::Manager* mgr) : GameState(mgr) {}
+    ~RunningState() {}
 
     void enter() override;   
 	void leave() override;   

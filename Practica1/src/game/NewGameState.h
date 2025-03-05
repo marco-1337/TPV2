@@ -14,5 +14,5 @@ public:
 	void update() override; 
 
 protected:
-    FighterUtils* _fighter;
+    FighterUtils* _fighterUtils;
 };
