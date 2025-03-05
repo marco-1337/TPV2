@@ -14,7 +14,8 @@
     ],
     
     "messages" : [
-      { "id" : "start", "text" : "Press any key to start a new game", "font" : "ARIAL24", "color" : "0x441155ff"},
+      { "id" : "start_game", "text" : "Press any key to start a new game", "font" : "ARIAL24", "color" : "0x441155ff"},
+      { "id" : "start_round", "text" : "press ENTER to start the round", "font" : "ARIAL24", "color" : "0x441155ff"},
       { "id" : "continue", "text" : "Press space to continue", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },
       { "id" : "gameover", "text" : "Game Over", "font" : "ARIAL24", "color" : "0x0000ffff" }
     ],
