@@ -15,6 +15,8 @@ public:
 	void update() override; 
 
 protected:
+    void checkCollisions();
+
     FighterUtils* _fighterUtils;
     AsteroidsUtils* _asteroidsUtils;
 };
