@@ -20,18 +20,18 @@ void
 NewGameState::update() {
 	auto &ihdlr = ih();
 
-    if(!ihdlr.keyDownEvent()) {
-        // Mostrar mensaje
-        auto &t = sdlutils().msgs().at("start_game");
-        t.render((sdlutils().width() - t.width()) / 2, (sdlutils().height() - t.height()) / 2);
-    }
-    else {
+    if(ihdlr.keyDownEvent()) {
         // Resetear vidas y posición caza
         _fighterUtils->reset_fighter();
         _fighterUtils->reset_lives();
 
         // TODO: Cambiar estado a NewRound
         // Game::Instance()->setState(...)
+    }
+    else {
+        // Mostrar mensaje
+        auto &t = sdlutils().msgs().at("start_game");
+        t.render((sdlutils().width() - t.width()) / 2, (sdlutils().height() - t.height()) / 2);
     }
 
 }
