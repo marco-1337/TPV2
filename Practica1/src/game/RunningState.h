@@ -2,12 +2,16 @@
 
 #include "GameState.h"
 
+#include "ecs.h"
+#include <vector>
+
 class FighterUtils;
 class AsteroidsUtils;
 
+
 class RunningState : public GameState {
 public:
-    RunningState(ecs::Manager* mgr) : GameState(mgr) {}
+    RunningState(ecs::Manager* mgr);
     ~RunningState() {}
 
     void enter() override;   
@@ -19,4 +23,9 @@ protected:
 
     FighterUtils* _fighterUtils;
     AsteroidsUtils* _asteroidsUtils;
+
+    ecs::entity_t _fighter;
+    std::vector<ecs::entity_t> _asteroids;
+
+    Uint32 _lastSpawnTime;
 };

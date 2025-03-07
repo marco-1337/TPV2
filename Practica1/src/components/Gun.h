@@ -45,6 +45,6 @@ private:
     bullets_array_t _bullets;
     Texture* _tex;
     Transform* _tr;
-    int _lastShootingTime;
+    Uint32 _lastShootingTime;
     bool canShoot = true;
 };
