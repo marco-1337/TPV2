@@ -99,6 +99,7 @@ add_executable(TPV2_Practica1
 	src/game/NewRoundState.cpp
 	src/game/RunningState.cpp
 	src/game/PausedState.cpp
+	src/game/GameOverState.cpp
 
 	src/ecs/Manager.cpp
 )

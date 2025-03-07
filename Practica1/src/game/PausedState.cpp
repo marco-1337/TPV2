@@ -1,6 +1,5 @@
 #include "PausedState.h"
 
-#include "Manager.h"
 #include "SDLUtils.h"
 #include "InputHandler.h"
 
