@@ -22,7 +22,7 @@ void
 NewRoundState::update() {
 	auto &ihdlr = ih();
 
-    if(ihdlr.isKeyDown(SDL_SCANCODE_RETURN)) {
+    if(!ihdlr.isKeyDown(SDL_SCANCODE_RETURN)) {
         // Mostrar mensaje
         auto &t = sdlutils().msgs().at("start_round");
         t.render((sdlutils().width() - t.width()) / 2, (sdlutils().height() - t.height()) / 2);
