@@ -104,15 +104,16 @@ AsteroidsUtils::split_asteroid(ecs::entity_t a) {
         ecs::entity_t a_child;
 
         for(int i = 0; i < 2; ++i) {
-            a_child = _mngr->addEntity();
+            a_child = _mngr->addEntity(ecs::grp::ASTEROIDS);
 
             int r = sdlutils().rand().nextInt(0,360);    
             Vector2D pos = tr->getPos() + tr->getVel().rotate(r) * 2 * std::max(tr->getWidth(), tr->getHeight());     
             Vector2D vel = tr->getVel().rotate(r) * 1.1f;  
 
-            int g = _mngr->addComponent<Generations>(a_child)->getGeneration();
+            _mngr->addComponent<Generations>(a_child)->setGeneration(g->getGeneration()-1);
+            int gen = _mngr->getComponent<Generations>(a_child)->getGeneration();
 
-            float scale = 10.0f+5.0f*g;
+            float scale = 10.0f+5.0f*gen;
 
             _mngr->addComponent<Transform>(a_child, pos, vel, scale, scale, 0.0f);
             _mngr->addComponent<ShowAtOppositeSide>(a_child);
@@ -123,7 +124,7 @@ AsteroidsUtils::split_asteroid(ecs::entity_t a) {
             }
             else {
                 _mngr->addComponent<ImageWithFrames>(a_child, &sdlutils().images().at("asteroid"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
-                // TODO: añadir toward destination
+                _mngr->addComponent<TowardsDestination>(a_child);
             }
         }
   

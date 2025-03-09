@@ -16,7 +16,6 @@ __CMPID_DECL__(ecs::cmp::GENERATIONS)
     }
 
     void setGeneration(int gen);
-    void nextGeneration();
 
 protected:
     int _generation;

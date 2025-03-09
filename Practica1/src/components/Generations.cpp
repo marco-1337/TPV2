@@ -16,9 +16,3 @@ Generations::setGeneration(int gen) {
     assert(gen >= 0 && gen < 4);
     _generation = gen;
 }
-
-void
-Generations::nextGeneration() {
-    if(_generation > 0)
-        _generation--;
-}
