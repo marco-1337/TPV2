@@ -13,6 +13,7 @@ ShowAtOppositeSide::~ShowAtOppositeSide() {}
 void
 ShowAtOppositeSide::initComponent() {
     _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
+    assert(_tr != nullptr);
 }
 
 void ShowAtOppositeSide::update() {

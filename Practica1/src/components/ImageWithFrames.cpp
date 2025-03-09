@@ -31,7 +31,10 @@ _cols(cols),
 _rows(rows) , 
 _currentFrame(0),
 _updateFrecuency(updateFrecuency)
-{ }
+{ 
+    assert(_tex != nullptr);
+    assert(_cols >= 1 && _rows >=1);
+}
 
 ImageWithFrames::~ImageWithFrames() {
 }

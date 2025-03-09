@@ -16,9 +16,10 @@ TowardsDestination::~TowardsDestination()
 void
 TowardsDestination::initComponent() {
     _myTr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
-
     _destination = new Vector2D(sdlutils().rand().nextInt(0, sdlutils().width()+1), 
         sdlutils().rand().nextInt(0, sdlutils().width()+1));
+
+    assert(_myTr != nullptr);
 }
 
 void

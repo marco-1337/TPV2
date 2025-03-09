@@ -45,8 +45,8 @@ public:
 private:
     void shoot(Vector2D p, Vector2D v, int width, int height, float r);
     bullets_array_t _bullets;
-    Texture* _tex;
-    Transform* _tr;
+    Texture* _tex = nullptr;
+    Transform* _tr = nullptr;
     Uint32 _lastShootingTime;
     bool canShoot = true;
 

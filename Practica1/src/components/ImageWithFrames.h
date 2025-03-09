@@ -1,6 +1,8 @@
 #pragma once
+
 #include "../ecs/Component.h"
 #include "SDL.h"
+#include <cassert>
 
 class Transform;
 class Texture;
@@ -14,7 +16,8 @@ public:
 	ImageWithFrames(Texture *tex, int cols, int rows, Uint32 updateFrecuency);
 	virtual ~ImageWithFrames();
 
-	inline void setTexture(Texture *tex) {
+	inline void setTexture(Texture* tex) {
+		assert(tex != nullptr);
 		_tex = tex;
 	}
 

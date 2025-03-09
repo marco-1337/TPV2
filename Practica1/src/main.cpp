@@ -7,7 +7,8 @@
 int main(int, char**) {
 
 	try {
-		Game::Init();
+		bool init = Game::Init();
+		assert(init == true);
 		Game::Instance()->initGame();
 		Game::Instance()->start();
 	} catch (const std::string &e) { // catch exceptions thrown as strings

@@ -14,6 +14,8 @@ Health::initComponent()
 {
     _pos = new Vector2D(10., 10.);
     _tex = &sdlutils().images().at("heart");
+
+    assert(_tex != nullptr);
 }
 
 void Health::render()
