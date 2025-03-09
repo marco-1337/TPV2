@@ -1,21 +1,18 @@
 {
-    "fighter" : 
-    {
-        "health": 3,
-        "thrust": 0.2,
-        "speed_limit": 3.0,
-        "rotation": 5.0,
-        "shooting_frequency": 0.25
-    },
+    "config" : [
+        { "id": "fighter_health", "value": 3},
+        { "id": "fighter_thrust", "value": 0.2},
+        { "id": "fighter_speed_limit", "value": 3.0},
+        { "id": "fighter_rotation", "value": 5.0},
+        { "id": "shooting_frequency", "value": 0.25},
 
-    "asteroids" :
-    {
-        "initial_number": 10,
-        "frequency": 5,
-        "split": 2,
-        "generations": 3,
-        "golden_chance": 3
-    },
-
-    "volume" : 10
+        { "id": "asteroids_initial_number", "value": 10},
+        { "id": "asteroids_spawn_frequency", "value": 5},
+        { "id": "asteroids_split", "value": 2},
+        { "id": "asteroids_generations", "value": 3},
+        { "id": "asteroids_speed_limit", "value": 8},
+        { "id": "asteroids_golden_chance", "value": 4},
+        
+        { "id": "volume", "value": 20}
+    ]
 }

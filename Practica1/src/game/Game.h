@@ -3,7 +3,7 @@
 #pragma once
 
 #include <vector>
-#include "sdlutils.h"
+#include "SDLUtils.h"
 
 #include "AsteroidsUtils.h"
 #include "FighterUtils.h"
@@ -24,7 +24,12 @@ private:
 
 	Game();
 	virtual ~Game();
-	bool init();
+	bool init(std::string filename);
+
+	void loadResources(std::string filename);
+		
+	std::unordered_map<std::string, float> _config;
+	SDLUtils::map_access_wrapper<float> _configAccessWrapper;
 
 	ecs::Manager* _mngr;
 
@@ -60,4 +65,10 @@ public:
 	};
 
 	void setState(State s);
+
+	// config map
+	inline auto& config() {
+		return _configAccessWrapper;
+	}
+
 };

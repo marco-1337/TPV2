@@ -2,6 +2,8 @@
 
 #include "Game.h"
 
+#include "JSON.h"
+
 #include "GameState.h"
 #include "Image.h"
 #include "ShowAtOppositeSide.h"
@@ -29,7 +31,8 @@
 using ecs::Manager;
 
 Game::Game() :
-		_mngr(nullptr), //
+		_configAccessWrapper(_config, "Config Table"),
+		_mngr(nullptr), 
 		_state(nullptr) {
 }
 
@@ -45,7 +48,7 @@ Game::~Game() {
 		SDLUtils::Release();
 }
 
-bool Game::init() {
+bool Game::init(std::string filename) {
 
 	// initialize the SDL singleton
 	if (!SDLUtils::Init("Asteroids", 800, 600,
@@ -63,8 +66,46 @@ bool Game::init() {
 		return false;
 	}
 
+	loadResources(filename);
+
 	return true;
 }
+
+void Game::loadResources(std::string filename) {
+	// Load JSON configuration file. We use a unique pointer since we
+	// can exit the method in different ways, this way we guarantee that
+	// it is always deleted
+	std::unique_ptr<JSONValue> jValueRoot(JSON::ParseFromFile(filename));
+
+	// check it was loaded correctly
+	// the root must be a JSON object
+	if (jValueRoot == nullptr || !jValueRoot->IsObject()) {
+		throw "Something went wrong while load/parsing '" + filename + "'";
+	}
+
+	JSONObject root = jValueRoot->AsObject();
+	JSONValue *jValue = root["config"];
+
+	if (jValue != nullptr) {
+		if (jValue->IsArray()) {
+			_config.reserve(jValue->AsArray().size()); // reserve enough space to avoid resizing
+			for (auto &v : jValue->AsArray()) {
+				if (v->IsObject()) {
+					JSONObject vObj = v->AsObject();
+					std::string key = vObj["id"]->AsString();
+					float value = static_cast<float>(vObj["value"]->AsNumber());
+					_config.emplace(key, value);
+				} else {
+					throw "'config' array in '" + filename
+							+ "' includes and invalid value";
+				}
+			}
+		} else {
+			throw "'config' is not an array in '" + filename + "'";
+		}
+	}
+}
+
 
 void Game::initGame(){
 

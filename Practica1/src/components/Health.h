@@ -19,16 +19,12 @@ public:
 
     int getHealth() const { return _health; }
     void setHealth(int n) { _health = n; }
-    void resetHealth() { _health = DEFAULT_HEALTH; }
+    void resetHealth();
 
     protected:
 
-    int _health = DEFAULT_HEALTH;
+    int _health;
 
     Vector2D *_pos;
     Texture *_tex;
-
-private:
-    static constexpr int DEFAULT_HEALTH = 3;
-
 };

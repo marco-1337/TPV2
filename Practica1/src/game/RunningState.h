@@ -33,6 +33,7 @@ protected:
     const std::vector<ecs::entity_t>* _asteroids;
 
     Uint32 _lastSpawnTime;
+    Uint32 _spawnFrequency;
 
     ecs::Manager* _mngr;
 };

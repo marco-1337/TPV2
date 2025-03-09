@@ -15,7 +15,9 @@
 
 RunningState::RunningState(FighterUtils* fUtils, AsteroidsUtils* aUtils)
 : _fighterUtils(fUtils)
-, _asteroidsUtils(aUtils) {
+, _asteroidsUtils(aUtils)
+, _spawnFrequency(Game::Instance()->config().at("asteroids_spawn_frequency")) 
+{
     _mngr = Game::Instance()->getMngr();
 }
 

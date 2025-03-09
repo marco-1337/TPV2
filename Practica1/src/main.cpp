@@ -7,7 +7,7 @@
 int main(int, char**) {
 
 	try {
-		bool init = Game::Init();
+		bool init = Game::Init("resources/config/asteroid.config.json");
 		assert(init == true);
 		Game::Instance()->initGame();
 		Game::Instance()->start();

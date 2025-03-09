@@ -13,13 +13,17 @@
 void 
 Gun::initComponent() {
     _tex = &sdlutils().images().at("bullet");
-    _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
-    _shootEffect = &sdlutils().soundEffects().at("shoot");
-    _shootEffect->setVolume(50);
-
     assert(_tex != nullptr);
+
+    _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
     assert(_tr != nullptr);
+    
+    _shootingFrequency = static_cast<Uint32>(Game::Instance()->config().at("shooting_frequency") * 1000);
+
+    _shootEffect = &sdlutils().soundEffects().at("shoot");
     assert(_shootEffect != nullptr);
+    _shootEffect->setVolume(Game::Instance()->config().at("volume"));
+
 }
 
 void
@@ -46,7 +50,7 @@ Gun::handleInput() {
         _shootEffect->play(0, 1);
     }
     if(!canShoot)
-        canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250;
+        canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + _shootingFrequency;
 }
 
 void 

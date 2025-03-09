@@ -1,8 +1,10 @@
 #include "Health.h"
 #include "macros.h"
 #include "SDLUtils.h"
+#include "Game.h"
 
-Health::Health(){}
+Health::Health() : _health(Game::Instance()->config().at("fighter_health"))
+{}
 
 Health::~Health()
 {
@@ -26,4 +28,8 @@ void Health::render()
         SDL_Rect dest = build_sdlrect(_pos->getX() +  _tex->width()/4 * i, _pos->getY(), _tex->width()/4,_tex->height()/4);
 	    _tex->render(dest, 0.);   
     }
+}
+
+void Health::resetHealth() {
+    _health = Game::Instance()->config().at("fighter_health");
 }

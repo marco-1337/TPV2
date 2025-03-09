@@ -48,6 +48,7 @@ private:
     Texture* _tex = nullptr;
     Transform* _tr = nullptr;
     Uint32 _lastShootingTime;
+    Uint32 _shootingFrequency;
     bool canShoot = true;
 
 	SoundEffect* _shootEffect = nullptr;

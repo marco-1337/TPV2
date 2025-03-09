@@ -62,7 +62,7 @@ AsteroidsUtils::create_asteroids(int n)
                 (float)h/2 + (sdlutils().rand().nextInt(-100,101))
             };
         
-        speed = sdlutils().rand().nextInt(1,10)/10.0f;
+        speed = sdlutils().rand().nextInt(1,Game::Instance()->config().at("asteroids_speed_limit"))/10.0f;
         v = (c-p).normalize()*speed;
 
         g = _mngr->addComponent<Generations>(e)->getGeneration();
@@ -72,15 +72,15 @@ AsteroidsUtils::create_asteroids(int n)
         _mngr->addComponent<Transform>(e, p, v, scale, scale, 0.0f);
         _mngr->addComponent<ShowAtOppositeSide>(e);
 
-        if (sdlutils().rand().nextInt(0, 2))
-        {
-            _mngr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid_gold"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
-            _mngr->addComponent<Follow>(e);
-        }
-        else
+        if (sdlutils().rand().nextInt(0, Game::Instance()->config().at("asteroids_golden_chance")))
         {
             _mngr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
             _mngr->addComponent<TowardsDestination>(e);
+        }
+        else
+        {
+            _mngr->addComponent<ImageWithFrames>(e, &sdlutils().images().at("asteroid_gold"), COLS, ROWS, FRAME_UPDATE_FRECUENCY);
+            _mngr->addComponent<Follow>(e);
         }
     }
 }
@@ -103,7 +103,7 @@ AsteroidsUtils::split_asteroid(ecs::entity_t a) {
 
         ecs::entity_t a_child;
 
-        for(int i = 0; i < 2; ++i) {
+        for(int i = 0; i < Game::Instance()->config().at("asteroids_split"); ++i) {
             a_child = _mngr->addEntity(ecs::grp::ASTEROIDS);
 
             int r = sdlutils().rand().nextInt(0,360);

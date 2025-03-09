@@ -31,7 +31,7 @@ NewRoundState::update() {
         _fighterUtils->reset_fighter();
         
         _asteroidsUtils->remove_all_asteroids();
-        _asteroidsUtils->create_asteroids(10);
+        _asteroidsUtils->create_asteroids(Game::Instance()->config().at("asteroids_initial_number"));
 
         Game::Instance()->setState(Game::RUNNING);
     }

@@ -19,7 +19,7 @@ protected:
 	Transform* _myTransform = nullptr;
 	SoundEffect* _thrustEffect = nullptr;
 
-	float thrust = 0.2f;
-	float speedLimit = 3.0f;
-	float rotation = 5.0f;
+	float _thrust;
+	float _speedLimit;
+	float _rotation;
 };
