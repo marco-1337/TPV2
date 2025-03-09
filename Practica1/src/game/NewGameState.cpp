@@ -5,6 +5,7 @@
 #include "InputHandler.h"
 #include "FighterUtils.h"
 
+#include "Game.h"
 
 void
 NewGameState::enter() {
@@ -22,11 +23,9 @@ NewGameState::update() {
 
     if(ihdlr.keyDownEvent()) {
         // Resetear vidas y posición caza
-        _fighterUtils->reset_fighter();
         _fighterUtils->reset_lives();
 
-        // TODO: Cambiar estado a NewRound
-        // Game::Instance()->setState(...)
+        Game::Instance()->setState(Game::NEWROUND);
     }
     else {
         // Mostrar mensaje

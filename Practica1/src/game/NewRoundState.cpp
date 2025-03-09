@@ -6,6 +6,7 @@
 #include "FighterUtils.h"
 #include "AsteroidsUtils.h"
 
+#include "Game.h"
 
 void
 NewRoundState::enter() {
@@ -32,8 +33,6 @@ NewRoundState::update() {
         _asteroidsUtils->remove_all_asteroids();
         _asteroidsUtils->create_asteroids(10);
 
-        // TODO: Cambiar estado a RunningState
-        // Game::Instance()->setState(...)
+        Game::Instance()->setState(Game::RUNNING);
     }
-
 }

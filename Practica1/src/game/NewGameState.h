@@ -6,7 +6,7 @@ class FighterUtils;
 
 class NewGameState: public GameState {
 public:
-    NewGameState() {}
+    NewGameState(FighterUtils* fUtils): _fighterUtils(fUtils) {}
     ~NewGameState() {}
 
     void enter() override;   

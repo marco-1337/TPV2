@@ -4,9 +4,11 @@
 #include "InputHandler.h"
 #include "SDLUtils.h"
 
+#include "Game.h"
+
 void
 GameOverState::enter() {
-    (_mgr->getEntities(ecs::grp::ASTEROIDS).size() > 0) 
+    (Game::Instance()->getMngr()->getEntities(ecs::grp::ASTEROIDS).size() > 0) 
     ? _msg = "gameover" 
     : _msg = "win";
 }
@@ -21,8 +23,7 @@ GameOverState::update() {
 	auto &ihdlr = ih();
 
     if(ihdlr.isKeyDown(SDL_SCANCODE_RETURN)) {
-        // TODO: cambiar a NewGameState
-        // Game::Instance()->setState(...)
+        Game::Instance()->setState(Game::NEWGAME);
     }
     else {
         auto &t = sdlutils().msgs().at(_msg);

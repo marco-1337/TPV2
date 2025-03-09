@@ -11,15 +11,17 @@
 #include "Health.h"
 #include "Gun.h"
 
-RunningState::RunningState() {
-    _fighter = _mgr->getHandler(ecs::hdlr::FIGHTER);
-    _asteroids = _mgr->getEntities(ecs::grp::ASTEROIDS);
-    _lastSpawnTime = sdlutils().virtualTimer().currTime();
+#include "Game.h"
+
+RunningState::RunningState(FighterUtils* fUtils, AsteroidsUtils* aUtils): _fighterUtils(fUtils), _asteroidsUtils(aUtils) {
+    _mngr = Game::Instance()->getMngr();
 }
 
 void
 RunningState::enter() {
-
+    _fighter = _mngr->getHandler(ecs::hdlr::FIGHTER);
+    _asteroids = _mngr->getEntities(ecs::grp::ASTEROIDS);
+    _lastSpawnTime = sdlutils().virtualTimer().currTime();
 }
 
 void
@@ -32,38 +34,34 @@ RunningState::update() {
 	auto &ihdlr = ih();
 
     if(ihdlr.isKeyDown(SDL_SCANCODE_P)) {
-        // TODO: Cambiar estado a Pause
-        // Game::Instance()->setState(...)
+        Game::Instance()->setState(Game::PAUSED);
         return;
     }
 
     if(_asteroids.size() == 0) {
-        // TODO: Cambiar estado a GameOverState
-        // Game::Instance()->setState(...)
+        Game::Instance()->setState(Game::GAMEOVER);
         return;
     }
     
+    _mngr->handleInput();
+
     // UPDATE ENTITIES
-    _mgr->update(_fighter);
+    _mngr->update(_fighter);
 
     for(auto& a : _asteroids) 
-        _mgr->update(a);
-    
+        _mngr->update(a);
    
     // COLLISIONS
     checkCollisions();
 
-
     // RENDER ENTITIES
-    _mgr->render(_fighter);
+    _mngr->render(_fighter);
 
     for(auto& a : _asteroids) 
-        _mgr->render(a);
-
+        _mngr->render(a);
     
     // REFRESH
-    _mgr->refresh();
-
+    _mngr->refresh();
 
     // ADD ASTEROIDS
     if(sdlutils().virtualTimer().currTime() >= _lastSpawnTime + 5000) {
@@ -72,13 +70,12 @@ RunningState::update() {
     }
 }
 
-
 void
 RunningState::checkCollisions() {
-    auto fighterTr = _mgr->getComponent<Transform>(_fighter);
+    auto fighterTr = _mngr->getComponent<Transform>(_fighter);
 
     for(int i = 0; i < _asteroids.size(); ++i) {
-        auto aTr = _mgr->getComponent<Transform>(_asteroids[i]);
+        auto aTr = _mngr->getComponent<Transform>(_asteroids[i]);
 
         // Si hay colisión entre asteroide y caza
         if(Collisions::collidesWithRotation(
@@ -86,23 +83,17 @@ RunningState::checkCollisions() {
             aTr->getPos(), aTr->getWidth(), aTr->getHeight(), aTr->getRot())) 
         {
             _fighterUtils->update_lives(-1);
-            auto fighterHealth = _mgr->getComponent<Health>(_fighter);
+            auto fighterHealth = _mngr->getComponent<Health>(_fighter);
 
-            if(fighterHealth->getHealth() > 0) {
-                // TODO: Cambiar estado a NewRoundState
-                // Game::Instance()->setState(...)
-            }
-            else  {
-                // TODO: Cambiar estado a GameOverState
-                // Game::Instance()->setState(...)
-            }
-
+            if(fighterHealth->getHealth() > 0) 
+                Game::Instance()->setState(Game::NEWROUND);
+            else
+                Game::Instance()->setState(Game::GAMEOVER);
             break;
         }
 
-
-        auto it = _mgr->getComponent<Gun>(_fighter)->begin();
-        auto it_end = _mgr->getComponent<Gun>(_fighter)->end();
+        auto it = _mngr->getComponent<Gun>(_fighter)->begin();
+        auto it_end = _mngr->getComponent<Gun>(_fighter)->end();
 
         while(it != it_end) {
             // Si hay colisión entre asteroide y bala

@@ -5,6 +5,8 @@
 #include "SDLUtils.h"
 #include "Game.h"
 
+#include <iostream>
+
 FighterCtrl::FighterCtrl() {}
 
 FighterCtrl::~FighterCtrl() {}
@@ -21,12 +23,15 @@ FighterCtrl::handleInput() {
 
     auto &inhdlr = ih();
     if(inhdlr.isKeyDown(SDLK_LEFT)) {
+        std::cout << "ROTAR IZQUIERDA\n";
         _myTransform->setRot(_myTransform->getRot() - 5.0f);
     }
     else if(inhdlr.isKeyDown(SDLK_RIGHT)) {
+        std::cout << "ROTAR DERECHA\n";
         _myTransform->setRot(_myTransform->getRot() + 5.0f);
     }
     else if(inhdlr.isKeyDown(SDLK_UP)) {
+        std::cout << "THRUST\n";
         auto &vel = _myTransform->getVel();
         auto newVel = vel + Vector2D(0, -1).rotate(_myTransform->getRot()) * thrust;
         if(newVel.magnitude() > speedLimit) 

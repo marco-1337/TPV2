@@ -64,7 +64,6 @@ bool Game::init() {
 		std::cerr << "Something went wrong while initializing SDLHandler"
 				<< std::endl;
 		return false;
-
 	}
 
 	return true;
@@ -77,12 +76,6 @@ void Game::initGame(){
 	// Create the manager
 	_mngr = new Manager();
 
-	_newgameState = new NewGameState();
-	_newroundState = new NewRoundState();
-	_runningState = new RunningState();
-	_pausedState = new PausedState();
-	_gameoverState = new GameOverState();
-
 	// Fighter
 	_fighterUtils = new FighterUtils();
 	_fighterUtils->create_fighter();
@@ -90,10 +83,14 @@ void Game::initGame(){
 	// Asteroids Utils
 	_asteroidUtils = new AsteroidsUtils();
 
-	// create game control entity
-	auto gameCtrl = _mngr->addEntity();
-	//_gameState = _mngr->addComponent<GameState>(gameCtrl);
-	_mngr->addComponent<GameInfoMsgs>(gameCtrl);
+	_newgameState = new NewGameState(_fighterUtils);
+	_newroundState = new NewRoundState(_fighterUtils, _asteroidUtils);
+	_runningState = new RunningState(_fighterUtils, _asteroidUtils);
+	_pausedState = new PausedState();
+	_gameoverState = new GameOverState();
+
+	_state = _newgameState;
+	_state->enter();
 }
 
 void Game::start() {
@@ -106,36 +103,27 @@ void Game::start() {
 	// reset the time before starting - so we calculate correct
 	// delta-time in the first iteration
 	//
-	sdlutils().resetTime();
-	sdlutils().virtualTimer().resetTime();
+
+	auto &vt = sdlutils().virtualTimer();
+	vt.resetTime();
 
 	while (!exit) {
-		// store the current time -- all game objects should use this time when
-		// then need to the current time. They also have accessed to the time elapsed
-		// between the last two calls to regCurrTime().
-		Uint32 startTime = sdlutils().regCurrTime();
-		sdlutils().virtualTimer().regCurrTime();
+		Uint32 startTime = vt.regCurrTime();
 
-
-		// refresh the input handler
 		ihdlr.refresh();
 		
 		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			exit = true;
 			continue;
 		}
-		
+
 		_state->update();
 
-		sdlutils().clearRenderer();
-		_mngr->render();
 		sdlutils().presentRenderer();
+		sdlutils().clearRenderer();
 
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
-
-		if (frameTime < 10)
-			SDL_Delay(10 - frameTime);
-			
+		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
 
 }

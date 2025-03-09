@@ -47,6 +47,14 @@ public:
 		return _mngr;
 	}
 
+	inline FighterUtils* getFighterUtils() {
+		return _fighterUtils;
+	}
+
+	inline AsteroidsUtils* getAsteroidUtils() {
+		return _asteroidUtils;
+	}
+
 	enum State {
 		RUNNING, PAUSED, NEWGAME, NEWROUND, GAMEOVER
 	};

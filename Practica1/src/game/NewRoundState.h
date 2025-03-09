@@ -7,7 +7,7 @@ class AsteroidsUtils;
 
 class NewRoundState : public GameState {
 public:
-    NewRoundState() {}
+    NewRoundState(FighterUtils* fUtils, AsteroidsUtils* aUtils): _fighterUtils(fUtils), _asteroidsUtils(aUtils) {}
     ~NewRoundState() {}
 
     void enter() override;   
