@@ -2,11 +2,8 @@
 
 #include "Game.h"
 
-#include "BounceOnBorders.h"
-#include "GameInfoMsgs.h"
 #include "GameState.h"
 #include "Image.h"
-#include "RectangleViewer.h"
 #include "ShowAtOppositeSide.h"
 #include "Transform.h"
 #include "Manager.h"

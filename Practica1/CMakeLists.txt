@@ -73,14 +73,7 @@ add_executable(TPV2_Practica1
     src/json/src/JSON.cpp
     src/json/src/JSONValue.cpp
 
-	src/components/BounceOnBorders.cpp
-	src/components/GameInfoMsgs.cpp
 	src/components/Image.cpp
-	src/components/PaddleAICtrl.cpp
-	src/components/PaddleKBCtrl.cpp
-	src/components/PaddleMouseCtrl.cpp
-	src/components/RectangleViewer.cpp
-	src/components/StopOnBorders.cpp
 	src/components/ShowAtOppositeSide.cpp
 	src/components/DeAcceleration.cpp
 	src/components/Health.cpp

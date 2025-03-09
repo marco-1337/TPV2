@@ -12,6 +12,8 @@
 
 #include "Game.h"
 
+#include "ecs_defs.h"
+
 #include "SDLUtils.h"
 
 FighterUtils::FighterUtils()
@@ -31,8 +33,8 @@ void FighterUtils::create_fighter()
 	fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), FIGHTER_SIZE, FIGHTER_SIZE, 0.0f);
 
 	_mngr->addComponent<DeAcceleration>(fighter, fighterTr);
-	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
 	_mngr->addComponent<Health>(fighter);
+	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
 	_mngr->addComponent<FighterCtrl>(fighter);
 	_mngr->addComponent<Gun>(fighter);
 	_mngr->addComponent<ShowAtOppositeSide>(fighter);

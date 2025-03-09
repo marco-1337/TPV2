@@ -30,7 +30,6 @@ FighterCtrl::handleInput() {
         _myTransform->setRot(_myTransform->getRot() + rotation);
     }
     else if(inhdlr.isKeyDown(SDLK_UP)) {
-        std::cout << "THRUST\n";
         auto &vel = _myTransform->getVel();
         auto newVel = vel + Vector2D(0, -1).rotate(_myTransform->getRot()) * thrust;
         if(newVel.magnitude() > speedLimit) 
