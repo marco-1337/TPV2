@@ -13,14 +13,16 @@
 
 #include "Game.h"
 
-RunningState::RunningState(FighterUtils* fUtils, AsteroidsUtils* aUtils): _fighterUtils(fUtils), _asteroidsUtils(aUtils) {
+RunningState::RunningState(FighterUtils* fUtils, AsteroidsUtils* aUtils)
+: _fighterUtils(fUtils)
+, _asteroidsUtils(aUtils) {
     _mngr = Game::Instance()->getMngr();
 }
 
 void
 RunningState::enter() {
     _fighter = _mngr->getHandler(ecs::hdlr::FIGHTER);
-    _asteroids = _mngr->getEntities(ecs::grp::ASTEROIDS);
+    _asteroids = &(_mngr->getEntities(ecs::grp::ASTEROIDS));
     _lastSpawnTime = sdlutils().virtualTimer().currTime();
 }
 
@@ -38,7 +40,7 @@ RunningState::update() {
         return;
     }
 
-    if(_asteroids.size() == 0) {
+    if(_asteroids->size() == 0) {
         Game::Instance()->setState(Game::GAMEOVER);
         return;
     }
@@ -48,7 +50,7 @@ RunningState::update() {
     // UPDATE ENTITIES
     _mngr->update(_fighter);
 
-    for(auto& a : _asteroids) 
+    for(auto& a : *_asteroids) 
         _mngr->update(a);
    
     // COLLISIONS
@@ -57,7 +59,7 @@ RunningState::update() {
     // RENDER ENTITIES
     _mngr->render(_fighter);
 
-    for(auto& a : _asteroids) 
+    for(auto& a : *_asteroids) 
         _mngr->render(a);
     
     // REFRESH
@@ -74,8 +76,8 @@ void
 RunningState::checkCollisions() {
     auto fighterTr = _mngr->getComponent<Transform>(_fighter);
 
-    for(int i = 0; i < _asteroids.size(); ++i) {
-        auto aTr = _mngr->getComponent<Transform>(_asteroids[i]);
+    for(int i = 0; i < _asteroids->size(); ++i) {
+        auto aTr = _mngr->getComponent<Transform>(_asteroids->at(i));
 
         // Si hay colisión entre asteroide y caza
         if(Collisions::collidesWithRotation(
@@ -101,7 +103,7 @@ RunningState::checkCollisions() {
                             it->pos, it->width, it->height, it->rot,
                             aTr->getPos(), aTr->getWidth(), aTr->getHeight(), aTr->getRot()))
             {
-                _asteroidsUtils->split_asteroid(_asteroids[i]);
+                _asteroidsUtils->split_asteroid(_asteroids->at(i));
                 it->used = false;
             }
             ++it;

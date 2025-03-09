@@ -30,7 +30,7 @@ protected:
     AsteroidsUtils* _asteroidsUtils;
 
     ecs::entity_t _fighter;
-    std::vector<ecs::entity_t> _asteroids;
+    const std::vector<ecs::entity_t>* _asteroids;
 
     Uint32 _lastSpawnTime;
 
