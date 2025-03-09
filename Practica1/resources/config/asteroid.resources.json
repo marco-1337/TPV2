@@ -23,7 +23,8 @@
     ],
     
     "sounds" : [
-      { "id" : "thrust", "file" : "resources/sound/thrust.wav" }
+      { "id" : "thrust", "file" : "resources/sound/thrust.wav" },
+      { "id" : "shoot", "file" : "resources/sound/laser.wav" }
     ]
   
   }

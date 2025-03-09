@@ -106,7 +106,7 @@ AsteroidsUtils::split_asteroid(ecs::entity_t a) {
         for(int i = 0; i < 2; ++i) {
             a_child = _mngr->addEntity(ecs::grp::ASTEROIDS);
 
-            int r = sdlutils().rand().nextInt(0,360);    
+            int r = sdlutils().rand().nextInt(0,360);
             Vector2D pos = tr->getPos() + tr->getVel().rotate(r) * 2 * std::max(tr->getWidth(), tr->getHeight());     
             Vector2D vel = tr->getVel().rotate(r) * 1.1f;  
 

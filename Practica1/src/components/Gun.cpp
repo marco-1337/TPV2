@@ -14,6 +14,8 @@ void
 Gun::initComponent() {
     _tex = &sdlutils().images().at("bullet");
     _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
+    _shootEffect = &sdlutils().soundEffects().at("shoot");
+    _shootEffect->setVolume(50);
 }
 
 void
@@ -37,6 +39,7 @@ Gun::handleInput() {
         canShoot = false;
 
         _lastShootingTime = sdlutils().virtualTimer().currTime();
+        _shootEffect->play();
     }
     if(!canShoot)
         canShoot = sdlutils().virtualTimer().currTime()  >= _lastShootingTime + 250;

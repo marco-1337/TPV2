@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Vector2D.h"
 #include "SDL.h"
+#include "SoundEffect.h"
 
 #include <array>
 
@@ -48,4 +49,6 @@ private:
     Transform* _tr;
     Uint32 _lastShootingTime;
     bool canShoot = true;
+
+	SoundEffect* _shootEffect = nullptr;
 };
