@@ -16,6 +16,7 @@ FighterCtrl::initComponent()
 {
     _myTransform = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
     _thrustEffect = &sdlutils().soundEffects().at("thrust");
+    _thrustEffect->setVolume(10);
 }
 
 void

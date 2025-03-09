@@ -111,7 +111,7 @@ void Game::start() {
 		Uint32 startTime = vt.regCurrTime();
 
 		ihdlr.refresh();
-		
+
 		if (ihdlr.isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			exit = true;
 			continue;

@@ -40,10 +40,15 @@ void FighterUtils::create_fighter()
 
 void FighterUtils::reset_fighter()
 {
-    Vector2D& fighterTrPos = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER))->getPos();
+	Transform* fighterTransform = _mngr->getComponent<Transform>(_mngr->getHandler(ecs::hdlr::FIGHTER));
+    Vector2D& fighterTrPos = fighterTransform->getPos();
 
-    fighterTrPos.setX((sdlutils().width() - FIGHTER_SIZE) / 2.0f);
-    fighterTrPos.setX((sdlutils().height() - FIGHTER_SIZE) / 2.0f);
+	fighterTransform->getPos() = {
+		(sdlutils().width() - FIGHTER_SIZE) / 2.0f, 
+		(sdlutils().height() - FIGHTER_SIZE) / 2.0f
+		};
+	fighterTransform->getVel() = {0, 0};
+	fighterTransform->setRot(0.);
 
     _mngr->getComponent<Gun>(_mngr->getHandler(ecs::hdlr::FIGHTER))->reset();
 }
