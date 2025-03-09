@@ -23,12 +23,10 @@ FighterCtrl::handleInput() {
 
     auto &inhdlr = ih();
     if(inhdlr.isKeyDown(SDLK_LEFT)) {
-        std::cout << "ROTAR IZQUIERDA\n";
-        _myTransform->setRot(_myTransform->getRot() - 5.0f);
+        _myTransform->setRot(_myTransform->getRot() - rotation);
     }
     else if(inhdlr.isKeyDown(SDLK_RIGHT)) {
-        std::cout << "ROTAR DERECHA\n";
-        _myTransform->setRot(_myTransform->getRot() + 5.0f);
+        _myTransform->setRot(_myTransform->getRot() + rotation);
     }
     else if(inhdlr.isKeyDown(SDLK_UP)) {
         std::cout << "THRUST\n";
@@ -39,7 +37,6 @@ FighterCtrl::handleInput() {
 
         vel = newVel;
 
-        // TODO: cambiar sonido de thrust
-        //_thrustEffect->play();
+        _thrustEffect->play();
     }
 }

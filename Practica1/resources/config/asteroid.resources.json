@@ -23,7 +23,7 @@
     ],
     
     "sounds" : [
-      { "id" : "thrust", "file" : "resources/sound/imperial_march.wav" }
+      { "id" : "thrust", "file" : "resources/sound/thrust.wav" }
     ]
   
   }

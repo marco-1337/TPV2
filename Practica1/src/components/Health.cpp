@@ -21,7 +21,9 @@ void Health::render()
     assert(_tex != nullptr);
     auto a = _tex->width();
 
-	SDL_Rect dest = build_sdlrect(*_pos, _tex->width(),_tex->height());
-
-	_tex->render(dest, 0.);
+    
+    for(int i = 0; i < _health; ++i) {
+        SDL_Rect dest = build_sdlrect(_pos->getX() * i, _pos->getY(), _tex->width(),_tex->height());
+	    _tex->render(dest, 0.);   
+    }
 }

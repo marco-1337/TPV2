@@ -1,0 +1,18 @@
+{
+    "fighter" : 
+    {
+        "health": 3,
+        "thrust": 0.2,
+        "speed_limit": 3.0,
+        "rotation": 5.0,
+        "shooting_frequency": 0.25
+    },
+
+    "asteroids" :
+    {
+        "initial_number": 10,
+        "frequency": 5,
+        "split": 2,
+        "generations": 3
+    }
+}

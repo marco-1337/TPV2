@@ -21,4 +21,5 @@ protected:
 
 	float thrust = 0.2f;
 	float speedLimit = 3.0f;
+	float rotation = 5.0f;
 };
