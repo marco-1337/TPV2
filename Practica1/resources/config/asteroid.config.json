@@ -13,6 +13,9 @@
         "initial_number": 10,
         "frequency": 5,
         "split": 2,
-        "generations": 3
-    }
+        "generations": 3,
+        "golden_chance": 3
+    },
+
+    "volume" : 10
 }

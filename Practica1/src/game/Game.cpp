@@ -117,12 +117,12 @@ void Game::start() {
 			continue;
 		}
 
-		_state->update();
-
-		sdlutils().presentRenderer();
 		sdlutils().clearRenderer();
+		
+		_state->update();
+		sdlutils().presentRenderer();
 
-		Uint32 frameTime = sdlutils().currRealTime() - startTime;
+		Uint32 frameTime = vt.currRealTime() - startTime;
 		if (frameTime < 10) SDL_Delay(10 - frameTime);
 	}
 
