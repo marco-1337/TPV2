@@ -19,11 +19,9 @@ Health::initComponent()
 void Health::render()
 {
     assert(_tex != nullptr);
-    auto a = _tex->width();
-
     
     for(int i = 0; i < _health; ++i) {
-        SDL_Rect dest = build_sdlrect(_pos->getX() * i, _pos->getY(), _tex->width(),_tex->height());
+        SDL_Rect dest = build_sdlrect(_pos->getX() +  _tex->width()/2 * i, _pos->getY(), _tex->width()/2,_tex->height()/2);
 	    _tex->render(dest, 0.);   
     }
 }
