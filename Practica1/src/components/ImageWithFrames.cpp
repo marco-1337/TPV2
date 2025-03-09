@@ -13,6 +13,8 @@
 
 #include "SDLUtils.h"
 
+#include <iostream>
+
 ImageWithFrames::ImageWithFrames() 
 :_tr(), 
 _tex(), 
@@ -56,7 +58,11 @@ void ImageWithFrames::render() {
 
 	assert(_tex != nullptr);
 
-    Vector2D frameOrigin = Vector2D(_tex->height() * (_currentFrame % _cols), _tex->width() * (_currentFrame % _rows));
+    Vector2D frameOrigin = Vector2D(
+        _tex->width()/_cols * (_currentFrame % _cols),
+        _tex->height()/_rows * (_currentFrame / _cols)
+        );
+
     SDL_Rect frame = build_sdlrect(frameOrigin,_tex->width() / _cols, _tex->height() / _rows);
 
 	_tex->render(frame, dest);
