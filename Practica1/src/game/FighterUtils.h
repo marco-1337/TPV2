@@ -1,3 +1,4 @@
+#pragma once
 
 #include "FighterFacade.h"
 
@@ -8,7 +9,7 @@ namespace ecs {
 class FighterUtils: public FighterFacade
 {
 public:
-    inline FighterUtils(ecs::Manager* _mngr): _mngr(_mngr) {}
+    FighterUtils();
     inline ~FighterUtils() {}
 
     void create_fighter() override;
@@ -18,6 +19,5 @@ public:
     
 private:
     ecs::Manager* _mngr;
-    
     static constexpr float FIGHTER_SIZE = 45.0f;
 };

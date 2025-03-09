@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "Transform.h"
 
+#include "Game.h"
+
 #include "SDLUtils.h"
 
 ImageWithFrames::ImageWithFrames() 
@@ -33,7 +35,7 @@ ImageWithFrames::~ImageWithFrames() {
 }
 
 void ImageWithFrames::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
     _lastFrameTime = sdlutils().virtualTimer().currTime();

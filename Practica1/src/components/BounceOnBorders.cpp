@@ -6,6 +6,7 @@
 #include "Manager.h"
 #include "SDLUtils.h"
 #include "Transform.h"
+#include "Game.h"
 
 BounceOnBorders::BounceOnBorders() :
 		_tr(nullptr) {
@@ -15,7 +16,7 @@ BounceOnBorders::~BounceOnBorders() {
 }
 
 void BounceOnBorders::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
 }

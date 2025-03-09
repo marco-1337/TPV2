@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SDL.h"
 #include "GameState.h"
 
 #include "ecs.h"
@@ -11,7 +12,7 @@ class AsteroidsUtils;
 
 class RunningState : public GameState {
 public:
-    RunningState(ecs::Manager* mgr);
+    RunningState();
     ~RunningState() {}
 
     void enter() override;   

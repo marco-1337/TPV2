@@ -11,7 +11,7 @@
 #include "Health.h"
 #include "Gun.h"
 
-RunningState::RunningState(ecs::Manager* mgr) : GameState(mgr) {
+RunningState::RunningState() {
     _fighter = _mgr->getHandler(ecs::hdlr::FIGHTER);
     _asteroids = _mgr->getEntities(ecs::grp::ASTEROIDS);
     _lastSpawnTime = sdlutils().virtualTimer().currTime();

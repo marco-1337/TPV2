@@ -8,6 +8,8 @@
 #include "SDLUtils.h"
 #include "Transform.h"
 
+#include "Game.h"
+
 StopOnBorders::StopOnBorders() :
 		_tr() {
 }
@@ -16,7 +18,7 @@ StopOnBorders::~StopOnBorders() {
 }
 
 void StopOnBorders::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
 }

@@ -10,8 +10,14 @@
 #include "Gun.h"
 #include "ShowAtOppositeSide.h"
 
+#include "Game.h"
 
 #include "SDLUtils.h"
+
+FighterUtils::FighterUtils()
+{
+	_mngr = Game::Instance()->getMngr();
+}
 
 void FighterUtils::create_fighter()
 {

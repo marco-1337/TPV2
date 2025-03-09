@@ -6,7 +6,7 @@
 
 class GameOverState : public GameState {
 public:
-    GameOverState(ecs::Manager* mgr) : GameState(mgr) {}
+    GameOverState() {}
     ~GameOverState() {}
 
     void enter() override;   

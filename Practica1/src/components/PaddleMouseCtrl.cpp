@@ -6,6 +6,8 @@
 #include "InputHandler.h"
 #include "Transform.h"
 
+#include "Game.h"
+
 PaddleMouseCtrl::PaddleMouseCtrl() :
 		_tr(nullptr) {
 }
@@ -14,7 +16,7 @@ PaddleMouseCtrl::~PaddleMouseCtrl() {
 }
 
 void PaddleMouseCtrl::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
 }

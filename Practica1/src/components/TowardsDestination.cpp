@@ -4,6 +4,8 @@
 #include "Manager.h"
 #include "SDLUtils.h"
 
+#include "Game.h"
+
 TowardsDestination::TowardsDestination(){}
 
 TowardsDestination::~TowardsDestination()
@@ -13,7 +15,7 @@ TowardsDestination::~TowardsDestination()
 
 void
 TowardsDestination::initComponent() {
-    _myTr = _ent->getMngr()->getComponent<Transform>(_ent);
+    _myTr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
 
     _destination = new Vector2D(sdlutils().rand().nextInt(0, sdlutils().width()+1), 
         sdlutils().rand().nextInt(0, sdlutils().width()+1));

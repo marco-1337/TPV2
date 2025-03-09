@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Manager.h"
 
+#include "Game.h"
 
 ShowAtOppositeSide::ShowAtOppositeSide() {}
 
@@ -11,7 +12,7 @@ ShowAtOppositeSide::~ShowAtOppositeSide() {}
 
 void
 ShowAtOppositeSide::initComponent() {
-    _tr = _ent->getMngr()->getComponent<Transform>(_ent);
+    _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
 }
 
 void ShowAtOppositeSide::update() {

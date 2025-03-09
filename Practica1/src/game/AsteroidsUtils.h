@@ -1,10 +1,12 @@
+#pragma once
+
 #include "AsteroidsFacade.h"
 #include "Manager.h"
 
 class AsteroidsUtils: public AsteroidsFacade
 {
 public:
-    AsteroidsUtils(ecs::Manager* mgr): _mgr(mgr) { }
+    AsteroidsUtils();
     
     virtual ~AsteroidsUtils() { }
     
@@ -14,5 +16,5 @@ public:
     
     void split_asteroid(ecs::entity_t a) override;
 protected:
-    ecs::Manager* _mgr;
+    ecs::Manager* _mngr;
 };

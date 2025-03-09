@@ -2,7 +2,7 @@
 
 #include "Manager.h"
 #include "Transform.h"
-
+#include "Game.h"
 
 Follow::Follow() {
 
@@ -14,9 +14,11 @@ Follow::~Follow() {
 
 void
 Follow::initComponent() {
-    _myTr = _ent->getMngr()->getComponent<Transform>(_ent);
-    auto fighter = _ent->getMngr()->getHandler(ecs::hdlr::FIGHTER);
-    _fighterTr = _ent->getMngr()->getComponent<Transform>(fighter);
+    auto game = Game::Instance();
+
+    _myTr = game->getMngr()->getComponent<Transform>(_ent);
+    auto fighter = game->getMngr()->getHandler(ecs::hdlr::FIGHTER);
+    _fighterTr = game->getMngr()->getComponent<Transform>(fighter);
 }
 
 void

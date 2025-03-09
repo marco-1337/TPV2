@@ -6,13 +6,14 @@
 #include "InputHandler.h"
 #include "SDLUtils.h"
 #include "VirtualTimer.h"
+#include "Game.h"
 
 #include <iostream>
 
 void 
 Gun::initComponent() {
     _tex = &sdlutils().images().at("bullet");
-    _tr = _ent->getMngr()->getComponent<Transform>(_ent);
+    _tr = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
 }
 
 void

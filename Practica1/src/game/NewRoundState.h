@@ -7,7 +7,7 @@ class AsteroidsUtils;
 
 class NewRoundState : public GameState {
 public:
-    NewRoundState(ecs::Manager* mgr) : GameState(mgr) {}
+    NewRoundState() {}
     ~NewRoundState() {}
 
     void enter() override;   

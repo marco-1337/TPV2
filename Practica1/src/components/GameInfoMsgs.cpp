@@ -6,6 +6,8 @@
 #include "SDLUtils.h"
 #include "GameState.h"
 
+#include "Game.h"
+
 GameInfoMsgs::GameInfoMsgs() :
 		_gameState(nullptr) {
 
@@ -16,7 +18,7 @@ GameInfoMsgs::~GameInfoMsgs() {
 }
 
 void GameInfoMsgs::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	// _gameState = mngr->getComponent<GameState>(_ent);
 	// assert(_gameState != nullptr);
 }

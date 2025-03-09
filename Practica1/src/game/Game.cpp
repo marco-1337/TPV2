@@ -20,12 +20,20 @@
 #include "FighterCtrl.h"
 #include "Gun.h"
 
+#include "NewGameState.h"
+#include "NewRoundState.h"
+#include "RunningState.h"
+#include "PausedState.h"
+#include "GameOverState.h"
+
+#include "FighterUtils.h"
+#include "AsteroidsUtils.h"
+
 using ecs::Manager;
 
 Game::Game() :
 		_mngr(nullptr), //
-		_fighterTr(nullptr), //
-		_gameState(nullptr) {
+		_state(nullptr) {
 }
 
 Game::~Game() {
@@ -40,7 +48,7 @@ Game::~Game() {
 		SDLUtils::Release();
 }
 
-void Game::init() {
+bool Game::init() {
 
 	// initialize the SDL singleton
 	if (!SDLUtils::Init("Asteroids", 800, 600,
@@ -48,94 +56,40 @@ void Game::init() {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
-		return;
+		return false;
 	}
 
 	// initialize the InputHandler singleton
 	if (!InputHandler::Init()) {
 		std::cerr << "Something went wrong while initializing SDLHandler"
 				<< std::endl;
-		return;
+		return false;
 
 	}
+
+	return true;
+}
+
+void Game::initGame(){
+
 	sdlutils().hideCursor();
 
 	// Create the manager
 	_mngr = new Manager();
 
+	_newgameState = new NewGameState();
+	_newroundState = new NewRoundState();
+	_runningState = new RunningState();
+	_pausedState = new PausedState();
+	_gameoverState = new GameOverState();
+
 	// Fighter
-	auto fighter = _mngr->addEntity();
-	_mngr->setHandler(ecs::hdlr::FIGHTER, fighter);
+	_fighterUtils = new FighterUtils();
+	_fighterUtils->create_fighter();
 
-	_fighterTr = _mngr->addComponent<Transform>(fighter);
-	auto fighterSize = 45.0f;
-	auto fighterX = (sdlutils().width() - fighterSize) / 2.0f;
-	auto fighterY = (sdlutils().height() - fighterSize) / 2.0f;
+	// Asteroids Utils
+	_asteroidUtils = new AsteroidsUtils();
 
-	_fighterTr->init(Vector2D(fighterX, fighterY), Vector2D(), fighterSize, fighterSize, 0.0f);
-
-	_mngr->addComponent<DeAcceleration>(fighter, _fighterTr);
-	_mngr->addComponent<Image>(fighter, &sdlutils().images().at("fighter"));
-	_mngr->addComponent<Health>(fighter);
-	_mngr->addComponent<FighterCtrl>(fighter);
-	_mngr->addComponent<Gun>(fighter);
-	_mngr->addComponent<ShowAtOppositeSide>(fighter);
-
-/*
-	_mngr = new Manager();
-
-	// create the ball entity
-	//
-	auto ball = _mngr->addEntity();
-	_mngr->setHandler(ecs::hdlr::BALL, ball);
-
-	_ballTr = _mngr->addComponent<Transform>(ball);
-	auto ballSize = 15.0f;
-	auto ballX = (sdlutils().width() - ballSize) / 2.0f;
-	auto ballY = (sdlutils().height() - ballSize) / 2.0f;
-	_ballTr->init(Vector2D(ballX, ballY), Vector2D(), ballSize, ballSize, 0.0f);
-
-	_mngr->addComponent<Image>(ball, &sdlutils().images().at("tennis_ball"));
-	_mngr->addComponent<BounceOnBorders>(ball);
-
-	// create the left paddle
-	auto leftPaddle = _mngr->addEntity(ecs::grp::PADDLES);
-
-	auto leftPaddleTr = _mngr->addComponent<Transform>(leftPaddle);
-	auto leftPaddleWidth = 10.0f;
-	auto leftPaddleHeight = 50.0f;
-	auto leftPaddleX = 5.f;
-	auto leftPaddleY = (sdlutils().height() - leftPaddleHeight) / 2.0f;
-	leftPaddleTr->init(Vector2D(leftPaddleX, leftPaddleY), Vector2D(),
-			leftPaddleWidth, leftPaddleHeight, 0.0f);
-
-	_mngr->addComponent<StopOnBorders>(leftPaddle);
-	_mngr->addComponent<RectangleViewer>(leftPaddle,
-			build_sdlcolor(0xff0000ff));
-//	mngr_->addComponent<PaddleKBCtrl>(leftPaddle);
-//	mngr_->addComponent<PaddleMouseCtrl>(leftPaddle);
-	_mngr->addComponent<PaddleAICtrl>(leftPaddle);
-
-	// create the right paddle
-	auto rightPaddle = _mngr->addEntity(ecs::grp::PADDLES);
-
-	auto rightPaddleTr = _mngr->addComponent<Transform>(rightPaddle);
-	auto rightPaddleWidth = 10.0f;
-	auto rightPaddleHeight = 50.0f;
-	auto rightPaddleX = sdlutils().width() - rightPaddleWidth - 5.0f;
-	auto rightPaddleY = (sdlutils().height() - rightPaddleHeight) / 2.0f;
-	rightPaddleTr->init(Vector2D(rightPaddleX, rightPaddleY), Vector2D(),
-			rightPaddleWidth, rightPaddleHeight, 0.0f);
-
-	_mngr->addComponent<StopOnBorders>(rightPaddle);
-	_mngr->addComponent<RectangleViewer>(rightPaddle,
-			build_sdlcolor(0x00ff00ff));
-
-//	mngr_->addComponent<PaddleKBCtrl>(rightPaddle);
-	_mngr->addComponent<PaddleMouseCtrl>(rightPaddle);
-//	mngr_->addComponent<PaddleAICtrl>(rightPaddle);
-
-*/
 	// create game control entity
 	auto gameCtrl = _mngr->addEntity();
 	//_gameState = _mngr->addComponent<GameState>(gameCtrl);
@@ -171,11 +125,7 @@ void Game::start() {
 			continue;
 		}
 		
-		_mngr->handleInput();
-		_mngr->update();
-		_mngr->refresh();
-
-		checkCollisions();
+		_state->update();
 
 		sdlutils().clearRenderer();
 		_mngr->render();
@@ -190,40 +140,29 @@ void Game::start() {
 
 }
 
-void Game::checkCollisions() {
-	// if (_gameState->getState() != GameState::RUNNING)
-	// 	return;
+void
+Game::setState(State s)
+{
+	_state->leave();
 
-/*
-	bool ballCollidesWithPaddle = false;
-
-	auto &ballPos = _ballTr->getPos();
-	auto ballWidth = _ballTr->getWidth();
-	auto ballHeight = _ballTr->getHeight();
-
-	for (auto e : _mngr->getEntities(ecs::grp::PADDLES)) {
-		auto paddleTr_ = _mngr->getComponent<Transform>(e);
-		ballCollidesWithPaddle = Collisions::collides(paddleTr_->getPos(),
-				paddleTr_->getWidth(), paddleTr_->getHeight(), ballPos,
-				ballWidth, ballHeight);
-
-		if (ballCollidesWithPaddle)
-			break;
-	}
-
-	if (ballCollidesWithPaddle) {
-
-		// change the direction of the ball, and increment the speed
-		auto &vel = _ballTr->getVel(); // the use of & is important, so the changes goes directly to the ball
-		vel.setX(-vel.getX());
-		vel = vel * 1.2f;
-
-		// play some sound
-		sdlutils().soundEffects().at("paddle_hit").play();
-	} else if (_ballTr->getPos().getX() < 0)
-		_gameState->onBallExit(GameState::LEFT);
-	else if (_ballTr->getPos().getX() + _ballTr->getWidth()
-			> sdlutils().width())
-		_gameState->onBallExit(GameState::RIGHT);
-*/
+		switch (s) {
+			case RUNNING:
+				_state = _runningState;
+				break;
+			case PAUSED:
+				_state = _pausedState;
+				break;
+			case NEWGAME:
+				_state = _newgameState;
+				break;
+			case NEWROUND:
+				_state = _newroundState;
+				break;
+			case GAMEOVER:
+				_state = _gameoverState;
+				break;
+			default:
+				break;
+		}
+	_state->enter();
 }

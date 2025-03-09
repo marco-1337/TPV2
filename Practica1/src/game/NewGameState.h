@@ -6,7 +6,7 @@ class FighterUtils;
 
 class NewGameState: public GameState {
 public:
-    NewGameState(ecs::Manager* mgr) : GameState(mgr) {}
+    NewGameState() {}
     ~NewGameState() {}
 
     void enter() override;   

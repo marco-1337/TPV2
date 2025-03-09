@@ -28,7 +28,7 @@ public:
 	inline entity_t addEntity(ecs::grpId_t gId = ecs::grp::DEFAULT) {
 
 		// create and initialise the entity
-		auto e = new Entity(gId, this);
+		auto e = new Entity(gId);
 		e->_alive = true;
 
 		// add the entity 'e' to list of entities of the given group

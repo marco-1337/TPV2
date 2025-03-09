@@ -8,6 +8,8 @@
 #include "SDLUtils.h"
 #include "Transform.h"
 
+#include "Game.h"
+
 RectangleViewer::RectangleViewer() :
 		RectangleViewer(build_sdlcolor(0xffffffff), false) {
 }
@@ -22,7 +24,7 @@ RectangleViewer::~RectangleViewer() {
 }
 
 void RectangleViewer::initComponent() {
-	auto mngr = _ent->getMngr();
+	auto mngr = Game::Instance()->getMngr();
 	_tr = mngr->getComponent<Transform>(_ent);
 	assert(_tr != nullptr);
 }

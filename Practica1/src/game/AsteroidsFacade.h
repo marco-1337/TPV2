@@ -1,6 +1,5 @@
+#pragma once
 
-class Entity;
-class Manager;
 #include "ecs.h"
 
 class AsteroidsFacade {

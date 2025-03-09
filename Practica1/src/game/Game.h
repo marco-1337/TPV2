@@ -3,6 +3,13 @@
 #pragma once
 
 #include <vector>
+#include "sdlutils.h"
+
+#include "AsteroidsUtils.h"
+#include "FighterUtils.h"
+
+class FighterUtils;
+class AsteroidUtils;
 
 namespace ecs {
 class Manager;
@@ -11,22 +18,38 @@ class Manager;
 class Transform;
 class GameState;
 
-class Game {
-public:
+class Game : public Singleton<Game> {
+private:
+	friend Singleton<Game>;
+
 	Game();
 	virtual ~Game();
-	void init();
-	void start();
-private:
-	void checkCollisions();
-	ecs::Manager *_mngr;
+	bool init();
 
-	Transform *_fighterTr;
-	GameState *_gameState;
+	ecs::Manager* _mngr;
+
+	FighterUtils* _fighterUtils;
+	AsteroidsUtils* _asteroidUtils;
+
+	GameState* _state;
+
+	GameState* _pausedState;
+	GameState* _runningState;
+	GameState* _newgameState;
+	GameState* _newroundState;
+	GameState* _gameoverState;
 
 public:
+	void initGame();
+	void start();
+
 	inline ecs::Manager* getMngr() {
 		return _mngr;
 	}
-};
 
+	enum State {
+		RUNNING, PAUSED, NEWGAME, NEWROUND, GAMEOVER
+	};
+
+	void setState(State s);
+};

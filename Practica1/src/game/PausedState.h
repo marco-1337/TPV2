@@ -4,7 +4,7 @@
 
 class PausedState : public GameState {
 public:
-    PausedState(ecs::Manager* mgr) : GameState(mgr) {}
+    PausedState() {}
     ~PausedState() {}
 
     void enter() override;   

@@ -6,7 +6,7 @@ class Manager;
 
 class GameState {
 public:
-	GameState(ecs::Manager* mgr) : _mgr(mgr) {};
+	GameState() {};
 	virtual ~GameState() {};
 
 	virtual void enter() = 0;   

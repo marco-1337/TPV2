@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Manager.h"
 #include "SDLUtils.h"
+#include "Game.h"
 
 FighterCtrl::FighterCtrl() {}
 
@@ -11,8 +12,7 @@ FighterCtrl::~FighterCtrl() {}
 void 
 FighterCtrl::initComponent()
 {
-    _myTransform = _ent->getMngr()->getComponent<Transform>(_ent);
-
+    _myTransform = Game::Instance()->getMngr()->getComponent<Transform>(_ent);
     _thrustEffect = &sdlutils().soundEffects().at("thrust");
 }
 
