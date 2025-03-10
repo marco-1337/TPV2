@@ -39,6 +39,14 @@ Game::Game() :
 Game::~Game() {
 	delete _mngr;
 
+	delete _fighterUtils;
+	delete _asteroidUtils;
+	delete _pausedState;
+	delete _runningState;
+	delete _newgameState;
+	delete _newroundState;
+	delete _gameoverState;
+
 	// release InputHandler if the instance was created correctly.
 	if (InputHandler::HasInstance())
 		InputHandler::Release();

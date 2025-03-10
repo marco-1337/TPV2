@@ -21,6 +21,8 @@ int main(int, char**) {
 		std::cerr << "Caught and exception of unknown type ...";
 	}
 
+	Game::Instance()->Release();
+
 	return 0;
 }
 
