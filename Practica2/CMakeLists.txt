@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15...3.30)
 
-project(TPV2_Ejercicios VERSION 0.1 LANGUAGES CXX)
+project(TPV2_Practica2 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -58,7 +58,7 @@ include_directories(
 
 
 # Crear ejecutable
-add_executable(TPV2_Practica1
+add_executable(TPV2_Practica2
 	
 	main.cpp
 
@@ -85,7 +85,7 @@ add_executable(TPV2_Practica1
 	src/systems/StarsSystem.cpp
 )
 # Definir directorios de salida
-set_target_properties(TPV2_Practica1 PROPERTIES 
+set_target_properties(TPV2_Practica2 PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/Debug
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/Release
@@ -93,26 +93,26 @@ set_target_properties(TPV2_Practica1 PROPERTIES
 
 set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
 
-add_custom_command(TARGET TPV2_Practica1 POST_BUILD
+add_custom_command(TARGET TPV2_Practica2 POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${RESOURCES_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>/resources
+	${RESOURCES_DIR} $<TARGET_FILE_DIR:TPV2_Practica2>/resources
 )
 
 if (CMAKE_HOST_WIN32)
     set(DLL_DIR ${CMAKE_SOURCE_DIR}/dlls)
 
-    add_custom_command(TARGET TPV2_Practica1 POST_BUILD
+    add_custom_command(TARGET TPV2_Practica2 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${DLL_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>
+        ${DLL_DIR} $<TARGET_FILE_DIR:TPV2_Practica2>
     )
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 		set(PDB_DIR ${CMAKE_SOURCE_DIR}/pdbs)
 
-		add_custom_command(TARGET TPV2_Practica1 POST_BUILD
+		add_custom_command(TARGET TPV2_Practica2 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${PDB_DIR} $<TARGET_FILE_DIR:TPV2_Practica1>
+		${PDB_DIR} $<TARGET_FILE_DIR:TPV2_Practica2>
 	)
 	endif()
 
