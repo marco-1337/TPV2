@@ -6,8 +6,11 @@
 
 using msgId_type = uint8_t;
 enum msgId : msgId_type {
-	_m_STAR_EATEN, //
-	_m_CREATE_STARS
+	_m_STAR_EATEN, // TODO: quitar
+	_m_CREATE_STARS, // TODO: quitar
+	_m_NEW_GAME, _m_ROUND_START, _m_ROUND_OVER, _m_GAME_OVER,
+	_m_PACMAN_FOOD_COLLISION, _m_PACMAN_GHOST_COLLISION,
+	_m_IMMUNITY_START, _m_IMMUNITY_END
 };
 
 
@@ -16,7 +19,7 @@ struct Message {
 
 	// if we use union we save memory, but then use only primitive
 	// types, otherwise you will need to define constructors almost
-	// every where.
+	// everywhere.
 
 	union {
 
