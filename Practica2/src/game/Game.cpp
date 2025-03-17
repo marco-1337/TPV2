@@ -13,20 +13,30 @@
 #include "../utils/Vector2D.h"
 #include "../utils/Collisions.h"
 
+#include "GameState.h"
+
 using ecs::Manager;
 
 Game::Game() :
 		_mngr(), //
+		//_state(), //
 		_pacmanSys(), //
 		_gameCtrlSys(), //
 		_startsSys(), //
 		_renderSys(), //
 		_collisionSys() {
-
 }
 
 Game::~Game() {
 	delete _mngr;
+
+	/*
+	delete _pausedState;
+	delete _runningState;
+	delete _newgameState;
+	delete _newroundState;
+	delete _gameoverState;
+	*/
 
 	// release InputHandler if the instance was created correctly.
 	if (InputHandler::HasInstance())
@@ -37,24 +47,28 @@ Game::~Game() {
 		SDLUtils::Release();
 }
 
-void Game::init() {
+bool Game::init() {
 
 	// initialize the SDL singleton
-	if (!SDLUtils::Init("PacMan, Stars, ...", 800, 600,
+	if (!SDLUtils::Init("PacMan 2", 800, 600,
 			"resources/config/resources.json")) {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
-		return;
+		return false;
 	}
 
 	// initialize the InputHandler singleton
 	if (!InputHandler::Init()) {
 		std::cerr << "Something went wrong while initializing SDLHandler"
 				<< std::endl;
-		return;
-
+		return false;
 	}
+
+	return true;
+}
+
+void Game::initGame() {
 
 	// Create the manager
 	_mngr = new Manager();
@@ -65,6 +79,8 @@ void Game::init() {
 	_gameCtrlSys = _mngr->addSystem<GameCtrlSystem>();
 	_renderSys = _mngr->addSystem<RenderSystem>();
 	_collisionSys = _mngr->addSystem<CollisionsSystem>();
+
+	std::cout << "[Game.cpp | initGame()] TO DO: Inicializar todos los estados \n";
 }
 
 void Game::start() {
@@ -101,6 +117,4 @@ void Game::start() {
 		if (frameTime < 10)
 			SDL_Delay(10 - frameTime);
 	}
-
 }
-

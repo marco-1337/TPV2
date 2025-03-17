@@ -5,15 +5,34 @@
 #include <vector>
 
 #include "../ecs/ecs.h"
+#include "../sdlutils/SDLUtils.h"
 
-class Game {
+class GameState;
+
+class Game : public Singleton<Game> {
 public:
-	Game();
-	virtual ~Game();
-	void init();
+	void initGame();
 	void start();
 private:
-	ecs::Manager *_mngr;
+	friend Singleton<Game>;
+
+	Game();
+	virtual ~Game();
+	
+	bool init();
+
+	ecs::Manager* _mngr;
+
+	//GameState* _state;
+
+	/*
+	GameState* _pausedState;
+	GameState* _runningState;
+	GameState* _newgameState;
+	GameState* _newroundState;
+	GameState* _gameoverState;
+	*/
+
 	ecs::System *_pacmanSys;
 	ecs::System *_gameCtrlSys;
 	ecs::System *_startsSys;
