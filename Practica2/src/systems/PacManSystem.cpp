@@ -5,6 +5,7 @@
 #include "../components/Image.h"
 #include "../components/Transform.h"
 #include "../components/Health.h"
+#include "../components/Immunity.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
@@ -27,7 +28,10 @@ void PacManSystem::initSystem() {
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	_pmTR->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+
 	_mngr->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<Health>(pacman, 3); // TODO config
+	_mngr->addComponent<Immunity>(pacman, false);
 }
 
 void PacManSystem::update() {
