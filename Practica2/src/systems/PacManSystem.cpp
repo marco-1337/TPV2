@@ -4,6 +4,7 @@
 
 #include "../components/Image.h"
 #include "../components/Transform.h"
+#include "../components/Health.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
@@ -17,12 +18,12 @@ PacManSystem::~PacManSystem() {
 
 void PacManSystem::initSystem() {
 	// create the PacMan entity
-	//
+
 	auto pacman = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::PACMAN, pacman);
 
 	_pmTR = _mngr->addComponent<Transform>(pacman);
-	auto s = 50.0f;
+	auto s = 50.0f; // TODO config
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 	_pmTR->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
@@ -73,3 +74,18 @@ void PacManSystem::update() {
 	}
 
 }
+
+void PacManSystem::resetPosition() {
+	auto pacman = _mngr->getHandler(ecs::hdlr::PACMAN);
+	
+	auto x = (sdlutils().width() - _pmTR->_width) / 2.0f;
+	auto y = (sdlutils().height() - _pmTR->_height) / 2.0f;
+
+	_pmTR->_pos = Vector2D(x,y);
+}
+
+void PacManSystem::resetLives() {
+	auto health = _mngr->getComponent<Health>(_mngr->getHandler(ecs::hdlr::PACMAN));
+	health->_health = health->_maxHealth;
+}
+

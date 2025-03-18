@@ -13,6 +13,8 @@ public:
 	virtual ~PacManSystem();
 	void initSystem() override;
 	void update() override;
+	void resetPosition();
+	void resetLives();
 private:
 	Transform *_pmTR;
 };
