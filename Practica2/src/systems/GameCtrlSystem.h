@@ -23,7 +23,7 @@ public:
 
 	void initSystem() override;
 	void update() override;
-	void recieve(const Message &m) override;
+	void receive(const Message &m) override;
 
 private:
 	unsigned int _score;

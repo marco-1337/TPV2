@@ -58,7 +58,7 @@ void GameCtrlSystem::onBallExit(Side side) {
 	}
 }
 
-void GameCtrlSystem::recieve(const Message &m) {
+void GameCtrlSystem::receive(const Message &m) {
 	switch (m.id) {
 	case _m_BALL_EXIT:
 		onBallExit(static_cast<Side>(m.ball_exit.side));

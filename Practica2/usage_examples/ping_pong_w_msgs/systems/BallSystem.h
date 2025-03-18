@@ -13,7 +13,7 @@ public:
 
 	void initSystem() override;
 	void update() override;
-	void recieve(const Message&) override;
+	void receive(const Message&) override;
 private:
 	void resetBall();
 	void moveBall();

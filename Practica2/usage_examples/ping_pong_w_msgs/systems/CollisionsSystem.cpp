@@ -58,7 +58,7 @@ void CollisionsSystem::update() {
 	}
 }
 
-void CollisionsSystem::recieve(const Message &m) {
+void CollisionsSystem::receive(const Message &m) {
 	switch (m.id) {
 	case _m_ROUND_START:
 		_active = true;

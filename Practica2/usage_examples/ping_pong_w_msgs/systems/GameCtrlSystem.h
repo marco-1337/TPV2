@@ -35,7 +35,7 @@ public:
 	}
 
 	void update() override;
-	void recieve(const Message&) override;
+	void receive(const Message&) override;
 
 
 

@@ -102,7 +102,7 @@ void StarsSystem::onStarEaten(ecs::entity_t e) {
 	sdlutils().soundEffects().at("pacman_eat").play(0, 1);
 }
 
-void StarsSystem::recieve(const Message &m) {
+void StarsSystem::receive(const Message &m) {
 	switch (m.id) {
 	case _m_STAR_EATEN:
 		onStarEaten(m.star_eaten_data.e);

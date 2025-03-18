@@ -235,7 +235,7 @@ public:
 		if (!delay) {
 			for (System *s : _sys) {
 				if (s != nullptr)
-					s->recieve(m);
+					s->receive(m);
 			}
 		} else {
 			// will make a copy of m, we could use std::move to move it
@@ -259,7 +259,7 @@ public:
 			auto &m = _msgs[i];
 			for (System *s : _sys) {
 				if (s != nullptr)
-					s->recieve(m);
+					s->receive(m);
 			}
 		}
 
@@ -282,7 +282,7 @@ public:
 		for (auto &m : _msgs_aux) {
 			for (System *s : _sys) {
 				if (s != nullptr)
-					s->recieve(m);
+					s->receive(m);
 			}
 		}
 

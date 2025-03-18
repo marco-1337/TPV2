@@ -47,7 +47,7 @@ public:
 	// the struct msg is forward declared in ecs.h, the actual message will
 	// be defined by the user
 	//
-	virtual void recieve(const Message&) {
+	virtual void receive(const Message&) {
 	}
 
 protected:

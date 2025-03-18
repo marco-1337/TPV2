@@ -12,7 +12,7 @@ public:
 	void update() override;
 	void addStar(unsigned int n);
 	void onStarEaten(ecs::entity_t e);
-	void recieve(const Message &m) override;
+	void receive(const Message &m) override;
 private:
 	unsigned int _starsLimit;
 	unsigned int _currNumOfStars;

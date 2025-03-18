@@ -62,7 +62,7 @@ void BallSystem::moveBall() {
 	_ballTr->_vel.set(v.normalize() * 2);
 }
 
-void BallSystem::recieve(const Message &m) {
+void BallSystem::receive(const Message &m) {
 	switch (m.id) {
 	case _m_ROUND_START:
 		moveBall();
