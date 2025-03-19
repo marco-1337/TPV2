@@ -18,7 +18,8 @@ struct Points;
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	STARS
+	STARS, \
+	FRUITS
 
 // Handlers list - must have at least one element
 //

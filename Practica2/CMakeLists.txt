@@ -81,7 +81,9 @@ add_executable(TPV2_Practica2
 	src/systems/CollisionsSystem.cpp
 	src/systems/GameCtrlSystem.cpp
 	src/systems/PacManSystem.cpp
+	src/systems/FoodSystem.cpp
 	src/systems/RenderSystem.cpp
+
 	src/systems/StarsSystem.cpp
 )
 # Definir directorios de salida
