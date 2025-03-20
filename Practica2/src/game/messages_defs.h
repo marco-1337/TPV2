@@ -33,5 +33,9 @@ struct Message {
 			unsigned int n;
 		} create_stars_data;
 
+		// _m_PACMAN_GHOST_COLLISION
+		struct {
+			ecs::entity_t e;
+		} pacman_ghost_collision_data;
 	};
 };
