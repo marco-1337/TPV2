@@ -83,6 +83,8 @@ add_executable(TPV2_Practica2
 	src/systems/PacManSystem.cpp
 	src/systems/RenderSystem.cpp
 	src/systems/StarsSystem.cpp
+
+	src/systems/GhostSystem.cpp
 )
 # Definir directorios de salida
 set_target_properties(TPV2_Practica2 PROPERTIES 

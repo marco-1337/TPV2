@@ -8,17 +8,20 @@ struct Transform;
 struct Image;
 struct StarMotion;
 struct Points;
+struct ImageWithFrames;
 
 #define _CMPS_LIST_ \
 	Transform, \
 	Image, \
 	StarMotion, \
-	Points
+	Points, \
+	ImageWithFrames
 
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	STARS
+	STARS, \
+	GHOSTS
 
 // Handlers list - must have at least one element
 //
