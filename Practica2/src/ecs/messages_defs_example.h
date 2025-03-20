@@ -16,7 +16,8 @@
 using msgId_t = uint8_t;
 enum msgId : msgId_t {
 	STAR_EATEN, //
-	CREATE_STARS
+	CREATE_STARS,
+	FRUIT_EATEN
 };
 
 
@@ -39,5 +40,11 @@ struct Message {
 			unsigned int n;
 		} create_stars_data;
 
+		// _m_FRUIT_EATEN
+		struct
+		{
+			ecs::entity_t e;
+		};
+		
 	};
 };

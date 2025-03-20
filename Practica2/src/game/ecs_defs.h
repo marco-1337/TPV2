@@ -21,7 +21,8 @@ struct ImageWithFrames;
 //
 #define _GRPS_LIST_ \
 	STARS, \
-	GHOSTS
+	GHOSTS, \
+	FRUITS
 
 // Handlers list - must have at least one element
 //
