@@ -16,8 +16,7 @@
 using msgId_t = uint8_t;
 enum msgId : msgId_t {
 	STAR_EATEN, //
-	CREATE_STARS,
-	FRUIT_EATEN
+	CREATE_STARS
 };
 
 

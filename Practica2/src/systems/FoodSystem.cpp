@@ -5,6 +5,7 @@
 #include "SDLUtils.h"
 #include "Transform.h"
 #include "Miraculous.h"
+#include "ImageWithFrames.h"
 
 FoodSystem::FoodSystem() : _fruits() {
 }
@@ -53,10 +54,42 @@ void FoodSystem::initSystem() {
 }
 
 void FoodSystem::update() {
+
+    auto currTime = sdlutils().virtualTimer().currRealTime();
+
     for(auto& fruit: _mngr->getEntities(ecs::grp::FRUITS)) {
+
+        // Update miraculous fruits if necessary
         if(_mngr->hasComponent<Miraculous>(fruit)) {
-            
+            auto miraculous = _mngr->getComponent<Miraculous>(fruit);
+
+            if(miraculous->shouldUpdate(currTime)) {
+                miraculous->_miraculousState = !miraculous->_miraculousState;
+                auto texture = _mngr->getComponent<ImageWithFrames>(fruit);
+
+                if(miraculous->_miraculousState)
+                    texture->setFrame(15);
+                else texture->setFrame(12);
+            }
         }
     }
 }
 
+
+void FoodSystem::receive(const Message &m) {
+    switch(m.id) {
+    case _m_PACMAN_FOOD_COLLISION: 
+        onFruitEaten(m.pacman_food_collision_data.e);
+        break;
+    case _m_CREATE_FRUITS:
+        // TODO encapsular comportamiento del init
+        break;
+    }
+}
+
+void FoodSystem::onFruitEaten(ecs::entity_t fruit) {
+    _mngr->setAlive(fruit, false);
+
+	// play sound on channel 1 (if there is something playing there it will be cancelled
+	sdlutils().soundEffects().at("pacman_eat").play(0, 1);
+}

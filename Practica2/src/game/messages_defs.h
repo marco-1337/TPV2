@@ -9,6 +9,7 @@ enum msgId : msgId_type {
 	_m_STAR_EATEN, // TODO: quitar
 	_m_CREATE_STARS, // TODO: quitar
 	_m_NEW_GAME, _m_ROUND_START, _m_ROUND_OVER, _m_GAME_OVER,
+	_m_CREATE_FRUITS, _m_CREATE_GHOSTS,
 	_m_PACMAN_FOOD_COLLISION, _m_PACMAN_GHOST_COLLISION,
 	_m_IMMUNITY_START, _m_IMMUNITY_END
 };
@@ -23,10 +24,10 @@ struct Message {
 
 	union {
 
-		// _m_STAR_EATEN
+		// _m_PACMAN_FOOD_COLLISION
 		struct {
 			ecs::entity_t e;
-		} star_eaten_data;
+		} pacman_food_collision_data;
 
 		// _m_CREATE_STARS
 		struct {

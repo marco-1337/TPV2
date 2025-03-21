@@ -11,8 +11,8 @@ struct Miraculous : public ecs::Component {
 
     Miraculous(int n, int m) 
     : _miraculousState(false)
-    , _n(n)
-    , _m(m)
+    , _nTime(n)
+    , _mTime(m)
     , _lastUpdate()
     {}
 
@@ -20,9 +20,21 @@ struct Miraculous : public ecs::Component {
     //     _miraculousState = !_miraculousState;
     // }
 
+    bool shouldUpdate(Uint32 currTime) {
+        if(_miraculousState && (_lastUpdate + _mTime) > currTime ) {
+            _lastUpdate = currTime;
+            return true;
+        }
+        else if(!_miraculousState && (_lastUpdate + _nTime) > currTime) {
+            _lastUpdate = currTime;
+            return true;
+        }
+        else return false;
+    }
+
     bool _miraculousState;
-    Uint32 _n; // Seconds in normal state
-    Uint32 _m; // Seconds in miraculous state
+    Uint32 _nTime; // Seconds in normal state
+    Uint32 _mTime; // Seconds in miraculous state
 
     Uint32 _lastUpdate;
 };
