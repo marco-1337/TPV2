@@ -16,6 +16,7 @@ public:
     void update() override;
 	void receive(const Message &m) override;
 
+    void createFruits(int rows = 6, int cols = 8);
     void onFruitEaten(ecs::entity_t e);
 
 private:
