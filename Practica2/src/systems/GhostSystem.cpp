@@ -4,11 +4,13 @@
 
 #include "../components/ImageWithFrames.h"
 #include "../components/Transform.h"
-#include "../components/Immunity.h"
+#include "../components/Health.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
 
+#include "../game/Game.h"
+#include "../game/GameState.h"
 
 GhostSystem::GhostSystem() :
     _ghosts(nullptr),
@@ -26,11 +28,9 @@ void GhostSystem::initSystem() {
     ecs::entity_t pacman = _mngr->getHandler(ecs::hdlr::PACMAN);
 
     _pacmanTransform = _mngr->getComponent<Transform>(pacman);
-    _pacmanInmunity = _mngr->getComponent<Immunity>(pacman);
+    _pacmanHealth = _mngr->getComponent<Health>(pacman);
 
-    _lastSpawnStamp = _vt->currTime();
-
-    _changeEnabled = false;
+    resetFlags();
 }
 
 void GhostSystem::update() {
@@ -64,7 +64,13 @@ void GhostSystem::update() {
     }
 
     _changeEnabled = false;
-    
+}
+
+void GhostSystem::resetFlags() {
+    _lastSpawnStamp = _vt->currTime();
+
+    _pacmanInmunity = false;
+    _changeEnabled = false;
 }
 
 void
@@ -132,6 +138,15 @@ GhostSystem::receive(const Message &m) {
             _pacmanInmunity = false;
             _changeEnabled = true;
             break;
+        case _m_ROUND_START:
+            resetFlags();
+            break;
+        case _m_ROUND_OVER:
+            killAllGhosts();
+            break;
+        case _m_GAME_OVER:
+            killAllGhosts();
+            break;
         default:
             break;
     }
@@ -140,4 +155,22 @@ GhostSystem::receive(const Message &m) {
 void
 GhostSystem::pacmanHitsGhost(ecs::entity_t e) {
     if(_pacmanInmunity) _mngr->setAlive(e, false);
+    else {
+        Message m;
+
+        if (--_pacmanHealth->_health <= 0) {
+            m.id = _m_GAME_OVER;
+            Game::Instance()->setState(GameState::GAMEOVER);
+        }
+        else {
+            m.id = _m_ROUND_OVER;
+            Game::Instance()->setState(GameState::NEWROUND);
+        }
+        _mngr->send(m);
+    }
+}
+
+void
+GhostSystem::killAllGhosts() {
+    for (int i = 0; i < _ghosts->size(); ++i) _mngr->setAlive(_ghosts->at(i), false);
 }

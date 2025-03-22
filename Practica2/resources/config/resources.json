@@ -17,23 +17,16 @@
   ],
   
   "messages" : [
-    { "id" : "PressAnyKey", "text" : "Press Any Key", "font" : "ARIAL24", "color" : "0x112233ff", "bg" : "0xffffffff" },
-    { "id" : "HelloSDL", "text" : "Hello SDL!", "font" : "ARIAL48", "color" : "0x0000ffff" },
-    { "id" : "addstars", "text" : "Press SPACE to add stars to eat!", "font" : "ARIAL16", "color" : "0x00ff00ff" },
-    { "id" : "paused", "text" : "Press any key to continue", "font" : "ARIAL24", "color" : "0xffffffff" },
+    { "id" : "paused", "text" : "PAUSE", "font" : "ARIAL48", "color" : "0xffffffff" },
     { "id" : "newgame", "text" : "Press any key to start a new Game", "font" : "ARIAL24", "color" : "0x0000ffff" },
     { "id" : "newround", "text" : "Press ENTER to start a new Round", "font" : "ARIAL24", "color" : "0xffffffff" },
-    { "id" : "gameover", "text" : "GAME OVER", "font" : "ARIAL24", "color" : "0xff0000ff" }
+    { "id" : "gameover", "text" : "GAME OVER", "font" : "ARIAL48", "color" : "0xff0000ff" }
   ],
 
     "sounds": [
         {
-            "id": "gunshot",
-            "file": "resources/sound/gunshot.wav"
-        },
-        {
-            "id": "explosion",
-            "file": "resources/sound/explosion.wav"
+          "id": "pacman_chomp",
+          "file": "resources/sound/pacman_chomp.wav"
         },
         {
             "id": "pacman_eat",

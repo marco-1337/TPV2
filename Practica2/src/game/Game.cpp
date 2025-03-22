@@ -5,11 +5,12 @@
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
-#include "../systems/CollisionsSystem.h"
-#include "../systems/GameCtrlSystem.h"
 #include "../systems/PacManSystem.h"
+#include "../systems/GhostSystem.h"
+#include "../systems/FoodSystem.h"
+#include "../systems/ImmunitySystem.h"
 #include "../systems/RenderSystem.h"
-#include "../systems/StarsSystem.h"
+#include "../systems/CollisionsSystem.h"
 #include "../utils/Vector2D.h"
 #include "../utils/Collisions.h"
 
@@ -19,10 +20,11 @@ using ecs::Manager;
 
 Game::Game() :
 		_mngr(), //
-		//_state(), //
+		_currentState(), //
 		_pacmanSys(), //
-		_gameCtrlSys(), //
-		_startsSys(), //
+		_ghostSys(), //
+		_foodSys(), //
+		_immunitySys(), //
 		_renderSys(), //
 		_collisionSys() {
 }
@@ -30,13 +32,11 @@ Game::Game() :
 Game::~Game() {
 	delete _mngr;
 
-	/*
 	delete _pausedState;
 	delete _runningState;
 	delete _newgameState;
 	delete _newroundState;
 	delete _gameoverState;
-	*/
 
 	// release InputHandler if the instance was created correctly.
 	if (InputHandler::HasInstance())
@@ -75,12 +75,19 @@ void Game::initGame() {
 
 	// add the systems
 	_pacmanSys = _mngr->addSystem<PacManSystem>();
-	_startsSys = _mngr->addSystem<StarsSystem>();
-	_gameCtrlSys = _mngr->addSystem<GameCtrlSystem>();
+	_ghostSys = _mngr->addSystem<GhostSystem>();
+	_foodSys = _mngr->addSystem<FoodSystem>();
+	_immunitySys = _mngr->addSystem<ImmunitySystem>();
 	_renderSys = _mngr->addSystem<RenderSystem>();
 	_collisionSys = _mngr->addSystem<CollisionsSystem>();
 
-	std::cout << "[Game.cpp | initGame()] TO DO: Inicializar todos los estados \n";
+	_pausedState = new PausedState();
+	_runningState = new RunningState(_pacmanSys, _ghostSys, _foodSys, _immunitySys, _renderSys, _collisionSys);
+	_newgameState = new NewGameState();
+	_newroundState = new NewRoundState();
+	_gameoverState = new GameOverState();
+
+	_currentState = _newgameState;
 }
 
 void Game::start() {
@@ -104,20 +111,41 @@ void Game::start() {
 			continue;
 		}
 
-		_pacmanSys->update();
-		_startsSys->update();
-		_gameCtrlSys->update();
-		_collisionSys->update();
+		_currentState->update();
 
 		_mngr->refresh();
 
-		sdlutils().clearRenderer();
-		_renderSys->update();
 		sdlutils().presentRenderer();
+		sdlutils().clearRenderer();
 
 		Uint32 frameTime = vt.currRealTime() - startTime;
 
 		if (frameTime < 10)
 			SDL_Delay(10 - frameTime);
+	}
+}
+
+void 
+Game::setState(GameState::StateID state) {
+
+	switch (state)
+	{
+	case GameState::PAUSED:
+		_currentState = _pausedState;
+		break;
+	case GameState::RUNNING:
+		_currentState = _runningState;
+		break;
+	case GameState::NEWGAME:
+		_currentState = _newgameState;
+		break;
+	case GameState::NEWROUND:
+		_currentState = _newroundState;
+		break;
+	case GameState::GAMEOVER:
+		_currentState = _gameoverState;
+		break;
+	default:
+		break;
 	}
 }

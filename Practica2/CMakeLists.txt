@@ -77,16 +77,18 @@ add_executable(TPV2_Practica2
 	src/ecs/Manager.cpp
 
 	src/game/Game.cpp
+	src/game/NewGameState.cpp
+	src/game/NewRoundState.cpp
+	src/game/RunningState.cpp
+	src/game/PausedState.cpp
+	src/game/GameOverState.cpp
 
-	src/systems/CollisionsSystem.cpp
-	src/systems/GameCtrlSystem.cpp
 	src/systems/PacManSystem.cpp
-	src/systems/FoodSystem.cpp
-	src/systems/RenderSystem.cpp
-
-	src/systems/StarsSystem.cpp
-
 	src/systems/GhostSystem.cpp
+	src/systems/FoodSystem.cpp
+	src/systems/ImmunitySystem.cpp
+	src/systems/RenderSystem.cpp
+	src/systems/CollisionsSystem.cpp
 )
 # Definir directorios de salida
 set_target_properties(TPV2_Practica2 PROPERTIES 

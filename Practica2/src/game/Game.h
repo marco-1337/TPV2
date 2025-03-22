@@ -6,13 +6,17 @@
 
 #include "../ecs/ecs.h"
 #include "../sdlutils/SDLUtils.h"
-
-class GameState;
+#include "GameState.h"
 
 class Game : public Singleton<Game> {
 public:
 	void initGame();
 	void start();
+
+	void setState(GameState::StateID);
+
+	inline ecs::Manager* getManager() { return _mngr; }
+
 private:
 	friend Singleton<Game>;
 
@@ -23,20 +27,19 @@ private:
 
 	ecs::Manager* _mngr;
 
-	//GameState* _state;
+	GameState* _currentState;
 
-	/*
 	GameState* _pausedState;
 	GameState* _runningState;
 	GameState* _newgameState;
 	GameState* _newroundState;
 	GameState* _gameoverState;
-	*/
 
-	ecs::System *_pacmanSys;
-	ecs::System *_gameCtrlSys;
-	ecs::System *_startsSys;
-	ecs::System *_renderSys;
-	ecs::System *_collisionSys;
+	ecs::System* _pacmanSys;
+	ecs::System* _ghostSys;
+	ecs::System* _foodSys;
+	ecs::System* _immunitySys;
+	ecs::System* _renderSys;
+	ecs::System* _collisionSys;
 };
 

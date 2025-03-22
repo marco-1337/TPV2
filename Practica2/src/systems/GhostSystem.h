@@ -6,6 +6,7 @@
 
 #include <vector>
 
+struct Health;
 struct Transform;
 struct Immunity;
 
@@ -23,16 +24,17 @@ private:
     VirtualTimer* _vt;
 
     Transform* _pacmanTransform;
-    
-    bool _pacmanInmunity;
+    Health* _pacmanHealth;
+
+    bool _pacmanInmunity, _changeEnabled;
 
     static constexpr float GHOST_SPEED = 1.1f;
 
+    void resetFlags();
     void tryAddGhost();
     void updateDirection(Transform*& gTr);
     void moveGhosts(Transform*& gTr);
-
-    void changeGhostsSprite();
+    void killAllGhosts();
 
     void pacmanHitsGhost(ecs::entity_t e);
 };

@@ -19,7 +19,7 @@ PacManSystem::~PacManSystem() {
 
 void PacManSystem::initSystem() {
 	// create the PacMan entity
-
+	
 	auto pacman = _mngr->addEntity();
 	_mngr->setHandler(ecs::hdlr::PACMAN, pacman);
 
@@ -77,6 +77,21 @@ void PacManSystem::update() {
 		_pmTR->_vel.set(0.0f, 0.0f);
 	}
 
+}
+
+void 
+PacManSystem::receive(const Message &m) {
+    switch (m.id) {
+        case _m_NEW_GAME:
+            resetLives();
+			resetPosition();
+            break;
+		case _m_ROUND_START:
+			resetPosition();
+			break;
+        default:
+            break;
+    }
 }
 
 void PacManSystem::resetPosition() {

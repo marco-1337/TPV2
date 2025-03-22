@@ -5,7 +5,6 @@
 #include "../components/Transform.h"
 #include "../ecs/Manager.h"
 #include "../utils/Collisions.h"
-#include "StarsSystem.h"
 
 CollisionsSystem::CollisionsSystem() {
 	// TODO Auto-generated constructor stub
@@ -45,10 +44,10 @@ void CollisionsSystem::update() {
 					pTR->_pos, pTR->_width, pTR->_height, //
 					eTR->_pos, eTR->_width, eTR->_height)) {
 
-				Message m;
-				m.id = _m_STAR_EATEN;
-				m.star_eaten_data.e = e;
-				_mngr->send(m);
+				//Message m;
+				//m.id = _m_STAR_EATEN;
+				//m.star_eaten_data.e = e;
+				//_mngr->send(m);
 
 			}
 		}
