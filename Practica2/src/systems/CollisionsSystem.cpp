@@ -7,12 +7,9 @@
 #include "../utils/Collisions.h"
 
 CollisionsSystem::CollisionsSystem() {
-	// TODO Auto-generated constructor stub
-
 }
 
 CollisionsSystem::~CollisionsSystem() {
-	// TODO Auto-generated destructor stub
 }
 
 void CollisionsSystem::initSystem() {
@@ -25,30 +22,44 @@ void CollisionsSystem::update() {
 	auto pm = _mngr->getHandler(ecs::hdlr::PACMAN);
 	auto pTR = _mngr->getComponent<Transform>(pm);
 
-	// For safety, we traverse with a normal loop until the current size. In this
-	// particular case we could use a for-each loop since the list stars is not
-	// modified.
-	//
-	auto &stars = _mngr->getEntities(ecs::grp::STARS);
-	auto n = stars.size();
+	auto &ghosts = _mngr->getEntities(ecs::grp::GHOSTS);
+	auto n = ghosts.size();
 	for (auto i = 0u; i < n; i++) {
-		auto e = stars[i];
-		if (_mngr->isAlive(e)) { // if the star is active (it might have died in this frame)
+		auto e = ghosts[i];
+		if (_mngr->isAlive(e)) {
 
-			// the Star's Transform
-			//
 			auto eTR = _mngr->getComponent<Transform>(e);
 
-			// check if PacMan collides with the Star (i.e., eat it)
-			if (Collisions::collides(			//
-					pTR->_pos, pTR->_width, pTR->_height, //
+			// Check if pacman collides with the ghosts
+			if (Collisions::collides(			
+					pTR->_pos, pTR->_width, pTR->_height,
 					eTR->_pos, eTR->_width, eTR->_height)) {
 
-				//Message m;
-				//m.id = _m_STAR_EATEN;
-				//m.star_eaten_data.e = e;
-				//_mngr->send(m);
+				Message m;
+				m.id = _m_PACMAN_GHOST_COLLISION;
+				m.pacman_ghost_collision_data.e = e;
+				_mngr->send(m);
+			}
+		}
+	}
 
+	auto &fruits = _mngr->getEntities(ecs::grp::FRUITS);
+	n = fruits.size();
+	for (auto i = 0u; i < n; i++) {
+		auto e = fruits[i];
+		if (_mngr->isAlive(e)) {
+
+			auto eTR = _mngr->getComponent<Transform>(e);
+
+			// Check if pacman collides with the ghosts
+			if (Collisions::collides(			
+					pTR->_pos, pTR->_width, pTR->_height,
+					eTR->_pos, eTR->_width, eTR->_height)) {
+
+				Message m;
+				m.id = _m_PACMAN_FOOD_COLLISION;
+				m.pacman_food_collision_data.e = e;
+				_mngr->send(m);
 			}
 		}
 	}
