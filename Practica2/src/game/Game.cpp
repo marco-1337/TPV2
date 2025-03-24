@@ -100,8 +100,15 @@ void Game::start() {
 	auto &vt = sdlutils().virtualTimer();
 	vt.resetTime();
 
+	_pacmanSys->initSystem();
+	_ghostSys->initSystem();
+	_foodSys->initSystem();
+	_immunitySys->initSystem();
+	_renderSys->initSystem();
+	_collisionSys->initSystem();
+
 	while (!exit) {
-		Uint32 startTime = vt.currRealTime();
+		Uint32 startTime = vt.regCurrTime();
 
 		// refresh the input handler
 		ihdlr.refresh();

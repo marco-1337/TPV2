@@ -6,10 +6,13 @@
 #include "../components/Transform.h"
 #include "../components/Health.h"
 #include "../components/Immunity.h"
+#include "../components/ImageWithFrames.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
 #include "Game.h"
+
+#include <iostream>
 
 PacManSystem::PacManSystem() :
 		_pmTR(nullptr) {
@@ -30,12 +33,29 @@ void PacManSystem::initSystem() {
 	auto y = (sdlutils().height() - s) / 2.0f;
 	_pmTR->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 
-	_mngr->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
+	_mngr->addComponent<ImageWithFrames>(pacman, &sdlutils().images().at("pacman_sprites"), 8, 8, 0);
 	_mngr->addComponent<Health>(pacman, 3); // TODO config
 	_mngr->addComponent<Immunity>(pacman, false);
+
+	_lastPacmanUpdate = sdlutils().virtualTimer().currTime();
+	_pacmanImageWithFrames = _mngr->getComponent<ImageWithFrames>(pacman);
 }
 
 void PacManSystem::update() {
+
+	if (sdlutils().virtualTimer().currTime() - _lastPacmanUpdate >= PACMAN_REFRESH_RATE) {
+		if(_pacmanFrame == PACMAN_END_FRAME)
+			_ascendingFrames = false;
+		else if (_pacmanFrame == PACMAN_START_FRAME)
+			_ascendingFrames = true;
+
+		if (_ascendingFrames) ++_pacmanFrame;
+		else --_pacmanFrame;
+
+		_pacmanImageWithFrames->setFrame(_pacmanFrame);
+
+		_lastPacmanUpdate = sdlutils().virtualTimer().currTime();
+	}
 
 	auto &ihldr = ih();
 
