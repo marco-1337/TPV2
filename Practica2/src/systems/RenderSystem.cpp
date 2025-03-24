@@ -26,6 +26,7 @@ void RenderSystem::initSystem() {
 void RenderSystem::update() {
 	drawPacMan();
 	drawGhosts();
+	drawFruits();
 }
 
 void RenderSystem::drawPacMan() {
@@ -38,6 +39,14 @@ void RenderSystem::drawGhosts() {
 
 	for (int i = 0; i < ghosts.size(); ++i) {
 		drawFrameEntity(ghosts[i]);
+	}
+}
+
+void RenderSystem::drawFruits() { 
+	auto fruits = _mngr->getEntities(ecs::grp::FRUITS);
+
+	for (int i = 0; i < fruits.size(); ++i) {
+		drawFrameEntity(fruits[i]);
 	}
 }
 
