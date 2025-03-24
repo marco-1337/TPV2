@@ -9,6 +9,7 @@
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
+#include "Game.h"
 
 PacManSystem::PacManSystem() :
 		_pmTR(nullptr) {
@@ -84,11 +85,19 @@ PacManSystem::receive(const Message &m) {
     switch (m.id) {
         case _m_NEW_GAME:
             resetLives();
-			resetPosition();
             break;
 		case _m_ROUND_START:
 			resetPosition();
+		    sdlutils().soundEffects().at("pacman_intro").play();
 			break;
+		case _m_PACMAN_FOOD_COLLISION:
+			sdlutils().soundEffects().at("pacman_eat").play();
+		case _m_PACMAN_GHOST_COLLISION:
+			onGhostCollision();
+			break;
+		case _m_GAME_OVER:
+			if(m.game_over_data.victory)
+			    sdlutils().soundEffects().at("pacman_won").play();
         default:
             break;
     }
@@ -108,3 +117,19 @@ void PacManSystem::resetLives() {
 	health->_health = health->_maxHealth;
 }
 
+void PacManSystem::onGhostCollision() {
+	auto pacman = _mngr->getHandler(ecs::hdlr::PACMAN);
+	auto pmImmunity = _mngr->getComponent<Immunity>(pacman);
+
+	if(!pmImmunity->_immune) { // If pacman has no immunity
+		auto pmHealth = _mngr->getComponent<Health>(pacman);
+
+		if(--pmHealth->_health > 0) // Lose a life and start a new round
+			Game::Instance()->setState(GameState::NEWROUND);
+		else { // Lose game
+			Message m;
+			m.id = _m_GAME_OVER;
+			m.game_over_data.victory = false;
+		}
+	}
+}

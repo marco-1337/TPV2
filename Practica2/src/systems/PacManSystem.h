@@ -17,6 +17,7 @@ public:
 
 	void resetPosition();
 	void resetLives();
+	void onGhostCollision();
 private:
 	Transform *_pmTR;
 };

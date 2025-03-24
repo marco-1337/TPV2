@@ -31,11 +31,6 @@ struct Message {
 			ecs::entity_t e;
 		} pacman_food_collision_data;
 
-		// _m_CREATE_STARS //TODO quitar
-		struct {
-			unsigned int n;
-		} create_stars_data;
-
 		// _m_PACMAN_GHOST_COLLISION
 		struct {
 			ecs::entity_t e;
