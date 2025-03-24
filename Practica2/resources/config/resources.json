@@ -7,12 +7,8 @@
   ],
   
   "images" : [
-    { "id" : "sdl_logo", "file" : "resources/images/SDL_logo.png" },
-    { "id" : "tennis_ball", "file" : "resources/images/tennis_ball.png" },
-    { "id" : "star", "file" : "resources/images/star.png"},
     { "id" : "pacman", "file" : "resources/images/pacman.png"},
     { "id" : "pacman_sprites", "file" : "resources/images/pacman_sprites.png"},
-    { "id" : "sprites", "file" : "resources/images/pacman_sprites.png"},
     { "id" : "heart", "file" : "resources/images/heart.png"}
   ],
   
@@ -24,10 +20,6 @@
   ],
 
     "sounds": [
-        {
-          "id": "pacman_chomp",
-          "file": "resources/sound/pacman_chomp.wav"
-        },
         {
             "id": "pacman_eat",
             "file": "resources/sound/pacman_eat.wav"
@@ -47,11 +39,6 @@
     ],
 
   "musics" : [
-    { "id" : "beat", "file" : "resources/sound/beat.wav" },
-    {
-        "id": "imperial_march",
-        "file": "resources/sound/imperial_march.wav"
-    },
     {
         "id": "pacman_chomp",
         "file": "resources/sound/pacman_chomp.wav"
