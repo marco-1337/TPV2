@@ -9,6 +9,10 @@ void
 NewRoundState::update() {
 
     if(ih().isKeyDown(SDL_SCANCODE_RETURN)) {
+        Message m;
+        m.id = _m_ROUND_START;
+        Game::Instance()->getManager()->send(m);
+        
         Game::Instance()->setState(GameState::RUNNING);
     }
     else {

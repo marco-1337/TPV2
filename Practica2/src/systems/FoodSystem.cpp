@@ -56,6 +56,9 @@ void FoodSystem::receive(const Message &m) {
     case _m_PACMAN_FOOD_COLLISION: 
         onFruitEaten(m.pacman_food_collision_data.e);
         break;
+    case _m_ROUND_START:
+        createFruits();
+        break;
     default:
         break;
     }
