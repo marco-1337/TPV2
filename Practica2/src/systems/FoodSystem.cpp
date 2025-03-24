@@ -86,8 +86,7 @@ void FoodSystem::createFruits(int rows, int cols) {
             fruitTr = _mngr->addComponent<Transform>(fruit);
             fruitTr->init(pos, Vector2D(), col_w, row_h, 0.f);
 
-            // TODO
-            // _mngr->addComponent<FramedImage>(fruit, ...);
+            _mngr->addComponent<ImageWithFrames>(fruit, &sdlutils().images().at("pacman_sprites"), 8, 8, 12);
 
             int n = sdlutils().rand().nextInt(0, 10);
             if(!n) {
