@@ -108,19 +108,19 @@ GhostSystem::moveGhosts(Transform*& gTr) {
     // check left/right borders
     if (gTr->_pos.getX() < 0) {
         gTr->_pos.setX(0.0f);
-        gTr->_vel.set(-gTr->_pos.getX(), gTr->_pos.getY());
+        gTr->_vel.set(-gTr->_vel.getX(), gTr->_vel.getY());
     } else if (gTr->_pos.getX() + gTr->_width > sdlutils().width()) {
         gTr->_pos.setX(sdlutils().width() - gTr->_width);
-        gTr->_vel.set(-gTr->_pos.getX(), gTr->_pos.getY());
+        gTr->_vel.set(-gTr->_vel.getX(), gTr->_vel.getY());
     }
 
     // check upper/lower borders
     if (gTr->_pos.getY() < 0) {
         gTr->_pos.setY(0.0f);
-        gTr->_vel.set(gTr->_pos.getX(), -gTr->_pos.getY());
+        gTr->_vel.set(gTr->_vel.getX(), -gTr->_vel.getY());
     } else if (gTr->_pos.getY() + gTr->_height > sdlutils().height()) {
         gTr->_pos.setY(sdlutils().height() - gTr->_height);
-        gTr->_vel.set(gTr->_pos.getX(), -gTr->_pos.getY());
+        gTr->_vel.set(gTr->_vel.getX(), -gTr->_vel.getY());
     }
 }
 

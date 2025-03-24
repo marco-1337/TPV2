@@ -42,9 +42,11 @@ void PacManSystem::update() {
 	if (ihldr.keyDownEvent()) {
 		if (ihldr.isKeyDown(SDL_SCANCODE_UP)) { 
 			_pmTR->_vel = Vector2D(0.0f,-3.0f).rotate(_pmTR->_rot);
+			sdlutils().musics().at("pacman_chomp").play();
 		}
 		else if (ihldr.isKeyDown(SDL_SCANCODE_DOWN)) { 
 			_pmTR->_vel = Vector2D(0.f, 0.f);
+			sdlutils().musics().at("pacman_chomp").haltMusic();
 		}
 		else if (ihldr.isKeyDown(SDL_SCANCODE_LEFT)) { // rotate left
 			_pmTR->_rot = _pmTR->_rot - 90.0f;
@@ -64,18 +66,22 @@ void PacManSystem::update() {
 	if (_pmTR->_pos.getX() < 0) {
 		_pmTR->_pos.setX(0.0f);
 		_pmTR->_vel.set(0.0f, 0.0f);
+		sdlutils().musics().at("pacman_chomp").haltMusic();
 	} else if (_pmTR->_pos.getX() + _pmTR->_width > sdlutils().width()) {
 		_pmTR->_pos.setX(sdlutils().width() - _pmTR->_width);
 		_pmTR->_vel.set(0.0f, 0.0f);
+		sdlutils().musics().at("pacman_chomp").haltMusic();
 	}
 
 	// check upper/lower borders
 	if (_pmTR->_pos.getY() < 0) {
 		_pmTR->_pos.setY(0.0f);
 		_pmTR->_vel.set(0.0f, 0.0f);
+		sdlutils().musics().at("pacman_chomp").haltMusic();
 	} else if (_pmTR->_pos.getY() + _pmTR->_height > sdlutils().height()) {
 		_pmTR->_pos.setY(sdlutils().height() - _pmTR->_height);
 		_pmTR->_vel.set(0.0f, 0.0f);
+		sdlutils().musics().at("pacman_chomp").haltMusic();
 	}
 
 }
@@ -124,12 +130,20 @@ void PacManSystem::onGhostCollision() {
 	if(!pmImmunity->_immune) { // If pacman has no immunity
 		auto pmHealth = _mngr->getComponent<Health>(pacman);
 
-		if(--pmHealth->_health > 0) // Lose a life and start a new round
+		if(--pmHealth->_health > 0) { // Lose a life and start a new round
+			sdlutils().soundEffects().at("pacman_death").play();
+
+			Message m;
+			m.id = _m_ROUND_OVER;
+			_mngr->send(m);
+			
 			Game::Instance()->setState(GameState::NEWROUND);
+		}
 		else { // Lose game
 			Message m;
 			m.id = _m_GAME_OVER;
 			m.game_over_data.victory = false;
+			_mngr->send(m);
 		}
 	}
 }
