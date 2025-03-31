@@ -118,6 +118,7 @@ PacManSystem::receive(const Message &m) {
 			break;
 		case _m_PACMAN_FOOD_COLLISION:
 			sdlutils().soundEffects().at("pacman_eat").play();
+			break;
 		case _m_PACMAN_GHOST_COLLISION:
 			onGhostCollision();
 			break;
