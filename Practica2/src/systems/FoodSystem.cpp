@@ -62,6 +62,12 @@ void FoodSystem::receive(const Message &m) {
     case _m_ROUND_START:
         createFruits();
         break;
+    case _m_ROUND_OVER:
+        killAllFruits();
+        break;
+    case _m_GAME_OVER:
+        killAllFruits();
+        break;
     default:
         break;
     }
@@ -118,4 +124,9 @@ void FoodSystem::onFruitEaten(ecs::entity_t fruit) {
 
 	// play sound on channel 1 (if there is something playing there it will be cancelled
 	sdlutils().soundEffects().at("pacman_eat").play(0, 1);
+}
+
+void FoodSystem::killAllFruits() {
+    auto fruits = _mngr->getEntities(ecs::grp::FRUITS);
+    for (int i = 0; i < fruits.size(); ++i) _mngr->setAlive(fruits[i], false);
 }

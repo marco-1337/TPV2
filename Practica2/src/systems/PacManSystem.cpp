@@ -115,6 +115,7 @@ PacManSystem::receive(const Message &m) {
             break;
 		case _m_ROUND_START:
 			resetPacman();
+			sdlutils().virtualTimer().resetTime();
 		    sdlutils().soundEffects().at("pacman_intro").play();
 			break;
 		case _m_PACMAN_FOOD_COLLISION:
