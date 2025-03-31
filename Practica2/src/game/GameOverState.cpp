@@ -13,7 +13,16 @@ GameOverState::update() {
     }
     else {
         // Mostrar mensaje
-        auto &t = sdlutils().msgs().at("gameover");
-        t.render((sdlutils().width() - t.width()) / 2, (sdlutils().height() - t.height()) / 2);
+        gameOvertext->render(
+            (sdlutils().width() - gameOvertext->width()) / 2, (sdlutils().height() - gameOvertext->height()) / 2);
     }
+}
+
+void
+GameOverState::setWin(bool win) {
+    if (win) {
+        gameOvertext = &sdlutils().msgs().at("gameoverWin");
+    }
+    else 
+        gameOvertext = &sdlutils().msgs().at("gameoverLose");
 }

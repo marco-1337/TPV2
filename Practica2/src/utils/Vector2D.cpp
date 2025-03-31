@@ -38,6 +38,9 @@ Vector2D Vector2D::rotate(float degrees) const {
 	r._x = matrix[0][0] * x + matrix[0][1] * y;
 	r._y = matrix[1][0] * x + matrix[1][1] * y;
 
+	if (abs(r._x) < 0.01) r._x = 0.0f;
+	if (abs(r._y) < 0.01) r._y = 0.0f;
+
 	return r;
 }
 

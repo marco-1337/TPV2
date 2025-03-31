@@ -6,6 +6,8 @@ namespace ecs {
 class Manager;
 }
 
+class Texture;
+
 class GameState {
 public:
 	enum StateID {
@@ -13,7 +15,8 @@ public:
 		RUNNING,
 		NEWGAME,
 		NEWROUND,
-		GAMEOVER
+		GAMEOVER_LOSE,
+		GAMEOVER_WIN
 	};
 	virtual void update() = 0;
 };
@@ -49,5 +52,8 @@ public:
 
 class GameOverState : public GameState {
 public:
-    void update() override;   
+    void update() override;
+	void setWin(bool win); 
+private:
+	Texture* gameOvertext;
 };

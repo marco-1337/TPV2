@@ -149,7 +149,12 @@ Game::setState(GameState::StateID state) {
 	case GameState::NEWROUND:
 		_currentState = _newroundState;
 		break;
-	case GameState::GAMEOVER:
+	case GameState::GAMEOVER_LOSE:
+		_gameoverState->setWin(false);
+		_currentState = _gameoverState;
+		break;
+	case GameState::GAMEOVER_WIN:
+		_gameoverState->setWin(true);
 		_currentState = _gameoverState;
 		break;
 	default:

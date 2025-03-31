@@ -82,7 +82,7 @@ GhostSystem::updateDirection(Transform*& gTr) {
 
 void 
 GhostSystem::tryAddGhost() {
-    if (_ghosts->size() < 11) {
+    if (_ghosts->size() < 10) {
         if (_vt->currTime() - _lastSpawnStamp >= 5000) {
             
             _lastSpawnStamp = _vt->currTime();
@@ -160,7 +160,7 @@ GhostSystem::pacmanHitsGhost(ecs::entity_t e) {
 
         if (--_pacmanHealth->_health <= 0) {
             m.id = _m_GAME_OVER;
-            Game::Instance()->setState(GameState::GAMEOVER);
+            Game::Instance()->setState(GameState::GAMEOVER_LOSE);
         }
         else {
             m.id = _m_ROUND_OVER;

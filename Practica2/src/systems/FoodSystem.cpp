@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "Miraculous.h"
 #include "ImageWithFrames.h"
+#include "Game.h"
 
 FoodSystem::FoodSystem() : _fruits() {
 }
@@ -29,6 +30,8 @@ void FoodSystem::update() {
         m.id = _m_GAME_OVER;
         m.game_over_data.victory = true;
         _mngr->send(m);
+
+        Game::Instance()->setState(GameState::GAMEOVER_WIN);
     }
     else {
         for(auto& fruit: fruits) {
@@ -81,8 +84,8 @@ void FoodSystem::createFruits(int rows, int cols) {
 
             fruit = _mngr->addEntity(ecs::grp::FRUITS);
 
-            auto x = col_w * j;
-            auto y = row_h * i;
+            auto x = col_w * j - col_w/2;
+            auto y = row_h * i - row_h/2;
 
             pos = Vector2D(x,y);
 

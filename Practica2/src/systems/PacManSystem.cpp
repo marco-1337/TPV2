@@ -61,6 +61,7 @@ void PacManSystem::update() {
 
 	if (ihldr.keyDownEvent()) {
 		if (ihldr.isKeyDown(SDL_SCANCODE_UP)) { 
+			
 			_pmTR->_vel = Vector2D(0.0f,-3.0f).rotate(_pmTR->_rot);
 			sdlutils().musics().at("pacman_chomp").play();
 		}

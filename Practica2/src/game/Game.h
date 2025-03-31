@@ -29,11 +29,11 @@ private:
 
 	GameState* _currentState;
 
-	GameState* _pausedState;
-	GameState* _runningState;
-	GameState* _newgameState;
-	GameState* _newroundState;
-	GameState* _gameoverState;
+	PausedState* _pausedState;
+	RunningState* _runningState;
+	NewGameState* _newgameState;
+	NewRoundState* _newroundState;
+	GameOverState* _gameoverState;
 
 	ecs::System* _pacmanSys;
 	ecs::System* _ghostSys;

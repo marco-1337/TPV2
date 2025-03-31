@@ -16,7 +16,8 @@
     { "id" : "paused", "text" : "PAUSE", "font" : "ARIAL48", "color" : "0xffffffff" },
     { "id" : "newgame", "text" : "Press any key to start a new Game", "font" : "ARIAL24", "color" : "0x0000ffff" },
     { "id" : "newround", "text" : "Press ENTER to start a new Round", "font" : "ARIAL24", "color" : "0xffffffff" },
-    { "id" : "gameover", "text" : "GAME OVER", "font" : "ARIAL48", "color" : "0xff0000ff" }
+    { "id" : "gameoverWin", "text" : "GAME OVER, YOU WIN", "font" : "ARIAL48", "color" : "0x00ff00ff" },
+    { "id" : "gameoverLose", "text" : "GAME OVER, YOU LOSE", "font" : "ARIAL48", "color" : "0xff0000ff" }
   ],
 
     "sounds": [
