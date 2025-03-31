@@ -10,7 +10,6 @@ class ImageWithFrames;
 
 class RenderSystem: public ecs::System {
 public:
-
 	RenderSystem();
 	virtual ~RenderSystem();
 	void initSystem() override;
@@ -21,6 +20,8 @@ private:
 	void drawGhosts();
 	void drawFruits();
 	void draw(Transform *tr, Texture *tex);
+	void draw(const SDL_Rect& dest, float rot, Texture *tex);
 	void drawFrame(Transform *tr, Texture *tex, SDL_Rect frame);
+	void drawHealth();
 };
 

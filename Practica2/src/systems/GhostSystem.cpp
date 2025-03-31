@@ -155,19 +155,6 @@ GhostSystem::receive(const Message &m) {
 void
 GhostSystem::pacmanHitsGhost(ecs::entity_t e) {
     if(_pacmanInmunity) _mngr->setAlive(e, false);
-    else {
-        Message m;
-
-        if (--_pacmanHealth->_health <= 0) {
-            m.id = _m_GAME_OVER;
-            Game::Instance()->setState(GameState::GAMEOVER_LOSE);
-        }
-        else {
-            m.id = _m_ROUND_OVER;
-            Game::Instance()->setState(GameState::NEWROUND);
-        }
-        _mngr->send(m);
-    }
 }
 
 void

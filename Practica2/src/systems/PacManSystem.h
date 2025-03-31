@@ -17,7 +17,7 @@ public:
 	void update() override;
 	void receive(const Message &m) override;
 
-	void resetPosition();
+	void resetPacman();
 	void resetLives();
 	void onGhostCollision();
 private:
