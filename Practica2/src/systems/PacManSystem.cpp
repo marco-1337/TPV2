@@ -159,14 +159,15 @@ void PacManSystem::onGhostCollision() {
 		if(--pmHealth->_health > 0) { // Lose a life and start a new round
 			m.id = _m_ROUND_OVER;
 			Game::Instance()->setState(GameState::NEWROUND);
-
-			sdlutils().soundEffects().at("pacman_death").play();
 		}
 		else { // Lose game
 			m.id = _m_GAME_OVER;
 			m.game_over_data.victory = false;
-			Game::Instance()->setState(GameState::GAMEOVER);
+			Game::Instance()->setState(GameState::GAMEOVER_LOSE);
 		}
+		sdlutils().soundEffects().at("pacman_death").play();
+		sdlutils().musics().at("pacman_chomp").haltMusic();
+
 		_mngr->send(m);
 	}
 }
