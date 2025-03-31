@@ -98,13 +98,22 @@ void FoodSystem::createFruits(int rows, int cols) {
             if(!n) {
                 n = sdlutils().rand().nextInt(10, 21); // TODO config
                 int m = sdlutils().rand().nextInt(5,11);
-                _mngr->addComponent<Miraculous>(fruit, n, m);
+                _mngr->addComponent<Miraculous>(fruit, n * 1000, m * 1000);
             }
         }
     }
 }
 
 void FoodSystem::onFruitEaten(ecs::entity_t fruit) {
+    if(_mngr->hasComponent<Miraculous>(fruit)) {
+        auto miraculous = _mngr->getComponent<Miraculous>(fruit);
+        if(miraculous->_miraculousState) {
+            Message m;
+            m.id = _m_IMMUNITY_START;
+            _mngr->send(m);
+        }
+    }
+
     _mngr->setAlive(fruit, false);
 
 	// play sound on channel 1 (if there is something playing there it will be cancelled

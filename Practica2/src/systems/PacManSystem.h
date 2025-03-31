@@ -20,6 +20,7 @@ public:
 	void resetPacman();
 	void resetLives();
 	void onGhostCollision();
+	void setImmune(bool val);
 private:
 	Transform *_pmTR;
 

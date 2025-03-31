@@ -123,6 +123,12 @@ PacManSystem::receive(const Message &m) {
 		case _m_PACMAN_GHOST_COLLISION:
 			onGhostCollision();
 			break;
+		case _m_IMMUNITY_START:
+			setImmune(true);
+			break;
+		case _m_IMMUNITY_END:
+			setImmune(false);
+			break;
 		case _m_GAME_OVER:
 			if(m.game_over_data.victory)
 			    sdlutils().soundEffects().at("pacman_won").play();
@@ -145,6 +151,11 @@ void PacManSystem::resetPacman() {
 void PacManSystem::resetLives() {
 	auto health = _mngr->getComponent<Health>(_mngr->getHandler(ecs::hdlr::PACMAN));
 	health->_health = health->_maxHealth;
+}
+
+void PacManSystem::setImmune(bool val) {
+	auto pmImmunity = _mngr->getComponent<Immunity>(_mngr->getHandler(ecs::hdlr::PACMAN));
+	pmImmunity->_immune = val;
 }
 
 void PacManSystem::onGhostCollision() {
