@@ -113,7 +113,7 @@ PacManSystem::receive(const Message &m) {
             resetLives();
             break;
 		case _m_ROUND_START:
-			resetPosition();
+			resetPacman();
 		    sdlutils().soundEffects().at("pacman_intro").play();
 			break;
 		case _m_PACMAN_FOOD_COLLISION:
@@ -130,13 +130,15 @@ PacManSystem::receive(const Message &m) {
     }
 }
 
-void PacManSystem::resetPosition() {
+void PacManSystem::resetPacman() {
 	auto pacman = _mngr->getHandler(ecs::hdlr::PACMAN);
 	
 	auto x = (sdlutils().width() - _pmTR->_width) / 2.0f;
 	auto y = (sdlutils().height() - _pmTR->_height) / 2.0f;
 
 	_pmTR->_pos = Vector2D(x,y);
+	_pmTR->_rot = 0.f;
+	_pmTR->_vel = Vector2D();
 }
 
 void PacManSystem::resetLives() {
@@ -149,22 +151,21 @@ void PacManSystem::onGhostCollision() {
 	auto pmImmunity = _mngr->getComponent<Immunity>(pacman);
 
 	if(!pmImmunity->_immune) { // If pacman has no immunity
+
 		auto pmHealth = _mngr->getComponent<Health>(pacman);
+		Message m;
 
 		if(--pmHealth->_health > 0) { // Lose a life and start a new round
-			sdlutils().soundEffects().at("pacman_death").play();
-
-			Message m;
 			m.id = _m_ROUND_OVER;
-			_mngr->send(m);
-			
 			Game::Instance()->setState(GameState::NEWROUND);
+
+			sdlutils().soundEffects().at("pacman_death").play();
 		}
 		else { // Lose game
-			Message m;
 			m.id = _m_GAME_OVER;
 			m.game_over_data.victory = false;
-			_mngr->send(m);
+			Game::Instance()->setState(GameState::GAMEOVER);
 		}
+		_mngr->send(m);
 	}
 }
