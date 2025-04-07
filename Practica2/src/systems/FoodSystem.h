@@ -19,6 +19,7 @@ public:
     void createFruits(int rows = 6, int cols = 8);
     void onFruitEaten(ecs::entity_t e);
     void killAllFruits();
+    void resetCounters();
 
 private:
     std::vector<ecs::entity_t> _fruits;

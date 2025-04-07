@@ -59,11 +59,11 @@ void FoodSystem::receive(const Message &m) {
     case _m_PACMAN_FOOD_COLLISION: 
         onFruitEaten(m.pacman_food_collision_data.e);
         break;
-    case _m_ROUND_START:
+    case _m_NEW_GAME:
         createFruits();
         break;
     case _m_ROUND_OVER:
-        killAllFruits();
+        resetCounters();
         break;
     case _m_GAME_OVER:
         killAllFruits();
@@ -129,4 +129,14 @@ void FoodSystem::onFruitEaten(ecs::entity_t fruit) {
 void FoodSystem::killAllFruits() {
     auto fruits = _mngr->getEntities(ecs::grp::FRUITS);
     for (int i = 0; i < fruits.size(); ++i) _mngr->setAlive(fruits[i], false);
+}
+
+void FoodSystem::resetCounters() {
+    auto fruits = _mngr->getEntities(ecs::grp::FRUITS);
+    for (int i = 0; i < fruits.size(); ++i) {
+        if (_mngr->hasComponent<Miraculous>(fruits[i])) {
+            auto miraculous = _mngr->getComponent<Miraculous>(fruits[i]);
+            miraculous->reset();
+        }
+    }
 }

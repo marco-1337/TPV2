@@ -32,6 +32,11 @@ struct Miraculous : public ecs::Component {
         else return false;
     }
 
+    void reset() {
+        _miraculousState = false;
+        _lastUpdate = 0;
+    }
+
     bool _miraculousState;
     Uint32 _nTime; // Seconds in normal state
     Uint32 _mTime; // Seconds in miraculous state

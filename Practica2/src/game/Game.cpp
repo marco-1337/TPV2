@@ -101,6 +101,7 @@ void Game::start() {
 	auto &vt = sdlutils().virtualTimer();
 	vt.resetTime();
 
+	// no hace falta, lo hace addSystem
 	_pacmanSys->initSystem();
 	_ghostSys->initSystem();
 	_foodSys->initSystem();
