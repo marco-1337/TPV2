@@ -90,13 +90,13 @@ void FoodSystem::createFruits(int rows, int cols) {
 
             fruit = _mngr->addEntity(ecs::grp::FRUITS);
 
-            auto x = col_w * j - col_w/2;
-            auto y = row_h * i - row_h/2;
+            auto x = col_w * j - col_w/4;
+            auto y = row_h * i - row_h/4;
 
             pos = Vector2D(x,y);
 
             fruitTr = _mngr->addComponent<Transform>(fruit);
-            fruitTr->init(pos, Vector2D(), col_w, row_h, 0.f);
+            fruitTr->init(pos, Vector2D(), col_w/2, row_h/2, 0.f);
 
             _mngr->addComponent<ImageWithFrames>(fruit, &sdlutils().images().at("pacman_sprites"), 8, 8, 12);
 
