@@ -30,13 +30,14 @@ Game::Game() :
 }
 
 Game::~Game() {
-	delete _mngr;
 
-	delete _pausedState;
-	delete _runningState;
-	delete _newgameState;
-	delete _newroundState;
 	delete _gameoverState;
+	delete _newroundState;
+	delete _newgameState;
+	delete _runningState;
+	delete _pausedState;
+
+	delete _mngr;
 
 	// release InputHandler if the instance was created correctly.
 	if (InputHandler::HasInstance())

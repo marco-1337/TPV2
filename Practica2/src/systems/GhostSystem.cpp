@@ -31,6 +31,8 @@ void GhostSystem::initSystem() {
     _pacmanHealth = _mngr->getComponent<Health>(pacman);
 
     resetFlags();
+
+    _lastFrameUpdated = _vt->currTime();
 }
 
 void GhostSystem::update() {
@@ -41,11 +43,26 @@ void GhostSystem::update() {
 
     ecs::entity_t gEnt;
     Transform* gTr;
+
     int frame;
 
+    if (_vt->currTime() - _lastFrameUpdated >= FRAME_DURATION) 
+    {
+        _changeEnabled = true;
+
+        _lastFrameUpdated = _vt->currTime();
+
+        if (_currentFrame + 1 == ANIM_FRAME_QUANTITY)
+        _currentFrame = 0;
+        else 
+        ++_currentFrame;
+    }
+
     if (_changeEnabled) {
-        if (_pacmanInmunity) frame = 30;
-        else frame = 32;
+        if (_pacmanInmunity) frame = FIRST_VULNERABLE_FRAME;
+        else frame = FIRST_NORMAL_FRAME;
+
+        frame += _currentFrame;
     }
 
     for (int i = 0; i < _ghosts->size(); ++i) {
@@ -70,7 +87,6 @@ void GhostSystem::resetFlags() {
     _lastSpawnStamp = _vt->currTime();
 
     _pacmanInmunity = false;
-    _changeEnabled = false;
 }
 
 void

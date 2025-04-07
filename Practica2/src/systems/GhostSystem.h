@@ -30,6 +30,15 @@ private:
 
     static constexpr float GHOST_SPEED = 1.1f;
 
+    static constexpr int FIRST_NORMAL_FRAME = 32;
+    static constexpr int FIRST_VULNERABLE_FRAME = 48;
+    static constexpr int ANIM_FRAME_QUANTITY = 8;
+
+    static constexpr Uint32 FRAME_DURATION = 200;
+
+    int _currentFrame = 0;
+    Uint32 _lastFrameUpdated;
+
     void resetFlags();
     void tryAddGhost();
     void updateDirection(Transform*& gTr);
