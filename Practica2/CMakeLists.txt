@@ -60,7 +60,7 @@ include_directories(
 # Crear ejecutable
 add_executable(TPV2_Practica2
 	
-	main.cpp
+	src/main.cpp
 
     src/sdlutils/SDLUtils.cpp
     src/sdlutils/SDLUtilsError.cpp

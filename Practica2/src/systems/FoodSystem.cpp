@@ -137,6 +137,8 @@ void FoodSystem::resetCounters() {
         if (_mngr->hasComponent<Miraculous>(fruits[i])) {
             auto miraculous = _mngr->getComponent<Miraculous>(fruits[i]);
             miraculous->reset();
+
+            _mngr->getComponent<ImageWithFrames>(fruits[i])->setFrame(12);
         }
     }
 }

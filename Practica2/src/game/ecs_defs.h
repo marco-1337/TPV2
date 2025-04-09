@@ -7,7 +7,6 @@
 struct Transform;
 struct Image;
 struct ImageWithFrames;
-struct Points;
 struct Health;
 struct Miraculous;
 struct Immunity;
@@ -16,7 +15,6 @@ struct Immunity;
 	Transform, \
 	Image, \
 	ImageWithFrames, \
-	Points, \
 	Health, \
 	Miraculous, \
 	Immunity
@@ -24,7 +22,6 @@ struct Immunity;
 // Groups list - must have at least one element
 //
 #define _GRPS_LIST_ \
-	STARS, \
 	GHOSTS, \
 	FRUITS
 

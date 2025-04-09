@@ -26,7 +26,7 @@ private:
     Transform* _pacmanTransform;
     Health* _pacmanHealth;
 
-    bool _pacmanInmunity, _changeEnabled;
+    bool _changeEnabled;
 
     static constexpr float GHOST_SPEED = 1.1f;
 

@@ -7,7 +7,6 @@
   ],
   
   "images" : [
-    { "id" : "pacman", "file" : "resources/images/pacman.png"},
     { "id" : "pacman_sprites", "file" : "resources/images/pacman_sprites.png"},
     { "id" : "heart", "file" : "resources/images/heart.png"}
   ],

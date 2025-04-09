@@ -5,6 +5,7 @@
 #include "../components/ImageWithFrames.h"
 #include "../components/Transform.h"
 #include "../components/Health.h"
+#include "../components/Immunity.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
@@ -37,7 +38,9 @@ void GhostSystem::initSystem() {
 
 void GhostSystem::update() {
 
-    if (!_pacmanInmunity) {
+    bool pacmanImmunity = _mngr->getComponent<Immunity>(_mngr->getHandler(ecs::hdlr::PACMAN))->_immune;
+
+    if (!pacmanImmunity) {
         tryAddGhost();
     }
 
@@ -59,7 +62,7 @@ void GhostSystem::update() {
     }
 
     if (_changeEnabled) {
-        if (_pacmanInmunity) frame = FIRST_VULNERABLE_FRAME;
+        if (pacmanImmunity) frame = FIRST_VULNERABLE_FRAME;
         else frame = FIRST_NORMAL_FRAME;
 
         frame += _currentFrame;
@@ -85,8 +88,6 @@ void GhostSystem::update() {
 
 void GhostSystem::resetFlags() {
     _lastSpawnStamp = _vt->currTime();
-
-    _pacmanInmunity = false;
 }
 
 void
@@ -147,11 +148,9 @@ GhostSystem::receive(const Message &m) {
             pacmanHitsGhost(m.pacman_ghost_collision_data.e);
             break;
         case _m_IMMUNITY_START:
-            _pacmanInmunity = true;
             _changeEnabled = true;
             break;
         case _m_IMMUNITY_END:
-            _pacmanInmunity = false;
             _changeEnabled = true;
             break;
         case _m_ROUND_START:
@@ -170,7 +169,8 @@ GhostSystem::receive(const Message &m) {
 
 void
 GhostSystem::pacmanHitsGhost(ecs::entity_t e) {
-    if(_pacmanInmunity) _mngr->setAlive(e, false);
+    if(_mngr->getComponent<Immunity>(_mngr->getHandler(ecs::hdlr::PACMAN))->_immune) 
+        _mngr->setAlive(e, false);
 }
 
 void
