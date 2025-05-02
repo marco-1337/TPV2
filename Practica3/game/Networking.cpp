@@ -1,7 +1,7 @@
 // This file is part of the course TPV2@UCM - Samir Genaim
 
 #include "Networking.h"
-#include "netwrok_messages.h"
+#include "network_messages.h"
 #include <iostream>
 
 #include "../sdlutils/SDLNetUtils.h"

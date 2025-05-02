@@ -4,7 +4,7 @@
 #include <SDL_net.h>
 #include <SDL_stdinc.h>
 
-#include "netwrok_messages.h"
+#include "network_messages.h"
 class Vector2D;
 
 class Networking {

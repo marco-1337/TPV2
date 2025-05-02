@@ -6,7 +6,7 @@
 #include <SDL_net.h>
 
 #include "../sdlutils/SDLNetUtils.h"
-#include "netwrok_messages.h"
+#include "network_messages.h"
 
 UDPServer::UDPServer(const Uint16 port, uint8_t max_clients) {
 	_sock = SDLNet_UDP_Open(port);

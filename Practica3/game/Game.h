@@ -10,6 +10,7 @@ public:
 	Game();
 	virtual ~Game();
 	void init(const char *map);
+	void initGame(const char *map);
 	void start();
 private:
 	LittleWolf *_little_wolf;
