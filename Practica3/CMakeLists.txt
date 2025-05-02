@@ -48,7 +48,7 @@ include_directories(
 	sdlutils
 	utils
     json
-	game
+	src/game
 )
 
 
@@ -69,8 +69,14 @@ add_executable(TPV2_Practica3
     json/JSON.cpp
     json/JSONValue.cpp
 
-	game/Game.cpp
-	game/LittleWolf.cpp
+	src/game/Game.cpp
+	src/game/LittleWolf.cpp
+
+	src/game/Bullets.cpp
+	src/game/Fighter.cpp
+	src/game/Networking.cpp
+	src/game/UDPServer.cpp
+
 )
 # Definir directorios de salida
 set_target_properties(TPV2_Practica3 PROPERTIES 
