@@ -77,8 +77,8 @@ add_executable(TPV2_Practica3
 
 	#game/Bullets.cpp
 	#game/Fighter.cpp
-	#game/Networking.cpp
-	#game/UDPServer.cpp
+	game/Networking.cpp
+	game/UDPServer.cpp
 
 )
 # Definir directorios de salida

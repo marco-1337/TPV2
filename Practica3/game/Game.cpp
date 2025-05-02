@@ -4,10 +4,13 @@
 
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/SDLNetUtils.h"
 #include "LittleWolf.h"
+#include "Networking.h"
 
 Game::Game() :
-		_little_wolf() //
+		_little_wolf(), //
+		_net()
 {
 }
 
@@ -22,15 +25,30 @@ Game::~Game() {
 		SDLUtils::Release();
 
 	delete _little_wolf;
+	delete _net;
+
+	SDLNetUtils::closeSDLNet();
 }
 
-void Game::init(const char *map) {
+bool Game::init() {
+	return true;
+}
+
+bool Game::initGame(const char *map, char *host, Uint16 port) {
 
 
 	_little_wolf = new LittleWolf();
 
 	// load a map
 	_little_wolf->load(map);
+
+	_net = new Networking();
+
+	if (!_net->init(host, port)) {
+		SDLNetUtils::print_SDLNet_error();
+		return false;
+	}
+	std::cout << "Connected as client " << (int) _net->client_id() << std::endl;
 
 	// initialize the SDL singleton
 	if (!SDLUtils::Init("[Little Wolf: " + std::string(map) + "]",
@@ -40,16 +58,18 @@ void Game::init(const char *map) {
 
 		std::cerr << "Something went wrong while initializing SDLUtils"
 				<< std::endl;
-		return;
+		return false;
 	}
 
 	// initialize the InputHandler singleton
 	if (!InputHandler::Init()) {
 		std::cerr << "Something went wrong while initializing SDLHandler"
 				<< std::endl;
-		return;
+		return false;
 
 	}
+
+	SDLNetUtils::initSDLNet();
 
 	_little_wolf->init(sdlutils().window(), sdlutils().renderer());
 
@@ -58,6 +78,8 @@ void Game::init(const char *map) {
 	_little_wolf->addPlayer(1);
 	_little_wolf->addPlayer(2);
 	_little_wolf->addPlayer(3);
+
+	return true;
 }
 
 void Game::start() {
