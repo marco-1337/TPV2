@@ -2,17 +2,25 @@
 
 #pragma once
 
+#include <SDL_stdinc.h>
+
+#include "../utils/Singleton.h"
 
 class LittleWolf;
+class Networking;
 
-class Game {
-public:
+class Game : public Singleton<Game> {
+	friend Singleton<Game> ;
 	Game();
+public:
 	virtual ~Game();
-	void init(const char *map);
+	bool initGame(const char *map, char *host, Uint16 port);
 	void start();
-private:
-	LittleWolf *_little_wolf;
 
+private:
+	bool init();
+	
+	LittleWolf *_little_wolf;
+	Networking *_net;
 };
 
