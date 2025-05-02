@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15...3.30)
 
-project(TPV2_Practica2 VERSION 0.1 LANGUAGES CXX)
+project(TPV2_Practica3 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
