@@ -15,6 +15,7 @@ if (CMAKE_HOST_WIN32)
 		external/SDL2_image-2.8.4/include
         external/SDL2_mixer-2.8.0/include
 		external/SDL2_ttf-2.24.0/include
+		external/SDL2_net-2.2.0/include
 	)
 
 	link_directories(
@@ -22,6 +23,7 @@ if (CMAKE_HOST_WIN32)
 		external/SDL2_image-2.8.4/lib/x64
         external/SDL2_mixer-2.8.0/lib/x64
 		external/SDL2_ttf-2.24.0/lib/x64
+		external/SDL2_net-2.2.0/lib/x64
 	)
     link_libraries(
 		SDL2.lib
@@ -29,6 +31,7 @@ if (CMAKE_HOST_WIN32)
 		SDL2_image.lib
 		SDL2_ttf.lib
         SDL2_mixer.lib
+		SDL2_net.lib
 	)
 else()
 	# En otros sistemas operativos utiliza find_package
@@ -84,6 +87,7 @@ set_target_properties(TPV2_Practica3 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/Debug
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/Release
 )
+
 
 set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
 
