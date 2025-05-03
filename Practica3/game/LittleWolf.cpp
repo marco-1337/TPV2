@@ -64,6 +64,8 @@ void
 LittleWolf::update_player_info(uint8_t id, float x, float y, uint8_t state) {
 	Player &p = _players[id];
 
+	_map.walling[(int)p.where.y][(int)p.where.x] = 0;
+
 	p.id = id;
 	p.where.x = x;
 	p.where.y = y;
@@ -97,6 +99,8 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 		// than shoot_distace, we mark the player as dead
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < _shoot_distace) {
 			uint8_t id = tile_to_player(hit.tile);
+
+			std::cout << id << "\n";
 
 			Game::Instance()->get_networking().send_dead(id);
 			
@@ -647,10 +651,6 @@ void LittleWolf::move(Player &p) {
 	}
 
 	Game::Instance()->get_networking().send_state(p.where);
-
-	system("cls");
-	std::cout << _players[0].where.x << " " << _players[0].where.y << " " << _players[0].theta << "\n";
-	std::cout << _players[1].where.x << " " << _players[1].where.y << " " << _players[0].theta << "\n";
 }
 
 void LittleWolf::spin(Player &p) {
@@ -677,8 +677,9 @@ void LittleWolf::shoot(Player &p) {
 
 	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
 	if (ihdlr.keyDownEvent() && ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
+		
+		sdlutils().soundEffects().at("gunshot").play();
 		Player& p = _players[_curr_player_id];
-
 		Game::Instance()->get_networking().send_shoot(p.fov, p.theta);
 	}
 }

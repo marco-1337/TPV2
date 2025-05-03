@@ -117,3 +117,9 @@ if (CMAKE_HOST_WIN32)
 	endif()
 
 endif()
+
+#add_custom_target(run_with_args
+#  COMMAND TPV2_Practica3 client localhost 2000
+#  DEPENDS TPV2_Practica3
+#  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#)

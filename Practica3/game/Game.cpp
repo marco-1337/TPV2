@@ -8,6 +8,8 @@
 #include "LittleWolf.h"
 #include "Networking.h"
 
+#include <iostream>
+
 Game::Game() :
 		_little_wolf(), //
 		_net(nullptr)
@@ -84,7 +86,7 @@ void Game::start() {
 	auto &ihdlr = ih();
 
 	while (!exit) {
-		Uint32 startTime = sdlutils().currRealTime();
+		Uint32 startTime = sdlutils().regCurrTime();
 
 		// refresh the input handler
 		ihdlr.refresh();
@@ -107,8 +109,10 @@ void Game::start() {
 
 			_net->update();
 			_little_wolf->render();
+			std::cout << " aaaaa " << "\n";
 		}
 		else {
+			std::cout << " bbbbb " << "\n";
 			restart();
 		}
 
@@ -131,8 +135,12 @@ void Game::setRestartTimeStamp(){
 }
 
 void Game::restart() {
+	
+	std::cout << sdlutils().currTime() - _restartTimeStamp << "\n"; 
+
 	if (sdlutils().currTime() - _restartTimeStamp >= 5000){
 		// To Do: render de numeritos
+		std::cout << sdlutils().currTime() - _restartTimeStamp << "\n"; 
 		Game::Instance()->get_littleWolf().bringAllToLife();
 		_restarting = false;
 	}
