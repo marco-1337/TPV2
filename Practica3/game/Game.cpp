@@ -120,6 +120,8 @@ void Game::start() {
 			SDL_Delay(10 - frameTime);
 	}
 
+	_net->disconnect();
+	
 }
 
 void Game::setRestartTimeStamp(){ 
