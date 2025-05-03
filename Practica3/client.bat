@@ -1,9 +1,9 @@
 :: cambiar a la carpeta donde está la carpeta resources
 
-c:
-cd c:\hlocal\TPV2
+@REM c:
+@REM cd c:\hlocal\TPV2
  
 :: ejecutar un cliente
 
-bin\TPV2Debug.exe client localhost 2000
+bin\Debug\TPV2_Practica3.exe client localhost 2000
 
