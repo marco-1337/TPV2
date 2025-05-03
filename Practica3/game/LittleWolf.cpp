@@ -100,6 +100,9 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 
 			Game::Instance()->get_networking().send_dead(id);
 			
+			float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
+			int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
+			sdlutils().soundEffects().at("pain").setVolume(volume);
 			sdlutils().soundEffects().at("pain").play();
 			return true;
 		}
