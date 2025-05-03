@@ -43,9 +43,9 @@ public:
 	void update_player_state(uint8_t id, float x, float y);
 	void update_player_info(uint8_t id, float x, float y, uint8_t state);
 
-	bool shoot(uint8_t id, Line fov, float theta);
-
 	void removePlayer(uint8_t id);
+	bool shoot(uint8_t id, Line fov, float theta);
+	void killPlayer(uint8_t id);
 
 // !METODOS PRACTICA 3
 
@@ -164,10 +164,10 @@ public:
 		return _yres;
 	}
 
-private:
-
 	// mark all (used) player alive
 	void bringAllToLife();
+
+private:
 
 	// switch to the view of the next player
 	void switchToNextPlayer();

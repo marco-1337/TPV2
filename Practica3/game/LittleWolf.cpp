@@ -91,12 +91,32 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 		// than shoot_distace, we mark the player as dead
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < _shoot_distace) {
 			uint8_t id = tile_to_player(hit.tile);
-			_players[id].state = DEAD;
+
+			Game::Instance()->get_networking().send_dead(id);
+			
 			sdlutils().soundEffects().at("pain").play();
 			return true;
 		}
 	}
 	return false;
+}
+
+
+void 
+LittleWolf::killPlayer(uint8_t id) { 
+	_players[id].state = DEAD; 
+
+	int a_alive = 0;
+
+	if (Game::Instance()->get_networking().is_master()) {
+		for(int i = 0; _max_player > i; ++i)
+			if (_players[i].state == ALIVE)  ++a_alive;
+
+		if (a_alive < 2) {
+			Game::Instance()->get_networking().send_restart();
+		}
+	}
+
 }
 
 // !METODOS PRACTICA 3

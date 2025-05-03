@@ -20,10 +20,17 @@ public:
 	inline LittleWolf& get_littleWolf() { return *_little_wolf; }
 	inline Networking& get_networking() { return *_net; }
 
+	void setRestartTimeStamp();
+
 private:
 	bool init();
 	
 	LittleWolf *_little_wolf;
 	Networking *_net;
+
+	bool _restarting = false;
+	void restart();
+
+	Uint32 _restartTimeStamp;
 };
 

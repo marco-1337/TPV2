@@ -98,14 +98,19 @@ void Game::start() {
 
 		}
 
-		_little_wolf->update();
+		if (!_restarting) {
+			_little_wolf->update();
 
-		// the clear is not necessary since the texture we copy to the window occupies the whole screen
-		// sdlutils().clearRenderer();
+			// the clear is not necessary since the texture we copy to the window occupies the whole screen
+			// sdlutils().clearRenderer();
 
-		_net->update();
+			_net->update();
+			_little_wolf->render();
+		}
+		else {
+			restart();
+		}
 
-		_little_wolf->render();
 
 		sdlutils().presentRenderer();
 
@@ -117,3 +122,14 @@ void Game::start() {
 
 }
 
+void Game::setRestartTimeStamp(){ 
+	_restartTimeStamp = sdlutils().currTime(); 
+	_restarting = true;
+}
+
+void Game::restart() {
+	if (sdlutils().currTime() - _restartTimeStamp >= 5000)
+
+	// To Do: render de numeritos
+		Game::Instance()->get_littleWolf().bringAllToLife();
+}
