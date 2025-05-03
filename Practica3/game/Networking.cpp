@@ -218,10 +218,19 @@ void Networking::send_my_info(const LittleWolf::Point &pos, Uint8 state) {
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
+void Networking::send_player_info(uint8_t id, const LittleWolf::Point &pos, uint8_t state) {
+	PlayerInfoMsg m;
+	m._type = _PLAYER_INFO;
+	m._client_id = id;
+	m.x = pos.x;
+	m.y = pos.y;
+	m.state = state;
+	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
+}
+	
+
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
-	if (m._client_id != _clientId) {
-		Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.state);
-	}
+	Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.state);
 }
 
 void Networking::send_restart() {

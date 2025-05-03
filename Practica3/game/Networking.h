@@ -29,6 +29,7 @@ public:
 
 	void send_state(const LittleWolf::Point &pos);
 	void send_my_info(const LittleWolf::Point &pos,	Uint8 state);
+	void send_player_info(uint8_t id, const LittleWolf::Point &pos, uint8_t state);
 	
 	void send_shoot(LittleWolf::Line fov, float theta);
 	void send_dead(Uint8 id);

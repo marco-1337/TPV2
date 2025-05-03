@@ -191,7 +191,7 @@ void LittleWolf::update() {
 		if (ihdlr.isKeyDown(SDL_SCANCODE_R)) {
 			bringAllToLife();
 		}
-					
+
 		*/
 	}
 
@@ -714,10 +714,34 @@ void LittleWolf::switchToNextPlayer() {
 }
 
 void LittleWolf::bringAllToLife() {
-	// bring all dead players to life -- all stay in the same position
-	for (auto i = 0u; i < _max_player; i++) {
-		if (_players[i].state == DEAD) {
-			_players[i].state = ALIVE;
+	if (Game::Instance()->get_networking().is_master()) {
+		auto &rand = sdlutils().rand();
+
+		for(int i = 0; _max_player > i; ++i) {
+			if(_players[i].state != NOT_USED) {
+
+				// The search for an empty cell start at a random position (orow,ocol)
+				uint16_t orow = rand.nextInt(0, _map.walling_height);
+				uint16_t ocol = rand.nextInt(0, _map.walling_width);
+			
+				// search for an empty cell
+				uint16_t row = orow;
+				uint16_t col = (ocol + 1) % _map.walling_width;
+				while (!((orow == row) && (ocol == col)) && _map.walling[row][col] != 0) {
+					col = (col + 1) % _map.walling_width;
+					if (col == 0)
+						row = (row + 1) % _map.walling_height;
+				}
+
+				#ifdef _DEBUG
+				std::cout << "new player pos: " << col << " " << row << std::endl;
+				#endif
+
+				// assign new position to player
+				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, ALIVE);
+			
+			}
 		}
+
 	}
 }
