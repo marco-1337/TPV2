@@ -116,7 +116,17 @@ LittleWolf::killPlayer(uint8_t id) {
 			Game::Instance()->get_networking().send_restart();
 		}
 	}
+}
 
+void LittleWolf::view() {
+	auto &ihdlr = ih();
+
+	if (ihdlr.isKeyDown(SDL_SCANCODE_Q)) {
+		Player& p = _players[_curr_player_id];
+
+		if(p.state == ALIVE)
+			p.cenitalView = !p.cenitalView;
+	}
 }
 
 // !METODOS PRACTICA 3
@@ -167,6 +177,7 @@ void LittleWolf::update() {
 	spin(p);  // handle spinning
 	move(p);  // handle moving
 	shoot(p); // handle shooting
+	view();  // handle view
 }
 
 void LittleWolf::load(std::string filename) {
@@ -351,7 +362,8 @@ bool LittleWolf::addPlayer(std::uint8_t id) {
 					2.0f, 			// Speed.
 					0.9f, 			// Acceleration.
 					0.0f, 			// Rotation angle in radians.
-					ALIVE 			// Player state
+					ALIVE, 			// Player state
+					false			// normal view
 			};
 
 	// not that player <id> is stored in the map as player_to_tile(id) -- which is id+10
@@ -366,7 +378,7 @@ bool LittleWolf::addPlayer(std::uint8_t id) {
 void LittleWolf::render() {
 
 	// if the player is dead we only render upper view, otherwise the normal view
-	if (_players[_curr_player_id].state == DEAD)
+	if (_players[_curr_player_id].state == DEAD || _players[_curr_player_id].cenitalView)
 		render_upper_view();
 	else
 		render_map(_players[_curr_player_id]);
@@ -662,6 +674,7 @@ void LittleWolf::shoot(Player &p) {
 		Game::Instance()->get_networking().send_shoot(p.fov, p.theta);
 	}
 }
+
 
 void LittleWolf::switchToNextPlayer() {
 

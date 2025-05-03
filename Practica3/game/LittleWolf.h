@@ -87,6 +87,7 @@ public:
 		float acceleration;  // acceleration
 		float theta;         // rotation (in rad)
 		PlayerState state;   // the state
+		bool cenitalView;	 // render the upper view
 	};
 
 	// Representing a map, the user_walling is the walling provided by the user, and
@@ -188,6 +189,9 @@ private:
 
 	// Moves the player when w,a,s,d are held down. Handles collision detection for the walls.
 	void move(Player &p);
+
+	// Alternates between normal and upper view
+	void view();
 
 	// Renders the entire scene from the <current player> perspective given a <map> and a software <gpu>.
 	void render_map(Player &p);
