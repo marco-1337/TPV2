@@ -81,7 +81,7 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 	Player& p = _players[id];
 
 	bool soundPlayed = false;
-	
+
 	for (float d = -0.05; d <= 0.05; d += 0.005) {
 
 		// search which tile was hit
@@ -186,12 +186,13 @@ void LittleWolf::update() {
 		if (ihdlr.isKeyDown(SDL_SCANCODE_N)) {
 			switchToNextPlayer();
 		}
-		*/
 
 		// R brings deads to life
 		if (ihdlr.isKeyDown(SDL_SCANCODE_R)) {
 			bringAllToLife();
 		}
+					
+		*/
 	}
 
 	Player &p = _players[_curr_player_id];
