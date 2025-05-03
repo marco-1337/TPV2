@@ -51,10 +51,13 @@ LittleWolf::update_player_state(uint8_t id, float x, float y) {
 
 	Player &p = _players[id];
 
+	_map.walling[(int)p.where.y][(int)p.where.x] = 0;
+
 	p.id = id;
 	p.where.x = x;
 	p.where.y = y;
-	p.state = ALIVE;
+
+	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
 }
 
 void 
@@ -65,6 +68,8 @@ LittleWolf::update_player_info(uint8_t id, float x, float y, uint8_t state) {
 	p.where.x = x;
 	p.where.y = y;
 	p.state = static_cast<PlayerState>(state);
+
+	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
 }
 
 bool 
@@ -644,8 +649,8 @@ void LittleWolf::move(Player &p) {
 	Game::Instance()->get_networking().send_state(p.where);
 
 	system("cls");
-	std::cout << _players[0].where.x << " " << _players[0].where.y << "\n";
-	std::cout << _players[1].where.x << " " << _players[1].where.y << "\n";
+	std::cout << _players[0].where.x << " " << _players[0].where.y << " " << _players[0].theta << "\n";
+	std::cout << _players[1].where.x << " " << _players[1].where.y << " " << _players[0].theta << "\n";
 }
 
 void LittleWolf::spin(Player &p) {

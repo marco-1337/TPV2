@@ -71,6 +71,7 @@ bool Game::initGame(const char *map, char *host, Uint16 port) {
 
 	// add some players
 	_little_wolf->addPlayer(_net->client_id());
+	_little_wolf->send_my_info();
 
 	return true;
 }
@@ -130,8 +131,9 @@ void Game::setRestartTimeStamp(){
 }
 
 void Game::restart() {
-	if (sdlutils().currTime() - _restartTimeStamp >= 5000)
-
-	// To Do: render de numeritos
+	if (sdlutils().currTime() - _restartTimeStamp >= 5000){
+		// To Do: render de numeritos
 		Game::Instance()->get_littleWolf().bringAllToLife();
+		_restarting = false;
+	}
 }
