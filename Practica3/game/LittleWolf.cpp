@@ -79,7 +79,9 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 
 	// we shoot in several directions, because with projection what you see is not exact
 	Player& p = _players[id];
-		
+
+	bool soundPlayed = false;
+	
 	for (float d = -0.05; d <= 0.05; d += 0.005) {
 
 		// search which tile was hit
@@ -94,6 +96,16 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 				"Shoot by player %d hit a tile with value %d! at distance %f\n",
 				p.id, hit.tile, mag(sub(p.where, hit.where)));
 #endif
+		
+		if(!soundPlayed) {
+			float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
+			int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
+			volume = std::max(0, volume);
+			sdlutils().soundEffects().at("gunshot").setVolume(volume);
+			sdlutils().soundEffects().at("gunshot").play();
+
+			soundPlayed = true;
+		}
 
 		// if we hit a tile with a player id and the distance from that tile is smaller
 		// than shoot_distace, we mark the player as dead
@@ -106,6 +118,7 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 			
 			float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
 			int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
+			volume = std::max(0, volume);
 			sdlutils().soundEffects().at("pain").setVolume(volume);
 			sdlutils().soundEffects().at("pain").play();
 			return true;
@@ -681,7 +694,6 @@ void LittleWolf::shoot(Player &p) {
 	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
 	if (ihdlr.keyDownEvent() && ihdlr.isKeyDown(SDL_SCANCODE_SPACE)) {
 		
-		sdlutils().soundEffects().at("gunshot").play();
 		Player& p = _players[_curr_player_id];
 		Game::Instance()->get_networking().send_shoot(p.fov, p.theta);
 	}
