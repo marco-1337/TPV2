@@ -121,7 +121,7 @@ LittleWolf::killPlayer(uint8_t id) {
 void LittleWolf::view() {
 	auto &ihdlr = ih();
 
-	if (ihdlr.isKeyDown(SDL_SCANCODE_Q)) {
+	if (ihdlr.keyDownEvent() && ihdlr.isKeyDown(SDL_SCANCODE_Q)) {
 		Player& p = _players[_curr_player_id];
 
 		if(p.state == ALIVE)
