@@ -36,6 +36,19 @@ public:
 		Point b;
 	};
 
+	
+// METODOS PRACTICA 3
+
+	void send_my_info();
+	void update_player_state(uint8_t id, float x, float y);
+	void update_player_info(uint8_t id, float x, float y, uint8_t state);
+
+	bool shoot(uint8_t id, Line fov, float theta);
+
+	void removePlayer(uint8_t id);
+
+// !METODOS PRACTICA 3
+
 	// The information on the window/renderer, the size of the window, and a texture
 	// that we use to draw the walls, etc.
 	struct Gpu {
@@ -168,7 +181,7 @@ private:
 			bool ignore_players, bool ignore_deads);
 
 	// Moves the player when w,a,s,d are held down. Handles collision detection for the walls.
-	bool shoot(Player &p);
+	void shoot(Player &p);
 
 	// Spins the player when keys grid_h,l are held down. When left-shit is held down the move is slower
 	inline void spin(Player &p);

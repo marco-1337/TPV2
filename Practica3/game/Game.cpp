@@ -10,7 +10,7 @@
 
 Game::Game() :
 		_little_wolf(), //
-		_net()
+		_net(nullptr)
 {
 }
 
@@ -26,8 +26,6 @@ Game::~Game() {
 
 	delete _little_wolf;
 	delete _net;
-
-	SDLNetUtils::closeSDLNet();
 }
 
 bool Game::init() {
@@ -69,15 +67,10 @@ bool Game::initGame(const char *map, char *host, Uint16 port) {
 
 	}
 
-	SDLNetUtils::initSDLNet();
-
 	_little_wolf->init(sdlutils().window(), sdlutils().renderer());
 
 	// add some players
-	_little_wolf->addPlayer(0);
-	_little_wolf->addPlayer(1);
-	_little_wolf->addPlayer(2);
-	_little_wolf->addPlayer(3);
+	_little_wolf->addPlayer(_net->client_id());
 
 	return true;
 }
@@ -109,6 +102,8 @@ void Game::start() {
 
 		// the clear is not necessary since the texture we copy to the window occupies the whole screen
 		// sdlutils().clearRenderer();
+
+		_net->update();
 
 		_little_wolf->render();
 

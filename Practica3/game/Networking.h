@@ -5,7 +5,10 @@
 #include <SDL_stdinc.h>
 
 #include "network_messages.h"
+
 class Vector2D;
+
+#include "LittleWolf.h"
 
 class Networking {
 public:
@@ -24,11 +27,10 @@ public:
 		return _clientId == _masterId;
 	}
 
-	void send_state(const Vector2D &pos, float w, float h, float rot);
-	void send_my_info(const Vector2D &pos, float w, float h, float rot,
-			Uint8 state);
+	void send_state(const LittleWolf::Point &pos);
+	void send_my_info(const LittleWolf::Point &pos,	Uint8 state);
 	
-	void send_shoot(Vector2D p, Vector2D v, int width, int height, float r);
+	void send_shoot(LittleWolf::Line fov, float theta);
 	void send_dead(Uint8 id);
 	void send_restart();
 

@@ -17,6 +17,9 @@ public:
 	bool initGame(const char *map, char *host, Uint16 port);
 	void start();
 
+	inline LittleWolf& get_littleWolf() { return *_little_wolf; }
+	inline Networking& get_networking() { return *_net; }
+
 private:
 	bool init();
 	

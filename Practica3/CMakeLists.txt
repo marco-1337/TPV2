@@ -41,6 +41,7 @@ else()
 	find_package(SDL2_image REQUIRED)
     find_package(SDL2_mixer REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
+	find_package(SDL2_net REQUIRED)
 
 	include_directories(${SDL2_INCLUDE_DIRS})
     link_libraries(${SDL2_LIBRARIES})
@@ -48,10 +49,10 @@ endif()
 
 # Incluir directorios
 include_directories(
-	sdlutils
-	utils
-    json
-	game
+	${CMAKE_SOURCE_DIR}/sdlutils
+	${CMAKE_SOURCE_DIR}/utils
+    ${CMAKE_SOURCE_DIR}/json
+	${CMAKE_SOURCE_DIR}/game
 )
 
 
@@ -62,6 +63,7 @@ add_executable(TPV2_Practica3
 
     sdlutils/SDLUtils.cpp
     sdlutils/SDLUtilsError.cpp
+	sdlutils/SDLNetUtils.cpp
     sdlutils/SoundEffect.cpp
     sdlutils/Texture.cpp
 	
