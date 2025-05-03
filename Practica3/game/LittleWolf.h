@@ -47,6 +47,8 @@ public:
 	bool shoot(uint8_t id, Line fov, float theta);
 	void killPlayer(uint8_t id);
 
+	void view();	// Alternates between normal and upper view
+
 // !METODOS PRACTICA 3
 
 	// The information on the window/renderer, the size of the window, and a texture
@@ -189,9 +191,6 @@ private:
 
 	// Moves the player when w,a,s,d are held down. Handles collision detection for the walls.
 	void move(Player &p);
-
-	// Alternates between normal and upper view
-	void view();
 
 	// Renders the entire scene from the <current player> perspective given a <map> and a software <gpu>.
 	void render_map(Player &p);
