@@ -176,11 +176,11 @@ void Networking::send_shoot(LittleWolf::Line fov, float theta) {
 	m._type = _SHOOT;
 	m._client_id = _clientId;
 	m.fov_a_x = fov.a.x;
-	m.fov_a_y = fov.a.x;
-	m.fov_b_x = fov.a.x;
-	m.fov_b_y = fov.a.x;
+	m.fov_a_y = fov.a.y;
+	m.fov_b_x = fov.b.x;
+	m.fov_b_y = fov.b.y;
 	m.theta = theta;
-	
+
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 

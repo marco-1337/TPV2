@@ -57,14 +57,12 @@ struct PlayerInfoMsg: MsgWithId {
 };
 struct ShootMsg: MsgWithId {
 
-	float x;
-	float y;
 	float fov_a_x;
 	float fov_a_y;
 	float fov_b_x;
 	float fov_b_y;
 	float theta;
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,fov_a_x,fov_a_y,fov_b_x,fov_b_y,theta)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId,fov_a_x,fov_a_y,fov_b_x,fov_b_y,theta)
 
 };

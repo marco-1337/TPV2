@@ -85,7 +85,7 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 	for (float d = -0.05; d <= 0.05; d += 0.005) {
 
 		// search which tile was hit
-		const Line camera = rotate(p.fov, p.theta + d);
+		const Line camera = rotate(fov, theta + d);
 		Point direction = lerp(camera, 0.5f);
 		direction.x = direction.x / mag(direction);
 		direction.y = direction.y / mag(direction);

@@ -109,10 +109,8 @@ void Game::start() {
 
 			_net->update();
 			_little_wolf->render();
-			std::cout << " aaaaa " << "\n";
 		}
 		else {
-			std::cout << " bbbbb " << "\n";
 			restart();
 		}
 
