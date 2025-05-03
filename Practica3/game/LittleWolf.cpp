@@ -54,6 +54,7 @@ LittleWolf::update_player_state(uint8_t id, float x, float y) {
 	p.id = id;
 	p.where.x = x;
 	p.where.y = y;
+	p.state = ALIVE;
 }
 
 void 
@@ -623,8 +624,6 @@ void LittleWolf::move(Player &p) {
 	p.where = add(p.where, p.velocity);
 	// Sets velocity to zero if there is a collision and puts p back in bounds.
 
-
-
 	// if player hits a wall or a different player, we take the player back
 	// to previous position and put velocity to 0
 	if (tile(p.where, _map.walling) != 10 + _curr_player_id
@@ -643,6 +642,10 @@ void LittleWolf::move(Player &p) {
 	}
 
 	Game::Instance()->get_networking().send_state(p.where);
+
+	system("cls");
+	std::cout << _players[0].where.x << " " << _players[0].where.y << "\n";
+	std::cout << _players[1].where.x << " " << _players[1].where.y << "\n";
 }
 
 void LittleWolf::spin(Player &p) {
