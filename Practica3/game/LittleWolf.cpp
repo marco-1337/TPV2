@@ -148,12 +148,6 @@ LittleWolf::damagePlayer(uint8_t id) {
 			Game::Instance()->get_networking().send_dead(id);
 		}
 	}
-
-	if (Game::Instance()->get_networking().is_master()) {
-				Game::Instance()->get_networking().send_dead(id);
-	}
-
-	std::cout << std::to_string(id) << " " << _players[id].health << "\n";
 }
 
 void 
