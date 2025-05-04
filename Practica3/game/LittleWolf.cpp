@@ -38,7 +38,7 @@ void
 LittleWolf::send_my_info() {
 	Player &p = _players[_curr_player_id];
 
-	Game::Instance()->get_networking().send_my_info(p.where, p.state);
+	Game::Instance()->get_networking().send_my_info(p.where, p.health, p.state);
 }
 
 void 
@@ -67,7 +67,7 @@ LittleWolf::update_player_state(uint8_t id, float x, float y) {
 }
 
 void 
-LittleWolf::update_player_info(uint8_t id, float x, float y, uint8_t state) {
+LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t state) {
 	Player &p = _players[id];
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = 0;
@@ -75,6 +75,7 @@ LittleWolf::update_player_info(uint8_t id, float x, float y, uint8_t state) {
 	p.id = id;
 	p.where.x = x;
 	p.where.y = y;
+	p.health = health;
 	p.state = static_cast<PlayerState>(state);
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
@@ -120,7 +121,7 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 
 			std::cout << id << "\n";
 
-			Game::Instance()->get_networking().send_dead(id);
+			Game::Instance()->get_networking().send_hit(id);
 			
 			float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
 			int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
@@ -133,6 +134,16 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 	return false;
 }
 
+
+void 
+LittleWolf::damagePlayer(uint8_t id) { 
+
+	if ( --_players[id].health == 0 && Game::Instance()->get_networking().is_master()) {
+		Game::Instance()->get_networking().send_dead(id);
+	}
+
+	std::cout << std::to_string(id) << " " << _players[id].health << "\n";
+}
 
 void 
 LittleWolf::killPlayer(uint8_t id) { 
@@ -395,6 +406,7 @@ bool LittleWolf::addPlayer(std::uint8_t id) {
 					2.0f, 			// Speed.
 					0.9f, 			// Acceleration.
 					0.0f, 			// Rotation angle in radians.
+					_max_health,	// Starting health points
 					ALIVE, 			// Player state
 					false			// normal view
 			};
@@ -422,8 +434,7 @@ void LittleWolf::render() {
 	// show help
 	if (_show_help) {
 		int y = sdlutils().height();
-		for (const char *s : { "usage_1", "usage_2", "usage_3", "usage_4",
-				"usage_5" }) {
+		for (const char *s : { "usage_1", "usage_2", "usage_3", "usage_4"}) {
 			auto &t = sdlutils().msgs().at(s);
 			y = y - t.height() - 10;
 			t.render(0, y);
@@ -602,12 +613,17 @@ void LittleWolf::render_players_info() {
 
 	for (auto i = 0u; i < _max_player; i++) {
 		PlayerState s = _players[i].state;
+		int health = _players[i].health;
 
 		// render player info if it is used
 		if (s != NOT_USED) {
 
 			std::string msg = (i == _curr_player_id ? "*P" : " P")
-					+ std::to_string(i) + (s == DEAD ? " (dead)" : "");
+					+ std::to_string(i) + (s == DEAD ? " (dead)" : "") + " ";
+
+			for (int i = 0; i < health; ++i) {
+				msg += "+";
+			}
 
 			Texture info(sdlutils().renderer(), msg,
 					sdlutils().fonts().at("MFR24"),
@@ -743,8 +759,10 @@ void LittleWolf::bringAllToLife() {
 				std::cout << "new player pos: " << col << " " << row << std::endl;
 				#endif
 
+
+
 				// assign new position to player
-				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, ALIVE);
+				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, _max_health, ALIVE);
 			
 			}
 		}

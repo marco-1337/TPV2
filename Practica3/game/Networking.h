@@ -28,10 +28,11 @@ public:
 	}
 
 	void send_state(const LittleWolf::Point &pos);
-	void send_my_info(const LittleWolf::Point &pos,	Uint8 state);
-	void send_player_info(uint8_t id, const LittleWolf::Point &pos, uint8_t state);
+	void send_my_info(const LittleWolf::Point &pos,	int health, Uint8 state);
+	void send_player_info(uint8_t id, const LittleWolf::Point &pos, int health, uint8_t state);
 	
 	void send_shoot(LittleWolf::Line fov, float theta);
+	void send_hit(uint8_t id);
 	void send_dead(Uint8 id);
 	void send_restart();
 
@@ -42,6 +43,7 @@ private:
 	void handle_player_state(const PlayerStateMsg &m);
 	void handle_player_info(const PlayerInfoMsg &m);
 	void handle_shoot(const ShootMsg &m);
+	void handle_hit(const MsgWithId &m);
 	void handle_dead(const MsgWithId &m);
 	void handle_restart();
 
