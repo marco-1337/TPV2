@@ -76,6 +76,10 @@ LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t
 	p.where.x = x;
 	p.where.y = y;
 	p.health = health;
+
+	if(p.state == ALIVE && state == DEAD)
+		playSFX(sdlutils().soundEffects().at("pain"), p.id);
+
 	p.state = static_cast<PlayerState>(state);
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
@@ -87,7 +91,7 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 	// we shoot in several directions, because with projection what you see is not exact
 	Player& p = _players[id];
 
-	bool soundPlayed = false;
+	// bool soundPlayed = false;
 
 	for (float d = -0.05; d <= 0.05; d += 0.005) {
 
@@ -104,15 +108,15 @@ LittleWolf::shoot(uint8_t id, Line fov, float theta) {
 				p.id, hit.tile, mag(sub(p.where, hit.where)));
 #endif
 		
-		if(!soundPlayed) {
-			float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
-			int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
-			volume = std::max(0, volume);
-			sdlutils().soundEffects().at("gunshot").setVolume(volume);
-			sdlutils().soundEffects().at("gunshot").play();
+		// if(!soundPlayed) {
+		// 	float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
+		// 	int volume = 128 - 128 * mag(sub(p.where, hit.where)) / max_hearing_distance;
+		// 	volume = std::max(0, volume);
+		// 	sdlutils().soundEffects().at("gunshot").setVolume(volume);
+		// 	sdlutils().soundEffects().at("gunshot").play();
 
-			soundPlayed = true;
-		}
+		// 	soundPlayed = true;
+		// }
 
 		// if we hit a tile with a player id and the distance from that tile is smaller
 		// than shoot_distace, we mark the player as dead
@@ -173,6 +177,40 @@ LittleWolf::scorePlayer(uint8_t id) {
 	++_players[id].score;
 }
 
+void LittleWolf::bringAllToLife() {
+	if (Game::Instance()->get_networking().is_master()) {
+		auto &rand = sdlutils().rand();
+
+		for(int i = 0; _max_player > i; ++i) {
+			if(_players[i].state != NOT_USED) {
+
+				// The search for an empty cell start at a random position (orow,ocol)
+				uint16_t orow = rand.nextInt(0, _map.walling_height);
+				uint16_t ocol = rand.nextInt(0, _map.walling_width);
+			
+				// search for an empty cell
+				uint16_t row = orow;
+				uint16_t col = (ocol + 1) % _map.walling_width;
+				while (!((orow == row) && (ocol == col)) && _map.walling[row][col] != 0) {
+					col = (col + 1) % _map.walling_width;
+					if (col == 0)
+						row = (row + 1) % _map.walling_height;
+				}
+
+				#ifdef _DEBUG
+				std::cout << "new player pos: " << col << " " << row << std::endl;
+				#endif
+
+				// assign new position to player
+				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, 
+					_max_health, _players[i].score, ALIVE);
+			
+			}
+		}
+
+	}
+}
+
 void LittleWolf::view() {
 	auto &ihdlr = ih();
 
@@ -182,6 +220,22 @@ void LittleWolf::view() {
 		if(p.state == ALIVE)
 			p.cenitalView = !p.cenitalView;
 	}
+}
+
+void LittleWolf::playSFX(SoundEffect &s, uint8_t id) {
+
+	float max_hearing_distance = std::max(_walling_width, _walling_height) / 2;
+	int volume = 128 - 128 * mag(sub(_players[_curr_player_id].where, _players[id].where)) / max_hearing_distance;
+	volume = std::max(0, volume);
+	s.setVolume(volume);
+	s.play();
+
+}
+
+void LittleWolf::mute() {
+	int vol = SoundEffect::getChannelVolume();
+	if(vol == 0) SoundEffect::setChannelVolume(128);
+	else SoundEffect::setChannelVolume(0);
 }
 
 // !METODOS PRACTICA 3
@@ -222,6 +276,10 @@ void LittleWolf::update() {
 		}
 
 		*/
+
+		if (ihdlr.isKeyDown(SDL_SCANCODE_E)) {
+			mute();
+		}
 	}
 
 	Player &p = _players[_curr_player_id];
@@ -750,38 +808,4 @@ void LittleWolf::switchToNextPlayer() {
 
 }
 
-void LittleWolf::bringAllToLife() {
-	if (Game::Instance()->get_networking().is_master()) {
-		auto &rand = sdlutils().rand();
 
-		for(int i = 0; _max_player > i; ++i) {
-			if(_players[i].state != NOT_USED) {
-
-				// The search for an empty cell start at a random position (orow,ocol)
-				uint16_t orow = rand.nextInt(0, _map.walling_height);
-				uint16_t ocol = rand.nextInt(0, _map.walling_width);
-			
-				// search for an empty cell
-				uint16_t row = orow;
-				uint16_t col = (ocol + 1) % _map.walling_width;
-				while (!((orow == row) && (ocol == col)) && _map.walling[row][col] != 0) {
-					col = (col + 1) % _map.walling_width;
-					if (col == 0)
-						row = (row + 1) % _map.walling_height;
-				}
-
-				#ifdef _DEBUG
-				std::cout << "new player pos: " << col << " " << row << std::endl;
-				#endif
-
-
-
-				// assign new position to player
-				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, 
-					_max_health, _players[i].score, ALIVE);
-			
-			}
-		}
-
-	}
-}

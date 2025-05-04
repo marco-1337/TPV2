@@ -66,6 +66,11 @@ public:
 		Mix_HaltChannel(channel);
 	}
 
+	inline static int getChannelVolume(int channel = -1) {
+		_CHECK_CHANNEL_(channel);
+		return Mix_Volume(channel, -1);
+	}
+
 	inline static int setChannelVolume(int volume, int channel = -1) {
 		_CHECK_CHANNEL_(channel);
 		assert(volume >= 0 && volume <= 128);
