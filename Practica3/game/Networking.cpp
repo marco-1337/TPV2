@@ -120,6 +120,11 @@ void Networking::update() {
 			handle_player_state(m2);
 			break;
 
+		case _PLAYER_NEWROUND:
+			m2.deserialize(_p->data);
+			handle_player_new_round(m2);
+			break;
+
 		case _PLAYER_INFO:
 			m5.deserialize(_p->data);
 			handle_player_info(m5);
@@ -173,11 +178,24 @@ void Networking::send_state(const LittleWolf::Point &pos) {
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
+void Networking::send_player_new_round(uint8_t id, const LittleWolf::Point &pos) {
+	PlayerStateMsg m;
+	m._type = _PLAYER_NEWROUND;
+	m._client_id = id;
+	m.x = pos.x;
+	m.y = pos.y;
+	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
+}
+
 void Networking::handle_player_state(const PlayerStateMsg &m) {
 
 	if (m._client_id != _clientId) {
 		Game::Instance()->get_littleWolf().update_player_state(m._client_id, m.x, m.y);
 	}
+}
+
+void Networking::handle_player_new_round(const PlayerStateMsg &m) {
+	Game::Instance()->get_littleWolf().new_round_player_state(m._client_id, m.x, m.y);
 }
 
 void Networking::send_shoot(LittleWolf::Line fov, float theta) {
@@ -242,7 +260,20 @@ void Networking::handle_score(const MsgWithId &m) {
 	Game::Instance()->get_littleWolf().scorePlayer(m._client_id);
 }
 
-void Networking::send_my_info(const LittleWolf::Point &pos, int health, int score, Uint8 state) {
+void string_to_chars(std::string &str, char c_str[11]) { 
+  auto i = 0u; 
+  for (; i < str.size() && i < 10; i++) c_str[i] = str[i]; 
+  c_str[i] = 0; 
+}
+
+void chars_to_string(std::string &str, char c_str[11]) { 
+  c_str[10] = 0; 
+  str = std::string(c_str); 
+}
+
+
+void Networking::send_my_info(const LittleWolf::Point &pos, int health, int score, Uint8 state, std::string name) {
+
 	PlayerInfoMsg m;
 	m._type = _PLAYER_INFO;
 	m._client_id = _clientId;
@@ -251,24 +282,16 @@ void Networking::send_my_info(const LittleWolf::Point &pos, int health, int scor
 	m.health = health;
 	m.score = score;
 	m.state = state;
+	string_to_chars(name, m.name);
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
-void Networking::send_player_info(uint8_t id, const LittleWolf::Point &pos, int health, int score, uint8_t state) {
-	PlayerInfoMsg m;
-	m._type = _PLAYER_INFO;
-	m._client_id = id;
-	m.x = pos.x;
-	m.y = pos.y;
-	m.health = health;
-	m.score = score;
-	m.state = state;
-	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
-}
+void Networking::handle_player_info(PlayerInfoMsg &m) {
 	
+	std::string name;
+	chars_to_string(name, m.name);
 
-void Networking::handle_player_info(const PlayerInfoMsg &m) {
-	Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.health, m.state);
+	Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.health, m.state, m.name);
 }
 
 void Networking::send_restart() {

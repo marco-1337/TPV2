@@ -18,7 +18,8 @@ enum MsgType : Uint8 {
 	_HIT, //
 	_DEAD, //
 	_SCORE, //
-	_RESTART
+	_RESTART, //
+	_PLAYER_NEWROUND
 
 };
 
@@ -56,8 +57,9 @@ struct PlayerInfoMsg: MsgWithId {
 	int health;
 	int score;
 	Uint8 state;
+	char name[11];
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,health,score,state)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId,x,y,health,score,state,name,11u)
 
 };
 struct ShootMsg: MsgWithId {

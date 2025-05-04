@@ -43,7 +43,8 @@ public:
 
 	void send_my_info();
 	void update_player_state(uint8_t id, float x, float y);
-	void update_player_info(uint8_t id, float x, float y, int health, uint8_t state);
+	void update_player_info(uint8_t id, float x, float y, int health, uint8_t state, std::string name);
+	void new_round_player_state(uint8_t id, float x, float y);
 
 	void removePlayer(uint8_t id);
 	bool shoot(uint8_t id, Line fov, float theta);
@@ -100,6 +101,7 @@ public:
 		int score;			 // player score
 		PlayerState state;   // the state
 		bool cenitalView;	 // render the upper view
+		std::string name;	 // player name
 	};
 
 	// Representing a map, the user_walling is the walling provided by the user, and
@@ -158,7 +160,7 @@ public:
 	void load(std::string filename);
 
 	// add a new player with identifier <id>, returns false if the id is already occupied
-	bool addPlayer(std::uint8_t id);
+	bool addPlayer(std::uint8_t id, const std::string& name);
 
 	// initialize the SDL window information
 	void init(SDL_Window *window, SDL_Renderer *render);

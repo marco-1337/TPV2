@@ -38,7 +38,7 @@ void
 LittleWolf::send_my_info() {
 	Player &p = _players[_curr_player_id];
 
-	Game::Instance()->get_networking().send_my_info(p.where, p.health, p.score, p.state);
+	Game::Instance()->get_networking().send_my_info(p.where, p.health, p.score, p.state, p.name);
 }
 
 void 
@@ -67,7 +67,19 @@ LittleWolf::update_player_state(uint8_t id, float x, float y) {
 }
 
 void 
-LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t state) {
+LittleWolf::new_round_player_state(uint8_t id, float x, float y) {
+
+	update_player_state(id, x, y);
+
+	Player &p = _players[id];
+
+	p.health = _max_health;
+	p.state = ALIVE;
+}
+
+
+void 
+LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t state, std::string name) {
 	Player &p = _players[id];
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = 0;
@@ -81,6 +93,7 @@ LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t
 		playSFX(sdlutils().soundEffects().at("pain"), p.id);
 
 	p.state = static_cast<PlayerState>(state);
+	p.name = name;
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
 }
@@ -196,8 +209,7 @@ void LittleWolf::bringAllToLife() {
 				#endif
 
 				// assign new position to player
-				Game::Instance()->get_networking().send_player_info(_players[i].id, {col + 0.5f, row + 0.5f,}, 
-					_max_health, _players[i].score, ALIVE);
+				Game::Instance()->get_networking().send_player_new_round(_players[i].id, {col + 0.5f, row + 0.5f,});
 			
 			}
 		}
@@ -435,7 +447,7 @@ void LittleWolf::load(std::string filename) {
 
 }
 
-bool LittleWolf::addPlayer(std::uint8_t id) {
+bool LittleWolf::addPlayer(std::uint8_t id, const std::string& name) {
 	assert(id < _max_player);
 
 	if (_players[id].state != NOT_USED)
@@ -473,7 +485,8 @@ bool LittleWolf::addPlayer(std::uint8_t id) {
 					_max_health,	// Starting health points
 					0,
 					ALIVE, 			// Player state
-					false			// normal view
+					false,			// normal view
+					name
 			};
 
 	// not that player <id> is stored in the map as player_to_tile(id) -- which is id+10
@@ -685,7 +698,7 @@ void LittleWolf::render_players_info() {
 		// render player info if it is used
 		if (p.state != NOT_USED) {
 
-			std::string msg = (i == _curr_player_id ? "*P" : " P") + std::to_string(i) 
+			std::string msg = p.name + (i == _curr_player_id ? "*" : "") 
 				+ " (" +  std::to_string(p.score) + ") " + (p.state == DEAD ? " (dead)" : "") + " ";
 
 			for (int i = 0; i < p.health; ++i) {

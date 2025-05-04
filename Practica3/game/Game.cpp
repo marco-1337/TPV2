@@ -36,6 +36,15 @@ bool Game::init() {
 
 bool Game::initGame(const char *map, char *host, Uint16 port) {
 
+	bool invalidName = true;
+
+	std::cout << "Introduce tu nombre (max 10 caracteres): \n";
+	std::string name;
+	while (invalidName) {
+		std::getline(std::cin, name);
+		if (name.size() < 11) invalidName = false;
+		else std::cout << "Nombre demasiado largo, introduce otro (max 10 caracteres): \n";
+	}
 
 	_little_wolf = new LittleWolf();
 
@@ -72,7 +81,7 @@ bool Game::initGame(const char *map, char *host, Uint16 port) {
 	_little_wolf->init(sdlutils().window(), sdlutils().renderer());
 
 	// add some players
-	_little_wolf->addPlayer(_net->client_id());
+	_little_wolf->addPlayer(_net->client_id(), name);
 	_little_wolf->send_my_info();
 
 	return true;
