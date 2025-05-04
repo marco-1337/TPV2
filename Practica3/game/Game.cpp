@@ -138,7 +138,7 @@ void Game::restart() {
 		// To Do: render de numeritos
 		Game::Instance()->get_littleWolf().bringAllToLife();
 		_restarting = false;
-	}
 
-	std::cout << "TO DO: RENDERIZAR CUENTA ATRÁS\n";
+		std::cout << "TO DO: RENDERIZAR CUENTA ATRÁS\n";
+	}
 }

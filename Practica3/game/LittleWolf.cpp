@@ -43,7 +43,13 @@ LittleWolf::send_my_info() {
 
 void 
 LittleWolf::removePlayer(uint8_t id) {
-	_players[id].state = PlayerState::NOT_USED;
+
+	Player &p = _players[id];
+
+	p.state = PlayerState::NOT_USED;
+
+	// Para que no se renderice la tile
+	_map.walling[(int)p.where.y][(int)p.where.x] = 0;
 }
 
 void 
