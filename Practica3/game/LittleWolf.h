@@ -48,6 +48,8 @@ public:
 	void damagePlayer(uint8_t id);
 	void killPlayer(uint8_t id);
 
+	void scorePlayer(uint8_t id);
+
 	void view();	// Alternates between normal and upper view
 
 // !METODOS PRACTICA 3
@@ -90,6 +92,7 @@ public:
 		float acceleration;  // acceleration
 		float theta;         // rotation (in rad)
 		int health;			 // health points
+		int score;			 // player score
 		PlayerState state;   // the state
 		bool cenitalView;	 // render the upper view
 	};
