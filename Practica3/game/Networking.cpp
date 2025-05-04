@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "../sdlutils/SDLNetUtils.h"
+#include "../sdlutils/SDLUtils.h"
 #include "Game.h"
 #include "Fighter.h"
 #include "Bullets.h"
@@ -186,8 +187,9 @@ void Networking::send_shoot(LittleWolf::Line fov, float theta) {
 
 void Networking::handle_shoot(const ShootMsg &m) {
 
+	Game::Instance()->get_littleWolf().playSFX(sdlutils().soundEffects().at("gunshot"), m._client_id);
+	
 	// Solo se gestionan los disparos si eres el master
-
 	if (Game::Instance()->get_networking().is_master()) {
 
 		LittleWolf::Line a_fov = {{m.fov_a_x, m.fov_a_y}, {m.fov_b_x, m.fov_b_y}};
@@ -205,6 +207,8 @@ void Networking::send_dead(Uint8 id) {
 }
 
 void Networking::handle_dead(const MsgWithId &m) {
+	// Game::Instance()->get_littleWolf().playSFX(sdlutils().soundEffects().at("gunshot"), {m.fov_a_x, m.fov_a_y});
+
 	Game::Instance()->get_littleWolf().killPlayer(m._client_id);
 }
 

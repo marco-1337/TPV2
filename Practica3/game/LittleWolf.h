@@ -15,6 +15,8 @@
 
 #include "../sdlutils/InputHandler.h"
 
+class SoundEffect;
+
 class LittleWolf {
 public:
 
@@ -46,8 +48,11 @@ public:
 	void removePlayer(uint8_t id);
 	bool shoot(uint8_t id, Line fov, float theta);
 	void killPlayer(uint8_t id);
+	void bringAllToLife();
 
 	void view();	// Alternates between normal and upper view
+	void playSFX(SoundEffect &s, uint8_t id);
+	void mute();
 
 // !METODOS PRACTICA 3
 
@@ -167,8 +172,7 @@ public:
 		return _yres;
 	}
 
-	// mark all (used) player alive
-	void bringAllToLife();
+
 
 private:
 
