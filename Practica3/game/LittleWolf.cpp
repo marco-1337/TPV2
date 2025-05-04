@@ -509,7 +509,7 @@ void LittleWolf::render() {
 	// show help
 	if (_show_help) {
 		int y = sdlutils().height();
-		for (const char *s : { "usage_1", "usage_2", "usage_3", "usage_4"}) {
+		for (const char *s : { "usage_1", "usage_2", "usage_3", "usage_4", "usage_5", "usage_6"}) {
 			auto &t = sdlutils().msgs().at(s);
 			y = y - t.height() - 10;
 			t.render(0, y);

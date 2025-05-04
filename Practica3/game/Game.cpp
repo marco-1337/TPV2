@@ -148,6 +148,10 @@ void Game::restart() {
 		Game::Instance()->get_littleWolf().bringAllToLife();
 		_restarting = false;
 
+	}
+	else {
 		std::cout << "TO DO: RENDERIZAR CUENTA ATRÁS\n";
+		auto &t = sdlutils().msgs().at("restart");
+		t.render((sdlutils().width() - t.width())/2, (sdlutils().height() - t.height())/2) ;
 	}
 }
