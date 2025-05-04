@@ -76,9 +76,6 @@ add_executable(TPV2_Practica3
 
 	game/Game.cpp
 	game/LittleWolf.cpp
-
-	#game/Bullets.cpp
-	#game/Fighter.cpp
 	game/Networking.cpp
 	game/UDPServer.cpp
 

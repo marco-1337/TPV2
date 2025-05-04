@@ -16,7 +16,8 @@ enum MsgType : Uint8 {
 	_PLAYER_INFO, // sent only the first time the player connects
 	_SHOOT, //
 	_DEAD, //
-	_RESTART
+	_RESTART, //
+	_HIT
 };
 
 struct Msg {
@@ -50,9 +51,10 @@ struct PlayerInfoMsg: MsgWithId {
 
 	float x;
 	float y;
+	int health;
 	Uint8 state;
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,state)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,health,state)
 
 };
 struct ShootMsg: MsgWithId {

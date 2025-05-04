@@ -7,10 +7,8 @@
 #include "../sdlutils/SDLNetUtils.h"
 #include "../sdlutils/SDLUtils.h"
 #include "Game.h"
-#include "Fighter.h"
-#include "Bullets.h"
-
 #include "LittleWolf.h"
+
 
 Networking::Networking() :
 		_sock(), //
@@ -132,6 +130,11 @@ void Networking::update() {
 			handle_shoot(m3);
 			break;
 
+		case _HIT:
+			m4.deserialize(_p->data);
+			handle_hit(m4);
+			break;
+
 		case _DEAD:
 			m4.deserialize(_p->data);
 			handle_dead(m4);
@@ -206,35 +209,49 @@ void Networking::send_dead(Uint8 id) {
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
+void Networking::send_hit(uint8_t id) {
+	MsgWithId m;
+	m._type = _HIT;
+	m._client_id = id;
+	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
+}
+
+void Networking::handle_hit(const MsgWithId &m) {
+	Game::Instance()->get_littleWolf().damagePlayer(m._client_id);
+}
+
+
 void Networking::handle_dead(const MsgWithId &m) {
 	// Game::Instance()->get_littleWolf().playSFX(sdlutils().soundEffects().at("gunshot"), {m.fov_a_x, m.fov_a_y});
 
 	Game::Instance()->get_littleWolf().killPlayer(m._client_id);
 }
 
-void Networking::send_my_info(const LittleWolf::Point &pos, Uint8 state) {
+void Networking::send_my_info(const LittleWolf::Point &pos, int health, Uint8 state) {
 	PlayerInfoMsg m;
 	m._type = _PLAYER_INFO;
 	m._client_id = _clientId;
 	m.x = pos.x;
 	m.y = pos.y;
+	m.health = health;
 	m.state = state;
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
-void Networking::send_player_info(uint8_t id, const LittleWolf::Point &pos, uint8_t state) {
+void Networking::send_player_info(uint8_t id, const LittleWolf::Point &pos, int health, uint8_t state) {
 	PlayerInfoMsg m;
 	m._type = _PLAYER_INFO;
 	m._client_id = id;
 	m.x = pos.x;
 	m.y = pos.y;
+	m.health = health;
 	m.state = state;
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 	
 
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
-	Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.state);
+	Game::Instance()->get_littleWolf().update_player_info(m._client_id, m.x, m.y, m.health, m.state);
 }
 
 void Networking::send_restart() {

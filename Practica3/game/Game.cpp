@@ -133,13 +133,12 @@ void Game::setRestartTimeStamp(){
 }
 
 void Game::restart() {
-	
-	std::cout << sdlutils().currTime() - _restartTimeStamp << "\n"; 
 
 	if (sdlutils().currTime() - _restartTimeStamp >= 5000){
 		// To Do: render de numeritos
-		std::cout << sdlutils().currTime() - _restartTimeStamp << "\n"; 
 		Game::Instance()->get_littleWolf().bringAllToLife();
 		_restarting = false;
+
+		std::cout << "TO DO: RENDERIZAR CUENTA ATRÁS\n";
 	}
 }

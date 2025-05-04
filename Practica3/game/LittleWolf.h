@@ -43,10 +43,11 @@ public:
 
 	void send_my_info();
 	void update_player_state(uint8_t id, float x, float y);
-	void update_player_info(uint8_t id, float x, float y, uint8_t state);
+	void update_player_info(uint8_t id, float x, float y, int health, uint8_t state);
 
 	void removePlayer(uint8_t id);
 	bool shoot(uint8_t id, Line fov, float theta);
+	void damagePlayer(uint8_t id);
 	void killPlayer(uint8_t id);
 	void bringAllToLife();
 
@@ -93,6 +94,7 @@ public:
 		float speed;         // maximum speed
 		float acceleration;  // acceleration
 		float theta;         // rotation (in rad)
+		int health;			 // health points
 		PlayerState state;   // the state
 		bool cenitalView;	 // render the upper view
 	};
@@ -392,6 +394,9 @@ private:
 
 	// maximum number of player
 	static constexpr uint8_t _max_player = 10;
+	
+	// maximum health
+	static constexpr uint8_t _max_health = 5;
 
 	// resolution
 	int _xres;
