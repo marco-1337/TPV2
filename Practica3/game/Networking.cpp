@@ -233,7 +233,7 @@ void Networking::handle_hit(const MsgWithId &m) {
 }
 
 void Networking::handle_dead(const MsgWithId &m) {
-	// Game::Instance()->get_littleWolf().playSFX(sdlutils().soundEffects().at("gunshot"), {m.fov_a_x, m.fov_a_y});
+	Game::Instance()->get_littleWolf().playSFX(sdlutils().soundEffects().at("pain"), m._client_id);
 
 	Game::Instance()->get_littleWolf().killPlayer(m._client_id);
 }

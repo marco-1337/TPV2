@@ -77,9 +77,6 @@ LittleWolf::update_player_info(uint8_t id, float x, float y, int health, uint8_t
 	p.where.y = y;
 	p.health = health;
 
-	if(p.state == ALIVE && state == DEAD)
-		playSFX(sdlutils().soundEffects().at("pain"), p.id);
-
 	p.state = static_cast<PlayerState>(state);
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
