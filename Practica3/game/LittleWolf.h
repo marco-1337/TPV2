@@ -43,6 +43,7 @@ public:
 
 	void send_my_info();
 	void update_player_state(uint8_t id, float x, float y);
+	void update_player_pos(uint8_t id, float x, float y);
 	void update_player_info(uint8_t id, float x, float y, int health, uint8_t state, std::string name);
 	void new_round_player_state(uint8_t id, float x, float y);
 

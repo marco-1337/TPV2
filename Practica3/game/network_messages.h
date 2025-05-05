@@ -19,7 +19,8 @@ enum MsgType : Uint8 {
 	_DEAD, //
 	_SCORE, //
 	_RESTART, //
-	_PLAYER_NEWROUND
+	_PLAYER_NEWROUND, // 
+	_CORRECT_POSITION
 
 };
 

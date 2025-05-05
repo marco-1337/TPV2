@@ -55,6 +55,31 @@ LittleWolf::removePlayer(uint8_t id) {
 void 
 LittleWolf::update_player_state(uint8_t id, float x, float y) {
 
+	if (Game::Instance()->get_networking().is_master()) {
+
+		Player &p = _players[id];
+
+		const Point last = p.where, zero = { 0.0f, 0.0f };
+
+		Point dest = {x, y};
+
+		// if player hits a wall or a different player, we take the player back
+		// to previous position and put velocity to 0
+		if (tile(dest, _map.walling) != 10 + id
+				&& tile(dest, _map.walling) != 0) {
+
+			Game::Instance()->get_networking().send_correct_position(id, last);
+		}
+	}
+	
+	if (_curr_player_id != id){
+		update_player_pos(id, x, y);
+	}
+}
+
+void
+LittleWolf::update_player_pos(uint8_t id, float x, float y) {
+
 	Player &p = _players[id];
 
 	_map.walling[(int)p.where.y][(int)p.where.x] = 0;

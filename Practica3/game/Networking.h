@@ -28,6 +28,7 @@ public:
 	}
 
 	void send_state(const LittleWolf::Point &pos);
+	void send_correct_position(uint8_t id, const LittleWolf::Point &pos);
 	void send_my_info(const LittleWolf::Point &pos,	int health, int score, Uint8 state, std::string name);
 	void send_player_new_round(uint8_t id, const LittleWolf::Point &pos);
 	
@@ -42,6 +43,7 @@ private:
 	void handle_new_client(Uint8 id);
 	void handle_disconnet(Uint8 id);
 	void handle_player_state(const PlayerStateMsg &m);
+	void handle_correct_position(const PlayerStateMsg &m);
 	void handle_player_new_round(const PlayerStateMsg &m);
 	void handle_player_info(PlayerInfoMsg &m);
 	void handle_shoot(const ShootMsg &m);

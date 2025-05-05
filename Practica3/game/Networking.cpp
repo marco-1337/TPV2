@@ -119,6 +119,11 @@ void Networking::update() {
 			m2.deserialize(_p->data);
 			handle_player_state(m2);
 			break;
+		
+		case _CORRECT_POSITION:
+			m2.deserialize(_p->data);
+			handle_correct_position(m2);
+			break;
 
 		case _PLAYER_NEWROUND:
 			m2.deserialize(_p->data);
@@ -178,6 +183,15 @@ void Networking::send_state(const LittleWolf::Point &pos) {
 	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
 }
 
+void Networking::send_correct_position(uint8_t id, const LittleWolf::Point &pos) {
+	PlayerStateMsg m;
+	m._type = _CORRECT_POSITION;
+	m._client_id = id;
+	m.x = pos.x;
+	m.y = pos.y;
+	SDLNetUtils::serializedSend(m, _p, _sock, _srvadd);
+}
+
 void Networking::send_player_new_round(uint8_t id, const LittleWolf::Point &pos) {
 	PlayerStateMsg m;
 	m._type = _PLAYER_NEWROUND;
@@ -189,9 +203,12 @@ void Networking::send_player_new_round(uint8_t id, const LittleWolf::Point &pos)
 
 void Networking::handle_player_state(const PlayerStateMsg &m) {
 
-	if (m._client_id != _clientId) {
-		Game::Instance()->get_littleWolf().update_player_state(m._client_id, m.x, m.y);
-	}
+	Game::Instance()->get_littleWolf().update_player_state(m._client_id, m.x, m.y);
+}
+
+void Networking::handle_correct_position(const PlayerStateMsg &m) {
+
+	Game::Instance()->get_littleWolf().update_player_pos(m._client_id, m.x, m.y);
 }
 
 void Networking::handle_player_new_round(const PlayerStateMsg &m) {
